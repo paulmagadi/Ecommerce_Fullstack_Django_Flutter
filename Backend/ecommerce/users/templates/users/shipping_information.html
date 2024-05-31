@@ -1,0 +1,30 @@
+{% extends 'core/base.html' %}
+{% load static %}
+
+{% block title %}
+    shipping address
+{% endblock title %}
+    
+
+
+{% block content %}
+<!-- Register form -->
+<div class="form-container">
+    <form action="{% url 'update_info' %}" method="post" class="register-form">
+        {% csrf_token %}
+        <div class="img">
+            <span id="close-signup-form" class="close"><a href="{% url 'home' %}">&times;</a></span>
+            <img src="{% static 'images/avatar.png' %}" alt="avatar" class="avatar" width="20%"> 
+        </div>
+        <div class="login-container">
+            {{ form }}
+            <button type="submit">Update Details</button>
+        </div>
+        <div class="login-container">
+            <button type="button" class="cancelbtn" id="cancel-signup-button"><a href="{% url 'home' %}">Cancel</a></button>
+            
+        </div>
+    </form>
+</div>
+{% endblock content %}
+    
