@@ -1,0 +1,92 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock title %}</title>
+
+    <link rel="stylesheet" href="{% static 'css/main.css' %}">
+    <link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/login.css' %}">
+    <link rel="stylesheet" href="{% static 'css/hero.css' %}">
+    <link rel="stylesheet" href="{% static 'css/footer.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product_card.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cart.css' %}">
+    <link rel="stylesheet" href="{% static 'css/checkout.css' %}">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="body-container">
+    {% include 'main/include/navbar.html' %}
+    <div class="container">
+        {% if messages %}
+        
+        {% for message in messages %}
+        <div class="alert-message">
+
+            {{message}}
+            <p class="close-message">&times;</p>
+          </div>
+        {% endfor %}
+            
+        {% endif %}
+        
+    {% block content %}
+        
+    {% endblock content %}
+    </div>
+    {% include 'main/include/footer.html' %}
+    </div>
+
+    
+    <script src="{% static 'js/navbar.js' %}"></script>
+    <script>
+        $(document).on('click', '.add-to-cart', function(e){
+            e.preventDefault();
+            var productId = $(this).val(); // Get the value of the clicked button (which is the specific product ID)
+            var productQty;
+    
+            // Check if the quantity input is present in the current context (product page)
+            if ($(this).closest('.quantity').find('input[type="number"]').length) {
+                productQty = $(this).closest('.quantity').find('input[type="number"]').val();
+            } else {
+                // If the quantity input is not found, default to 1 (home page)
+                productQty = 1;
+            }
+            
+            $.ajax({
+                type: 'POST',
+                url: '{% url "cart_add" %}',
+                data: {
+                    product_id: productId,
+                    product_qty: productQty,
+                    csrfmiddlewaretoken: '{{ csrf_token }}',
+                    action: 'post'
+                },
+                success: function(json){
+                    $('.cart-quantity').text(json.qty);
+                    location.reload();
+                },
+                error: function(xhr, errmsg, err){
+                    // Handle error
+                }
+            });
+        });
+
+
+        $(document).on('click', '.close-message', function() {
+        // Get the parent element (alert-message) of the clicked close button
+        var message = $(this).parent('.alert-message');
+        // Hide the message
+        message.hide();
+    });
+
+    
+    </script>
+       
+</body>
+</html>

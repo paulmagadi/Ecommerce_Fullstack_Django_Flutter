@@ -1,0 +1,19 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+    New
+{% endblock title %}
+    
+
+{% block content %}
+{% include 'core/include/hero.html' %}
+<section>
+    <h3 class="section-title">New Products</h3>
+    <div class= "product-container">
+        {% for product in products %}
+        {% include 'store/include/product_card.html' %}
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

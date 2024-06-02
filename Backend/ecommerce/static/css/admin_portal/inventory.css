@@ -1,0 +1,38 @@
+.inventory {
+    width: 100%;
+
+}
+
+.inventory-headings {
+    text-align: center;
+    background-color: black;
+    color: rgb(255, 255, 255);
+    padding: .5em 0;
+    margin-bottom: .5em;
+}
+
+.inventory table {
+    width: 100%;
+    text-align: left;
+    border-collapse: collapse;
+    background-color: white;
+}
+
+.inventory table tr {
+    border-bottom: 1px solid black;
+}
+
+.inventory table  th,
+.inventory table  td {
+    width: 20%;
+    padding: .5em;
+}
+
+.inventory table  th:first-of-type,
+.inventory table  td:first-of-type {
+    width: 20%;
+}
+
+.inventory img {
+    max-height: 50px;
+}

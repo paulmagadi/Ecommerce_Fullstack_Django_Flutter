@@ -1,0 +1,20 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+    {{ category.name  }}' Category
+{% endblock title %}
+    
+
+{% block content %}
+{% include 'core/include/hero.html' %}
+<section>
+    <h3 class="section-title">{{ category.name}}'s Category</h3>
+    <div class= "product-container">
+        
+        {% for product in products %}
+        {% include 'store/include/product_card.html' %}
+        {% endfor %}
+    </div>
+</section>
+{% endblock content %}

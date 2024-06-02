@@ -1,8 +1,13 @@
-from PIL import Image
 from django.db import models
-from django.forms import ValidationError
 from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
+from django.core.exceptions import ValidationError
+from PIL import Image
+
+# def validate_image_size(image):
+#     max_size_kb = 1024  # Maximum size in KB
+#     if image.size > max_size_kb * 1024:
+#         raise ValidationError(f"Image size should not exceed {max_size_kb} KB")
 
 class Category(MPTTModel):
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
@@ -25,7 +30,8 @@ class Category(MPTTModel):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
-        
+        self.resize_image()
+
     def resize_image(self):
         if self.image:
             img = Image.open(self.image.path)
@@ -33,22 +39,20 @@ class Category(MPTTModel):
                 img.thumbnail((1125, 1125))
                 img.save(self.image.path, quality=70, optimize=True)
 
-        
 class Color(models.Model):
     color = models.CharField(max_length=100, unique=True)
-    
+
     def __str__(self):
         return self.color
-    
+
 class Size(models.Model):
     size = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
         return self.size
 
-      
 class Product(models.Model):
-    profile_image = models.ImageField(upload_to='uploads/products', null=True, blank=True, default='media/default/product.jpg')
+    profile_image = models.ImageField(upload_to='uploads/products', null=True, blank=True, default='media/default/product.png')
     name = models.CharField(max_length=255, verbose_name='product_name')
     price = models.DecimalField(max_digits=12, decimal_places=2)
     is_sale = models.BooleanField(default=False)
@@ -76,8 +80,7 @@ class Product(models.Model):
             raise ValidationError({'stock_quantity': 'Stock quantity cannot be less than 0'})
 
     def save(self, *args, **kwargs):
-        self.full_clean()  
-        
+        self.full_clean()
         if self.stock_quantity == 0:
             self.is_listed = False
         else:
@@ -94,10 +97,11 @@ class Product(models.Model):
             self.slug = slugify(self.name)
 
         super().save(*args, **kwargs)
-        
+        self.resize_image()
+
     def resize_image(self):
-        if self.image:
-            img = Image.open(self.image.path)
+        if self.profile_image:
+            img = Image.open(self.profile_image.path)
             if img.height > 1125 or img.width > 1125:
                 img.thumbnail((1125, 1125))
                 img.save(self.profile_image.path, quality=70, optimize=True)
@@ -110,9 +114,8 @@ class Product(models.Model):
             url = ''
         return url
 
-    
 class ProductImage(models.Model):
-    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE, related_name='product_images')
     product_images = models.ImageField(upload_to='uploads/products', null=True, blank=True)
 
     class Meta:
@@ -121,6 +124,17 @@ class ProductImage(models.Model):
     def __str__(self):
         return self.product.name
 
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.resize_image()
+
+    def resize_image(self):
+        if self.product_images:
+            img = Image.open(self.product_images.path)
+            if img.height > 1125 or img.width > 1125:
+                img.thumbnail((1125, 1125))
+                img.save(self.product_images.path, quality=70, optimize=True)
+
     @property
     def imageURL(self):
         try:
@@ -128,14 +142,7 @@ class ProductImage(models.Model):
         except:
             url = ''
         return url
-    def resize_image(self):
-        if self.image:
-            img = Image.open(self.image.path)
-            if img.height > 1125 or img.width > 1125:
-                img.thumbnail((1125, 1125))
-                img.save(self.product_images.path, quality=70, optimize=True)
 
-    
 class WebBanner(models.Model):
     image = models.ImageField(upload_to='uploads/banners/', verbose_name="Image")
     caption = models.CharField(max_length=255, blank=True, null=True, verbose_name="Caption")
@@ -143,8 +150,19 @@ class WebBanner(models.Model):
     in_use = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.caption  
-    
+        return self.caption
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.resize_image()
+
+    def resize_image(self):
+        if self.image:
+            img = Image.open(self.image.path)
+            if img.height > 1125 or img.width > 1125:
+                img.thumbnail((1125, 1125))
+                img.save(self.image.path, quality=70, optimize=True)
+
     @property
     def imageURL(self):
         try:
@@ -152,7 +170,7 @@ class WebBanner(models.Model):
         except:
             url = ''
         return url
-    
+
 class MobileBanner(models.Model):
     image = models.ImageField(upload_to='uploads/banners/', verbose_name="Image")
     caption = models.CharField(max_length=255, blank=True, null=True, verbose_name="Caption")
@@ -160,8 +178,19 @@ class MobileBanner(models.Model):
     in_use = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.caption  
-    
+        return self.caption
+
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.resize_image()
+
+    def resize_image(self):
+        if self.image:
+            img = Image.open(self.image.path)
+            if img.height > 1125 or img.width > 1125:
+                img.thumbnail((1125, 1125))
+                img.save(self.image.path, quality=70, optimize=True)
+
     @property
     def imageURL(self):
         try:

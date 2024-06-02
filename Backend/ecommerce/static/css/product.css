@@ -1,0 +1,140 @@
+.product-page-container {
+    display: flex;
+    justify-content: space-between;
+    padding: 2em;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+    background-color: aliceblue;
+}
+.back_home {
+  padding-bottom: .5em;
+}
+
+.back_home button{
+  padding: .5em 1em;
+}
+
+.product-image-card {
+  display: block;
+  width: 40%;
+}
+
+.product-profile-image img{
+  border-radius: 4px;
+}
+
+.product-images {
+  display: flex;
+  justify-content: space-between;
+}
+
+.image {
+  width: 23%;
+  box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+  border-radius: 3px;
+}
+
+.image img {
+  border-radius: 3px;
+}
+
+.product-page-information {
+  width: 60%;
+  padding-left: 2em;
+}
+
+.product-page-information h3 {
+  font-size: 2rem;
+  font-family: Lato;
+  font-weight: 600;
+  line-height: 130%;
+}
+  
+.product-page-information h4 {
+  font-size: 1.5rem;
+  font-family: Lato;
+  font-weight: 500;
+  line-height: 130%;
+  margin: .4em 0;
+}
+
+.product-page-information del {
+  color: #a9a9a9;
+}
+
+.product-page-information p {
+  color: #424551;
+  margin: 1em 0;
+}
+
+.sizes p {
+  font-size: 1.1rem;
+  color: black;
+}
+
+.size-option {
+  width: 15em;
+  height: 2em;
+  margin-bottom: 1em;
+  padding: .3em;
+}
+
+.quantity input {
+  width: 5em;
+  height: 2.5em;
+  margin-bottom: 1em;
+  padding: .3em;
+}
+
+.quantity button {
+  background: #17696a;
+  border-radius: 4px;
+  padding: .8em 2em;
+  border: none;
+  color: white;
+  font-weight: 600;
+}
+
+.quantity button:hover {
+  background: orange;
+  transition: ease-in 0.3s;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+  .product-page-container {
+      display: block;
+      padding: .5em;
+  }
+
+  .product-image-card {
+      display: block;
+      width: 100%;
+  }
+
+  .product-page-information {
+      width: 100%;
+      padding-left: .5em;
+      margin-top: 1em;
+  }
+}
+
+.price-bar {
+  height: .2rem; /* Adjust height as needed */
+  background-color: orange; /* Color of the price bar */
+  position: relative;
+}
+
+.price-bar p{
+  font-size: 1rem;
+}
+
+.discount-section {
+  height: 100%;
+  background-color: white; /* Color of the discount section */
+  position: absolute;
+  top: 0;
+  right: 0; /* Position the discount section to the right */
+}
+
+
+

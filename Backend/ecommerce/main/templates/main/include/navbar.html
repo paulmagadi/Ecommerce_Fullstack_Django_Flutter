@@ -1,0 +1,72 @@
+
+    <nav>
+        <div class="navbar">
+            <div class="navbar-mobile">
+                <a href="{% url 'home' %}" class="logo">Bellamore</a>
+                {% if user.is_authenticated and user.is_staff %}
+                <a href="{% url 'admin_portal' %}">Dashboard</a>
+                {% endif %}
+                <li class="dropdown hide">
+                        {% if user.is_authenticated %}
+                        <a href="#" class="account-link">{{ user.first_name }} {{ user.last_name }}&#9662</a>
+                        {% else %}
+                        <a href="#" class="account-link">My Account&#9662</a>
+                        {% endif %}
+                    <div class="dropdown-content">
+                        
+                        {% if user.is_authenticated %}
+                        <a href="{% url 'signout' %}" class="login-button" id="login-button">Logout</a>
+                        {% else %}                         
+                        <a href="{% url 'signin' %}" class="login-button" id="login-button">Login</a>
+                        <hr>
+                        <a href="{% url 'register' %}" class="register-button" id="signup-button">Register</a>
+                        {% endif %}
+                    </div>
+                </li>
+                <a href="{% url 'cart' %}" class="hide cart-mobile"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg><span class="cart-count cart-quantity">{{ cart|length }}</span></a>
+                <a href="#" class="hide toggle-button" id="toggler" style="font-size: 30px;">&#8801;</a>
+            </div>
+            <div class="navbar-links" id="navbar-links">
+                <ul>
+                    <li><a href="{% url 'home' %}">Home</a></li>
+                    <li><a href="#">Products&#9662;</a></li>
+                    <li>
+                        <div class="dropdown">
+                            <a href="#">Category&#9662;</a>
+                            <div class="dropdown-content">
+                                <a href="{% url 'categories' %}">All Categories</a>
+                                {% for category in categories %}
+                                    <a href="{% url 'category' category.id %}">{{ category.name }}</a>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                    </li>
+                    <li class="dropdown hide-on-mobile">
+                        {% if user.is_authenticated %}
+                        <a href="#" class="account-link">{{ user.first_name }} {{ user.last_name }}&#9662</a>
+                        {% else %}
+                        <a href="#" class="account-link">My Account&#9662</a>
+                        {% endif %}
+                        <div class="dropdown-content">
+                            {% if user.is_authenticated %}
+                            <a href="{% url 'signout' %}" class="login-button" id="login-button">Logout</a>
+                            <hr>
+                            <a href="{% url 'user_profile' %}" class="login-button" id="login-button">Profile</a>
+                            {% else %}
+                            <a href="{% url 'signin' %}" class="login-button" id="login-button">Login</a>
+                            <hr>
+                            <a href="{% url 'register' %}" class="register-button" id="signup-button">Register</a>
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li><a href="#"><form action="{% url 'search' %}" method="get">
+                        <input type="search" placeholder="Search Product" name="query">
+                    </form></a></li>
+                </ul>
+            </div>
+            <div class="cart">
+                <a href="{% url 'cart' %}"><svg xmlns="http://www.w3.org/2000/svg" height="20" viewBox="0 -960 960 960" width="24"><path d="M280-80q-33 0-56.5-23.5T200-160q0-33 23.5-56.5T280-240q33 0 56.5 23.5T360-160q0 33-23.5 56.5T280-80Zm400 0q-33 0-56.5-23.5T600-160q0-33 23.5-56.5T680-240q33 0 56.5 23.5T760-160q0 33-23.5 56.5T680-80ZM246-720l96 200h280l110-200H246Zm-38-80h590q23 0 35 20.5t1 41.5L692-482q-11 20-29.5 31T622-440H324l-44 80h480v80H280q-45 0-68-39.5t-2-78.5l54-98-144-304H40v-80h130l38 80Zm134 280h280-280Z"/></svg><span class="cart-count cart-quantity">{{ cart|length }}</span></a>
+            </div>
+        </div>
+    </nav>

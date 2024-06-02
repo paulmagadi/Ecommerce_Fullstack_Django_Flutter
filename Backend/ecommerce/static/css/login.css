@@ -1,0 +1,101 @@
+/* login and registratin forms */
+.form-container {
+    width: 50%;
+    margin: 0 50%;
+    position: relative;
+  }
+  
+  .login-container {
+    padding: 1em;
+  }
+  
+  .form-container form {
+    border: 2px solid aliceblue;
+    background-color: aliceblue;
+  }
+  
+  .form-container input[type=text], input[type=password], input[type=email] {
+    width: 100%;
+    padding: .5em .6em;
+    margin: .5em 0;
+    display: inline-block;
+    border: 1px splid #c1c1c1;
+    box-sizing: border-box;
+  }
+  
+  .form-container form button {
+    background-color: orange;
+    padding: .5em 1em;
+    border: none;
+    cursor: pointer;
+    border: none;
+    width: 100%;
+  }
+  
+  .form-container form button:hover {
+    opacity: 0.8;
+  }
+  
+  .form-container .cancelbtn {
+    width: auto;
+    padding: .5em 1em;
+    background-color: #f44339;
+  }
+  
+  .form-container .img {
+    text-align: center;
+    margin-top: 1.5em;
+  }
+  
+  .form-container img.avatar {
+    border-radius: 50%;
+  }
+  
+  .form-container span.password {
+    float: right;
+    padding-top: 1em;
+  }
+  
+  
+  .form-container .close {
+    position: absolute;
+    right: 1em;
+    color: #000;
+    font-size: 2rem;
+    font-weight: bold;
+  }
+  
+  .form-container .close:hover,
+  .form-container .close:focus {
+    color: #f44339;
+    cursor: pointer;
+  }
+  
+  /* zoom animation */
+  .animate {
+    animation: animatezoom 0.6s;
+  }
+  
+  @keyframes animatezoom {
+    from { transform: scale(0);}
+    to {
+        transform: scale(1);
+    }
+  }
+  
+  
+  @media  screen and (max-width: 700px) {
+    .form-container span.password {
+        display: block;
+        float: none;
+    }
+  
+    .form-container .cancelbtn {
+        width: 100%;
+    }
+  
+    .form-container .form-container {
+        width: 100%;
+        margin: 0;
+    }
+  }

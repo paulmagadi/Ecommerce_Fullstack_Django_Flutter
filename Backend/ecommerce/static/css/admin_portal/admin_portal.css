@@ -1,0 +1,343 @@
+*  {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --main-color: orange;
+    --white-color: white;
+    --black-color: black;
+}
+
+html {
+font-size: 16px;
+}
+
+body {
+min-height: 100vh;
+width: 100%;
+background-color: var(--white-color);
+}
+
+a {
+text-decoration: none;
+}
+
+.alert-message {
+  width: 100%;
+  background-color: var(--main-color);
+  display: inline-block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 1001;
+  padding: .5em 1em;
+}
+
+.alert-message .close-message {
+  float: right;
+  font-size: 2rem;
+  font-weight: 800;
+  cursor: pointer;
+  color: red;
+}
+
+.admin-main-headings {
+  text-align: center;
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
+  padding: .5em 0;
+  margin-bottom: .5em;
+}
+.admin-side-headings {
+  text-align: center;
+  background-color: orange;
+  color: rgb(0, 0, 0);
+  padding: .5em 0;
+  margin-bottom: .5em;
+}
+
+.admin-dashboard .container {
+min-height: 100vh;
+width: 100%;
+margin-bottom: 0;
+padding: 0 .5em;
+}
+
+.admin-dashboard .container .side-bar {
+  min-height: 100vh;
+  width: 17%;
+  padding-top: 2.4em;
+  background-color: rgb(0, 0, 0);
+  position: sticky;
+  position: -webkit-sticky;
+  top: 0; 
+  z-index: 100;
+  float: left;
+}
+
+.admin-dashboard .container .side-bar .menu-item {
+  padding: 1em;
+  border-bottom: 1px solid rgb(254, 254, 254);
+  display: flex;
+  align-items: center;
+  
+}
+
+.admin-dashboard .container .side-bar .menu-item svg {
+  fill: rgb(255, 255, 255);
+}
+
+.admin-dashboard .container .side-bar a {
+  margin-left: .5em;
+  color: orange;
+}
+
+.admin-dashboard .container .content {
+  display: flex;
+  width: 83%;
+  margin-top: 2em;
+  justify-content: space-between;
+  min-height: 100vh;
+  margin-left: 17%;
+}
+
+.admin-dashboard .container .content .main-content{
+  flex: 66%;
+  padding: 1em;
+  background-color: var(--main-color);
+}
+
+.admin-dashboard .content .main-content .leading {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  margin-bottom: 1em;
+}
+
+.admin-dashboard .content .main-content .leading .lead {
+  width: 19.5%;
+  background-color: var(--white-color);
+  border-radius: 2px;
+  box-shadow: 2px 5px 2px rgba(0, 0, 0, 0.4);
+  padding: .5em;
+}
+
+.admin-dashboard .content .main-content .leading .lead svg {
+  height: 3em;
+  width: 3em;
+}
+
+.admin-dashboard .main-content .orders {
+  padding-bottom: 1em;
+}
+
+.admin-dashboard .main-content .orders table {
+  background-color: var(--white-color);
+  width: 100%;
+  border-collapse: collapse;
+  border-radius: 5px;
+  box-shadow: 2px 0 2px rgba(0, 0, 0, 0.4);
+}
+
+.admin-dashboard .main-content .orders table tr {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.34);
+}
+
+.admin-dashboard .main-content .orders tbody tr:last-of-type {
+  border-bottom: 1px none;
+}
+
+.admin-dashboard .main-content .orders td:hover {
+  background-color: var(--black-color);
+  color: var(--white-color);
+  cursor: pointer;
+}
+
+.admin-dashboard .main-content .orders table th,
+.admin-dashboard .main-content .orders table td  {
+  padding: 1em .5em;
+  text-align: left;
+}
+
+
+.admin-dashboard .container .content .side-right {
+  flex: 17%;
+  padding: 1em;
+  background-color: rgb(0, 0, 0);
+  color: var(--main-color);
+}
+
+.admin-dashboard .container .content .side-right .updates {
+  background-color: var(--white-color);
+  color: var(--black-color);
+  margin: .5em 0;
+}
+
+.admin-dashboard .container .content .side-right .updates .update {
+  padding: .5em;
+}
+
+
+.admin-dashboard .container .content .side-right .cancelled_orders {
+  background-color: var(--white-color);
+  color: var(--black-color);
+  margin: .5em 0;
+}
+
+.admin-dashboard .container .content .side-right .cancelled_orders .cancelled_order {
+  padding: .5em;
+}
+
+.admin-dashboard .container .content .side-right .socials {
+  padding: .3em 0;
+  font-size: 1.2rem;
+}
+
+.admin-dashboard .container .content .side-right .socials span {
+  padding-right: .8em;
+}
+
+@media (max-width: 798px) {
+  .admin-dashboard .container {
+    background-color: var(--white-color);
+  }
+
+  .admin-dashboard .container .content {
+    width: 83%;
+    margin-left: 0;
+    display: block;
+    margin-left: 17%;
+    
+  }
+
+  .admin-dashboard .container .content .main-content {
+    background-color: var(--black-color);
+    color: var(--white-color);
+    background-color: var(--main-color);
+    color: var(--black-color);
+  }
+
+  .admin-dashboard .container .content .side-right {
+    background-color: var(--main-color);
+    color: var(--black-color);
+  }
+
+  .admin-dashboard .container .content .side-right .updates{
+    background-color: var(--white-color);
+    color: var(--black-color);
+  }
+
+  .admin-dashboard .container .content .side-right .cancelled_orders {
+    background-color: var(--white-color);
+    color: var(--black-color);
+  }
+
+  .admin-dashboard .container .content .side-right .socials {
+    display: none;
+  }
+}
+
+@media (max-width: 600px) {
+  .admin-dashboard .container {
+    width: 100%;
+    padding: 0;
+    margin-top: 3em;
+        
+  }
+
+  .admin-dashboard .content .main-content .leading {
+    padding-top: .5em;
+  }
+
+  .admin-dashboard .side-bar {
+    display: none;
+  }
+
+  .admin-dashboard .container .content {
+    width: 100%;
+    padding: 0;
+    margin: 0;
+  }
+
+  .admin-dashboard .container .content .main-content,
+  .admin-dashboard .container .content .side-right {
+    background-color: var(--main-color);
+    color: black;
+    padding:0 .2em;
+  }
+
+  .admin-dashboard .container .content .side-right .updates {
+    background-color: var(--black-color);
+    color: var(--white-color);
+  }
+
+  .admin-dashboard .container .content .side-right .cancelled_orders {
+    background-color: var(--black-color);
+    color: var(--white-color);
+  }
+  
+
+}
+
+/* Footer */
+.admin-dashboard .footer {
+  text-align: center;
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  margin-left: 17%;
+}
+  
+/* Fixed footer for mobile devices */
+.admin-dashboard .foot {
+  background-color: white;
+  font-size: .8rem;
+  color: black;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  display: none;
+  z-index: 1000;
+}
+  
+.admin-dashboard .foot .foot-menu {
+  display: block;
+}
+
+.admin-dashboard .foot a {
+  color: black;
+}
+
+.admin-dashboard .foot ul {
+  list-style: none;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.admin-dashboard .foot li {
+  padding: .5em .5em;
+  text-align: center;
+}
+
+.admin-dashboard .foot li:hover {
+  background-color: orange;
+  cursor: pointer;
+}
+
+@media (max-width: 600px) {
+
+  .admin-dashboard .footer {
+    width: 100%;
+    margin-left: 0;
+    margin-bottom: 4em;
+    padding: .5em;
+  }
+
+  .admin-dashboard .foot {
+    display: block;
+  }
+}

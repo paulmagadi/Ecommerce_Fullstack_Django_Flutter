@@ -1,0 +1,49 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+    {% block title %}
+        
+    {% endblock title %}
+        </title>
+    <link rel="stylesheet" href="{% static 'css/admin_portal/admin_portal.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_portal/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_portal/product_form.css' %}">
+    <link rel="stylesheet" href="{% static 'css/admin_portal/inventory.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="admin-dashboard">
+        {% include 'admin_portal/navbar.html' %}
+        {% if messages %}
+        
+        {% for message in messages %}
+        <div class="alert-message">
+
+            {{message}}
+            <p class="close-message">&times;</p>
+          </div>
+        {% endfor %}
+            
+        {% endif %}
+    {% block content %}
+        
+    {% endblock content %}
+    
+    </div>
+
+    <script>
+        $(document).on('click', '.close-message', function() {
+        // Get the parent element (alert-message) of the clicked close button
+        var message = $(this).parent('.alert-message');
+        // Hide the message
+        message.hide();
+    });
+    </script>
+</body>
+</html>

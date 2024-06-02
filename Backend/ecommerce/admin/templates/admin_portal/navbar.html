@@ -1,0 +1,29 @@
+<nav>
+    <div class="navbar">
+        <div class="navbar-mobile">
+            <a href="{% url 'home' %}" class="logo">Bells</a>
+            <li class=" hide">
+                <a href="#" class="dropdown account-link ">{{ user.first_name }}</a>
+
+            </li>
+            <a href="#" class="cart-mobile hide" id="login-button">Logout</a>
+            
+            <a href="#" class="hide toggle-button" id="toggler" style="font-size: 30px;">&#8801;</a>
+        </div>
+        <div class="navbar-links" id="navbar-links">
+            <ul>
+                <li><a href="{% url 'admin_portal' %}">Dashboard</a></li>
+                <li><a href="#">Orders</a></li>
+                <li><a href="{% url 'inventory' %}">Inventory</a></li>
+                <li><a href="#">Customers</a></li>
+                <li><a href="#">Sales</a></li>
+                <li class="dropdown hide-on-mobile">
+                    <a href="#" class="account-link">{{ user.first_name }} {{ user.last_name }}</a>
+                </li>
+            </ul>
+        </div>
+        <div class="cart">
+            <a href="{% url 'signout' %}" class="login-button" id="login-button">Logout</a>
+        </div>
+    </div>
+</nav>

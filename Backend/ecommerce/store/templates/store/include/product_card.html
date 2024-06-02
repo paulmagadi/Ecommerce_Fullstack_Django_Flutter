@@ -1,0 +1,57 @@
+
+<div class="product-card">
+    <div class="product-image">
+        <a href="{% url 'product' product.id %}"><img src="{{ product.imageURL }}" alt="product" width="100%"></a>
+    </div>
+    <div class="card-text">
+        <h4>{{ product.name }}</h4>
+        {% if product.is_sale %}
+        <p>
+            <strong>
+                <span id="price"><del>$ {{ product.price }}</del></span> &nbsp;
+                <span id="sale-price">$ {{product.sale_price }}</span>
+            </strong>
+        </p>
+        <p class="star">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
+        <div class="price-bar" style="width: 100%;">
+            <div class="discount-section" style="width: {{ product.percentage_discount }}%;"></div>
+        </div>
+        <br>
+
+        {% else %}
+        <p>
+            <strong>
+                <span id="price">$ {{ product.price }}</span> 
+            </strong>
+        </p>
+        {% if product.in_stock %}
+        <p class="star">&#9734;&#9734;&#9734;&#9734;&#9734;</p>
+        {% else %}
+        <h3 style="color: red;">Out of stock!!!</h3>
+        {% endif %} 
+        {% endif %} 
+        <div class="card-btn">
+            <a href="{% url 'product' product.id %}"><button type="button">View</button></a>
+            
+            {% if product.in_stock %}
+            <button type="button" value="{{ product.id }}" class="add-to-cart">Add to Cart</button>
+            {% else %}
+            <button type="button" value="{{ product.id }}" class="add-to-cart" disabled>Add to Cart <title>Out of stock</title></button>
+            {% endif %}
+        </div>
+    </div>
+    {% if product.is_sale %}
+    <div class="sales-badge">
+        <p>Sale</p>
+        <p id="percentage-discount">- {{ product.percentage_discount }}%</p>
+    </div>
+    {% else %}
+    {% endif %}
+
+    {% if product.is_new %}
+    <div class="new-product">New</div>
+    {% else %}
+    {% endif %}
+        
+</div>
+

@@ -1,0 +1,29 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+    Search for {{query}}
+{% endblock title %}
+
+
+{% block content %}
+{% include 'core/include/hero.html' %}
+
+<section>
+    
+    {% if products %}
+    <h3 class="section-title">Search Result for {{ query }}</h3>
+    <div class= "product-container">
+        
+        {% for product in products %}
+        {% include 'store/include/product_card.html' %}
+        {% endfor %}
+    </div>
+    {% else %}
+    <h1 class="section-title">No result found for {{query}}. <a href="{% url 'home' %}">Check store.</a></h1> 
+    {% endif %}
+        
+    
+</section>
+{% endblock content %}
+    

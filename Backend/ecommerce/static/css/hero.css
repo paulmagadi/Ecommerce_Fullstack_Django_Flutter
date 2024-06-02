@@ -1,0 +1,27 @@
+header .hero-header{
+    background-image: url(banner.jpg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    top: 50%;
+}
+
+.header h1 {
+    font-size: 4rem;
+    text-align: center;
+  }
+  
+@media (max-width: 600px) {
+    .header {
+    height: 30vh;
+    }
+
+    .header h1 {
+    font-size: 3rem
+    }
+}

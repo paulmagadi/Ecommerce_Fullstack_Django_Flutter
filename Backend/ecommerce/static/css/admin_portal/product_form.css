@@ -1,0 +1,36 @@
+.add-product-headings {
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    padding: .5em 0;
+    margin-bottom: .5em;
+}
+
+.product-inventory-headings{
+    text-align: center;
+    background-color: rgb(0, 0, 0);
+    color: rgb(255, 255, 255);
+    padding: .5em 0;
+    margin-bottom: .5em;
+  }
+
+
+.product_form {
+    background-color: rgb(12, 85, 17);
+    color: white;
+    padding: 1em;
+}
+
+.product_form form {
+    margin: 1em;
+}
+
+.product_form form input,
+.product_form form label {
+    padding: .5em;
+    display: block;
+}
+
+.product_form form input {
+    width: 50%;
+}
