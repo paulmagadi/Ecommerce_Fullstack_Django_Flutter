@@ -6,7 +6,8 @@
 3. Pillow
 4. Django Rest Framework
 5. Djoser
-6. MPTT
+6. MPTT pip install django-mptt
+
 
 # Apps
 1. Main
