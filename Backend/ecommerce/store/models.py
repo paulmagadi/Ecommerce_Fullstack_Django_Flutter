@@ -33,7 +33,7 @@ class Specification(models.Model):
 
 class SpecificationValue(models.Model):
     name = models.ForeignKey(Specification, on_delete=models.CASCADE)
-    value = models.CharField(max_length=255)
+    value = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
-        return self.name.name
+        return f'{self.name.name} : {self.value}'
