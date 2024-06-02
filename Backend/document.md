@@ -6,6 +6,7 @@
 3. Pillow
 4. Django Rest Framework
 5. Djoser
+6. MPTT
 
 # Apps
 1. Main
