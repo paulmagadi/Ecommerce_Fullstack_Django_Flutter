@@ -25,14 +25,14 @@ class Category(MPTTModel):
         super().save(*args, **kwargs)
         
 class Color(models.Model):
-    name = models.CharField(max_length=100, unique=True)
+    color = models.CharField(max_length=100, unique=True)
     
     def __str__(self):
-        return self.name
+        return self.color
     
 
 class Size(models.Model):
-    value = models.CharField(max_length=255, unique=True)
+    size = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
-        return f'{self.name.name} : {self.value}'
+        return self.color
