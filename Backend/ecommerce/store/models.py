@@ -27,7 +27,13 @@ class Category(MPTTModel):
 class Specification(models.Model):
     name = models.CharField(max_length=100, unique=True)
     
+    def __str__(self):
+        return self.name
+    
 
 class SpecificationValue(models.Model):
+    name = models.ForeignKey(Specification, on_delete=models.CASCADE)
     value = models.CharField(max_length=255)
 
+    def __str__(self):
+        return self.name.name
