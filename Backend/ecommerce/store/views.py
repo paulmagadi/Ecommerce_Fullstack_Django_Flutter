@@ -11,6 +11,7 @@ def home(request):
     sale_products = products.filter(is_sale=True)
     new_products = products.filter(is_new=True)
     featured_products = products.filter(is_featured=True)
+
     context = {
         'products': products,
         'sale_products': sale_products,

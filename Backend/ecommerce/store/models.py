@@ -1,3 +1,4 @@
+from datetime import timezone
 from django.db import models
 from django.utils.text import slugify
 from mptt.models import MPTTModel, TreeForeignKey
@@ -113,6 +114,12 @@ class Product(models.Model):
         except:
             url = ''
         return url
+    
+    @property
+    def is_new(self):
+        now = timezone.now()
+        return (now - self.created_at).days <= 30
+
 
 class ProductImage(models.Model):
     product = models.ForeignKey(Product, default=None, on_delete=models.CASCADE, related_name='product_images')
