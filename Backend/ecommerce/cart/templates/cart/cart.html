@@ -1,0 +1,160 @@
+{% extends 'core/base.html' %}
+
+
+{% block title %}
+    cart
+{% endblock title %}
+    
+
+
+{% block content %}
+<div class="cart-container">
+    <table>
+        <div class="continue-shopping">
+            <a href="{% url 'home' %}"><button>&larr; Continue Shopping</button></a>
+        </div>
+        <hr>
+        {% if cart_items %}
+        <thead>
+            <tr>
+                <th>Items: <strong>{{ total_quantity }}</strong></th>
+                <th>Total: <strong>$ {{ order_total }}</strong></th>
+                
+                {% if user.is_authenticated %}
+                <th class="checkout"><a href="{% url 'checkout' %}"><button type="button">Checkout</button></a></th>
+                {% else %}
+                <th class="checkout"><a href="{% url 'login' %}"><button type="button">Checkout</button></a></th>
+                {% endif %}
+                    
+            </tr>
+        </thead>
+        {% endif %}
+    </table>
+
+    
+    <div class="cart-elements-container">
+        {% if cart_items %}
+        <div class="cart-element-header">
+            <div class="cart-item-image"></div>
+            <div class="cart-item-name"><strong>Item</strong></div>
+            <div class="cart-item-quantity"><strong>Quantity</strong></div>
+            <div class="cart-item-price"><strong>Price</strong></div>
+            <div class="cart-item-total"><strong>Total</strong></div>
+            <div class="cart-item-remove"></div>
+        </div>
+        <hr>
+        {% for item in cart_items %}
+            <div class="cart-element">
+                <div class="cart-item-image"><img src="{{ item.imageURL }}" alt="" width="100%"></div>
+                <div class="cart-item-name">{{ item.name }}</div>
+                <div class="cart-item-quantity"> 
+                    <button type="button" class="reduce-quantity" data-index="{{ item.id }}" style="padding: .3em .5em;">&minus;</button>
+                    <span class="item-quantity" data-index="{{ item.id }}">{{ item.quantity }}</span>
+                    <button type="button" class="add-quantity" data-index="{{ item.id }}" style="padding: .3em .5em;">&plus;</button>
+                </div>
+                {% if item.is_sale %}
+                <div class="cart-item-price">$ {{item.sale_price}}</div>
+                {% else %}
+                <div class="cart-item-price">$ {{item.price}}</div> 
+                {% endif %}
+                <div class="cart-item-total">$ {{item.total_price}}</div>
+                <div class="cart-item-remove">
+                    <button type="button" data-index="{{ item.id }}" class="remove-item" style="padding: .3em .5em; background-color: red; color: white;">Remove</button>
+                </div>
+            </div>
+        {% endfor %}
+        {% else %}
+        <div class="cart-element">
+            <br><br><br><br><br><br>
+            <h1>Nothing in your cart... <a href="{% url 'home' %}">Continue Shopping</a></h1>
+        </div>
+        {% endif %}
+    </div>
+    
+    
+</div>
+
+<script>
+    $(document).on('click', '.add-quantity', function(e){
+    e.preventDefault();
+    var productId = $(this).data('index');
+    var quantityElement = $('.item-quantity[data-index="' + productId + '"]');
+    
+    // Convert the quantity to a number and increment
+    var productQty = parseFloat(quantityElement.text()) + 1;
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "cart_update" %}',
+        data: {
+            product_id: productId,
+            product_qty: productQty,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json){
+            location.reload();
+        },
+        error: function(xhr, errmsg, err){
+            // Handle error
+        }
+    });
+});
+
+$(document).on('click', '.reduce-quantity', function(e){
+    e.preventDefault();
+    var productId = $(this).data('index');
+    var quantityElement = $('.item-quantity[data-index="' + productId + '"]');
+    
+    // Convert the quantity to a number and decrement
+    var productQty = parseFloat(quantityElement.text()) - 1;
+    
+    if (productQty < 1) {
+
+            return;  
+        }
+    $.ajax({
+        type: 'POST',
+        url: '{% url "cart_update" %}',
+        data: {
+            product_id: productId,
+            product_qty: productQty,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json){
+            location.reload();
+        },
+        error: function(xhr, errmsg, err){
+            // Handle error
+        }
+    });
+});
+
+
+$(document).on('click', '.remove-item', function(e){
+    e.preventDefault();
+    var productId = $(this).data('index');
+    
+    $.ajax({
+        type: 'POST',
+        url: '{% url "cart_delete" %}',
+        data: {
+            product_id: productId,
+            csrfmiddlewaretoken: '{{ csrf_token }}',
+            action: 'post'
+        },
+        success: function(json){
+            location.reload();
+        },
+        error: function(xhr, errmsg, err){
+            // Handle error
+        }
+    });
+});
+
+</script>
+
+
+{% endblock content %}
+    
