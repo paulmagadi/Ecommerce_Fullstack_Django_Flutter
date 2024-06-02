@@ -23,4 +23,11 @@ class Category(MPTTModel):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+        
+class Specification(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    
+
+class SpecificationValue(models.Model):
+    value = models.CharField(max_length=255)
 
