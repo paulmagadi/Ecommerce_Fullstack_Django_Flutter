@@ -48,7 +48,7 @@ class Size(models.Model):
 
       
 class Product(models.Model):
-    profile_image = models.ImageField(upload_to='uploads/products', null=True, blank=True, default='media/default/product.png')
+    profile_image = models.ImageField(upload_to='uploads/products', null=True, blank=True, default='media/default/product.jpg')
     name = models.CharField(max_length=255, verbose_name='product_name')
     price = models.DecimalField(max_digits=12, decimal_places=2)
     is_sale = models.BooleanField(default=False)
