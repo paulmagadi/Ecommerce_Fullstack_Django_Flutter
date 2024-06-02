@@ -24,15 +24,14 @@ class Category(MPTTModel):
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
         
-class Specification(models.Model):
+class Color(models.Model):
     name = models.CharField(max_length=100, unique=True)
     
     def __str__(self):
         return self.name
     
 
-class SpecificationValue(models.Model):
-    name = models.ForeignKey(Specification, on_delete=models.CASCADE)
+class Size(models.Model):
     value = models.CharField(max_length=255, unique=True)
 
     def __str__(self):
