@@ -17,7 +17,7 @@ class CategoryAdmin(admin.ModelAdmin):
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
     
-admin.site.register(Product, ProductAdmin)
+
 
 
 
@@ -25,6 +25,7 @@ admin.site.register(Product, ProductAdmin)
 #     list_display = ('name', 'parent')
 #     search_fields = ('name',)
 
+admin.site.register(Product, ProductAdmin)
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Color)
 admin.site.register(Size)

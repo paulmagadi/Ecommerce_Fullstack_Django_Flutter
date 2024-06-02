@@ -1,3 +1,4 @@
+from PIL import Image
 from django.db import models
 from django.forms import ValidationError
 from django.utils.text import slugify
@@ -24,6 +25,13 @@ class Category(MPTTModel):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+        
+    def resize_image(self):
+        if self.image:
+            img = Image.open(self.image.path)
+            if img.height > 1125 or img.width > 1125:
+                img.thumbnail((1125, 1125))
+                img.save(self.image.path, quality=70, optimize=True)
 
         
 class Color(models.Model):
@@ -86,6 +94,13 @@ class Product(models.Model):
             self.slug = slugify(self.name)
 
         super().save(*args, **kwargs)
+        
+    def resize_image(self):
+        if self.image:
+            img = Image.open(self.image.path)
+            if img.height > 1125 or img.width > 1125:
+                img.thumbnail((1125, 1125))
+                img.save(self.profile_image.path, quality=70, optimize=True)
 
     @property
     def imageURL(self):
@@ -113,6 +128,12 @@ class ProductImage(models.Model):
         except:
             url = ''
         return url
+    def resize_image(self):
+        if self.image:
+            img = Image.open(self.image.path)
+            if img.height > 1125 or img.width > 1125:
+                img.thumbnail((1125, 1125))
+                img.save(self.product_images.path, quality=70, optimize=True)
 
     
 class WebBanner(models.Model):
