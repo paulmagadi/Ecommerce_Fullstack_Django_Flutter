@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from rest_framework import viewsets
-from store.models import Category, Product, Color, Size, ProductImage, WebBanner
-from .serializers import CategorySerializer, ProductSerializer, ColorSerializer, SizeSerializer, ProductImageSerializer, WebBannerSerializer
+from store.models import Category, Product, Color, Size, ProductImage, WebBanner, MobileBanner
+from .serializers import CategorySerializer, ProductSerializer, ColorSerializer, SizeSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
@@ -27,3 +27,6 @@ class WebBannerViewSet(viewsets.ModelViewSet):
     queryset = WebBanner.objects.all()
     serializer_class = WebBannerSerializer
 
+class MobileBannerViewSet(viewsets.ModelViewSet):
+    queryset = MobileBanner.objects.all()
+    serializer_class = MobileBannerSerializer
