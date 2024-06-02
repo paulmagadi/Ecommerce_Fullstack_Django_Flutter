@@ -16,22 +16,8 @@ class CategoryAdmin(admin.ModelAdmin):
     list_display = ('name', 'slug', 'parent')
     search_fields = ('name',)
     prepopulated_fields = {'slug': ('name',)}
-
-# class ColorAdmin(admin.ModelAdmin):
-#     list_display = ('color',)
-
-# class SizeAdmin(admin.ModelAdmin):
-#     list_display = ('size',)
-
-# class WebBannerAdmin(admin.ModelAdmin):
-#     list_display = ('caption', 'created_at', 'in_use')
-
-# admin.site.register(Category, CategoryAdmin)
+    
 admin.site.register(Product, ProductAdmin)
-# admin.site.register(Color, ColorAdmin)
-# admin.site.register(Size, SizeAdmin)
-# admin.site.register(ProductImage)
-# admin.site.register(WebBanner, WebBannerAdmin)
 
 
 
@@ -40,7 +26,6 @@ admin.site.register(Product, ProductAdmin)
 #     search_fields = ('name',)
 
 admin.site.register(Category, CategoryAdmin)
-# admin.site.register(Product)
 admin.site.register(Color)
 admin.site.register(Size)
 admin.site.register(ProductImage)
