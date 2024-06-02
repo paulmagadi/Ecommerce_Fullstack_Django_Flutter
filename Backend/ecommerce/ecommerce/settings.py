@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     'main',
     'users',
     'store',
+    'cart',
+    'admin_portal',
     'api',
 ]
 
