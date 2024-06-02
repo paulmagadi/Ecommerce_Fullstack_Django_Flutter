@@ -36,3 +36,19 @@ class Size(models.Model):
 
     def __str__(self):
         return self.color
+    
+class Images(models.Model):
+    image = models.ImageField(upload_to='media/uploads/products/')
+    
+    
+class Product(models.Model):
+    name = models.CharField(max_length=255, verbose_name='product_name')
+    price = models.DecimalField(max_digits=12, decimal_places=2)
+    profile_image = models.ImageField(upload_to='media/uploads/products')
+    category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name='products')
+    color = models.ManyToManyField(Color, on_delete=models.CASCADE, related_name='products')
+    size = models.ManyToManyField(Size, on_delete=models.CASCADE, related_name='products')
+
+    def __str__(self):
+        return self.name
+    
