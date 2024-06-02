@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+# from rest_framework.decorators import api_view
+
 from store.models import Category, Product, Color, Size, ProductImage, WebBanner, MobileBanner
 from .serializers import CategorySerializer, ProductSerializer, ColorSerializer, SizeSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer
 
-class CategoryViewSet(viewsets.ModelViewSet):
+# @api_view(['GET'])
+class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
