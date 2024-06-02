@@ -1,7 +1,7 @@
 from django.contrib.auth.forms import UserCreationForm, UserChangeForm, PasswordChangeForm
 from django import forms
-from .models import CustomUser
-# , Profile, ShippingAddress
+from .models import CustomUser, Profile, ShippingAddress
+
 
 
 class CustomUserCreationForm(UserCreationForm):
@@ -40,30 +40,30 @@ class UpdateUserPassword(PasswordChangeForm):
         fields = ['new_password1', 'new_password2']
 
 
-# class UpdateInfoForm(forms.ModelForm):
-#     phone = forms.CharField()
-#     address1 = forms.CharField()
-#     address2 = forms.CharField()
-#     city = forms.CharField()
-#     state = forms.CharField()
-#     zipcode = forms.CharField()
-#     country = forms.CharField()
+class UpdateInfoForm(forms.ModelForm):
+    phone = forms.CharField()
+    address1 = forms.CharField()
+    address2 = forms.CharField()
+    city = forms.CharField()
+    state = forms.CharField()
+    zipcode = forms.CharField()
+    country = forms.CharField()
 
-#     class Meta:
-#         model = Profile
-#         fields = ["phone", "address1", "address2", "city", "state", "zipcode", "country"]
+    class Meta:
+        model = Profile
+        fields = ["phone", "address1", "address2", "city", "state", "zipcode", "country"]
 
 
-# class ShippingAddressForm(forms.ModelForm):
-#     phone = forms.CharField()
-#     address1 = forms.CharField()
-#     address2 = forms.CharField()
-#     city = forms.CharField()
-#     state = forms.CharField()
-#     zipcode = forms.CharField()
-#     country = forms.CharField()
+class ShippingAddressForm(forms.ModelForm):
+    phone = forms.CharField()
+    address1 = forms.CharField()
+    address2 = forms.CharField()
+    city = forms.CharField()
+    state = forms.CharField()
+    zipcode = forms.CharField()
+    country = forms.CharField()
 
-#     class Meta:
-#         model = ShippingAddress
-#         fields = ["phone", "address1", "address2", "city", "state", "zipcode", "country"]
+    class Meta:
+        model = ShippingAddress
+        fields = ["phone", "address1", "address2", "city", "state", "zipcode", "country"]
         

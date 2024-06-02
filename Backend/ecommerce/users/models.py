@@ -21,41 +21,41 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
         return self.email
 
 
-# class Profile(models.Model):
-#     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-#     date_modified = models.DateTimeField(auto_now=True)
-#     phone = models.CharField(max_length=20, blank=True)
-#     address1 = models.CharField(max_length=200, blank=True)
-#     address2 = models.CharField(max_length=200, blank=True)
-#     city = models.CharField(max_length=200, blank=True)
-#     state = models.CharField(max_length=200, blank=True)
-#     zipcode = models.CharField(max_length=200, blank=True)
-#     country = models.CharField(max_length=200, blank=True)
-#     old_cart = models.CharField(max_length=255, blank=True)
+class Profile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    date_modified = models.DateTimeField(auto_now=True)
+    phone = models.CharField(max_length=20, blank=True)
+    address1 = models.CharField(max_length=200, blank=True)
+    address2 = models.CharField(max_length=200, blank=True)
+    city = models.CharField(max_length=200, blank=True)
+    state = models.CharField(max_length=200, blank=True)
+    zipcode = models.CharField(max_length=200, blank=True)
+    country = models.CharField(max_length=200, blank=True)
+    old_cart = models.CharField(max_length=255, blank=True)
 
-#     def __str__(self):
-#         return self.user.email
+    def __str__(self):
+        return self.user.email
 
-# class ShippingAddress(models.Model):
-#     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
-#     phone = models.CharField(max_length=20, blank=True)
-#     full_name = models.CharField(max_length=255)
-#     email = models.CharField(max_length=255)
-#     address1 = models.CharField(max_length=255)
-#     address2 = models.CharField(max_length=255, null=True, blank=True)
-#     city = models.CharField(max_length=255)
-#     state = models.CharField(max_length=255, null=True, blank=True)
-#     zipcode = models.CharField(max_length=200, blank=True)
-#     country = models.CharField(max_length=255)
+class ShippingAddress(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    phone = models.CharField(max_length=20, blank=True)
+    full_name = models.CharField(max_length=255)
+    email = models.CharField(max_length=255)
+    address1 = models.CharField(max_length=255)
+    address2 = models.CharField(max_length=255, null=True, blank=True)
+    city = models.CharField(max_length=255)
+    state = models.CharField(max_length=255, null=True, blank=True)
+    zipcode = models.CharField(max_length=200, blank=True)
+    country = models.CharField(max_length=255)
 
-#     class Meta:
-#         verbose_name_plural = "Shipping Address"
+    class Meta:
+        verbose_name_plural = "Shipping Address"
 
-#     def __str__(self):
-#         return f'Shipping Address - {str(self.id)}'    
+    def __str__(self):
+        return f'Shipping Address - {str(self.id)}'    
 
-# def create_profile(sender, instance, created, **kwargs):
-#     if created:
-#         Profile.objects.create(user=instance)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
 
-# post_save.connect(create_profile, sender=CustomUser)
+post_save.connect(create_profile, sender=CustomUser)
