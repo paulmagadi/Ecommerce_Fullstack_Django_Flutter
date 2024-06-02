@@ -38,8 +38,9 @@ def admin_portal(request):
 def add_product(request):
     products = Product.objects.all()
     products_count = products.count()
-    new_products_count = products.filter(is_new=True).count()
-    out_of_stock_count = products.filter(in_stock=False).count()
+    now = timezone.now()
+    new_products_count = products.filter(created_at__gte=now - timezone.timedelta(days=30)).count()
+    out_of_stock_count = products.filter(stock_quantity__lte=0).count()
     is_listed_count = products.filter(is_listed=True).count()
 
     if request.method == 'POST':
@@ -54,7 +55,7 @@ def add_product(request):
                 ProductImage.objects.create(product=product, product_images=image)
 
             messages.success(request, 'Product and images saved successfully!')
-            return redirect('add_product')  # replace with your actual view name
+            return redirect('add_product')  
         else:
             messages.error(request, 'Please correct the errors below.')
     else:
@@ -78,8 +79,9 @@ def add_product(request):
 def inventory(request):
     products = Product.objects.all()
     products_count = products.count()
-    new_products_count = products.filter(is_new=True).count()
-    out_of_stock_count = products.filter(in_stock=False).count()  
+    now = timezone.now()
+    new_products_count = products.filter(created_at__gte=now - timezone.timedelta(days=30)).count()
+    out_of_stock_count = products.filter(stock_quantity__lte=0).count() 
     is_listed_count = products.filter(is_listed=True).count()  
     context = {
         'products': products,
@@ -94,10 +96,11 @@ def inventory(request):
 def product_inventory(request, pk):
     product = get_object_or_404(Product, id=pk)
     products = Product.objects.all()
-    product_images = ProductImage.objects.filter(product=product)  # Fetch images for this product
+    product_images = ProductImage.objects.filter(product=product)  
     products_count = products.count()
-    new_products_count = products.filter(is_new=True).count()
-    out_of_stock_count = products.filter(in_stock=False).count()
+    now = timezone.now()
+    new_products_count = products.filter(created_at__gte=now - timezone.timedelta(days=30)).count()
+    out_of_stock_count = products.filter(stock_quantity__lte=0).count()
     is_listed_count = products.filter(is_listed=True).count()
 
     if request.method == 'POST':
