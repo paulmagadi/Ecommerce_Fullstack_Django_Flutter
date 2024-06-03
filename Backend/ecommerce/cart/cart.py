@@ -45,7 +45,7 @@ class Cart():
         
         
     def update(self, request, product, quantity):
-        product_id = str(product.id)  # Ensure product_id is retrieved correctly
+        product_id = str(product.id)  
         available_quantity = product.stock_quantity
 
         # Check if the requested quantity exceeds the available stock

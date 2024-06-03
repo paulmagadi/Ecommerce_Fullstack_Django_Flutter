@@ -13,14 +13,20 @@
         </div>
 
         <div class="product-profile-image">
-            <img src="{{ product.imageURL }}" alt="{{ product.name }}" width="100%">
+            <img id="main-product-image" src="{{ product.imageURL }}" alt="{{ product.name }}" width="100%">
         </div>
-        <div class="product-images">
-            {% for image in product_images %}
-            <div class="image"><img src="{{ image.imageURL }}" alt="{{ product.name }}" width="100%"></div>
-            {% endfor %}
+
+        <div class="product-images-container">
+            <div class="product-images">
+                {% for image in product_images %}
+                <div class="image">
+                    <img src="{{ image.imageURL }}" alt="{{ product.name }}" width="100%" onclick="updateMainImage('{{ image.imageURL }}')">
+                </div>
+                {% endfor %}
+            </div>
         </div>
     </div>
+
     <div class="product-page-information">
         <h3>{{ product.name }}</h3>
         {% if product.is_sale %}
@@ -76,6 +82,10 @@
 </div>
 
 <script>
+    function updateMainImage(imageUrl) {
+        document.getElementById('main-product-image').src = imageUrl;
+    }
+
     document.getElementById('add-cart').addEventListener('click', function() {
         var productId = this.value;
         var quantity = document.getElementById('quantity').value;
@@ -91,4 +101,30 @@
         // You can use AJAX to send this data to the backend or handle it otherwise
     });
 </script>
+
+<style>
+.product-images-container {
+    overflow-x: scroll;
+    white-space: nowrap;
+}
+
+.product-images {
+    display: flex;
+}
+
+.image {
+    display: inline-block;
+    margin-right: 10px;
+    min-width: 100px;
+}
+
+.image img {
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.image img:hover {
+    transform: scale(1.1);
+}
+</style>
 {% endblock content %}
