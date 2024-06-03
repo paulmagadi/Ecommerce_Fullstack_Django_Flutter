@@ -122,18 +122,26 @@
 }
 
 .product-image-container {
-    min-width: 100px;
-    margin-right: 5px;
-    margin-left: 5px;
-    margin-top: 1px;
-    margin-bottom: 1px;
+    min-width: 6rem;
+    margin-right: .2em;
+    margin-left: .2em;
+    margin-top: .1em;
+    margin-bottom: .1em;
 }
+
+
 
 .product-images {
     display: flex;
     overflow-x: auto;
     scroll-behavior: smooth;
     white-space: nowrap;
+    -ms-overflow-style: none;  
+    scrollbar-width: none;  
+}
+
+.product-images::-webkit-scrollbar { 
+    display: none;  
 }
 
 .image {
@@ -155,7 +163,7 @@
 .scroll-button {
     background-color: rgb(255, 255, 255);
     border: none;
-    color: orange;
+    color: green;
     font-size: 24px;
     padding: 10px;
     cursor: pointer;
@@ -164,6 +172,10 @@
     transform: translateY(-50%);
     z-index: 10;
     height: 100%;
+}
+
+.scroll-button:hover {
+    color: orange;
 }
 
 .scroll-button.left {
