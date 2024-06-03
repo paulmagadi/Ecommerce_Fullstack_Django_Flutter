@@ -57,14 +57,23 @@ def categories(request):
 
 def sale(request):
     products = Product.objects.filter(is_sale=True)
-    return render(request, 'store/sale.html', {'products': products})
+    now = timezone.now()
+    new_products = products.filter(created_at__gte=now - datetime.timedelta(days=30))
+    context = {
+        'products': products,
+        'new_products': new_products,
+    }
+    return render(request, 'store/sale.html', context)
 
 
 def new(request):
-    all_products = Product.objects.all()
+    products = Product.objects.all()
     now = timezone.now()
-    products = all_products.filter(created_at__gte=now - datetime.timedelta(days=30))
-    return render(request, 'store/new.html', {'products': products})
+    new_product_ids = products.filter(created_at__gte=now - datetime.timedelta(days=30)).values_list('id', flat=True)
+    context = {
+        'products': products, 'new_products': new_product_ids
+    }
+    return render(request, 'store/new.html', context)
     
 
 
@@ -72,19 +81,21 @@ def featured(request):
     products = Product.objects.filter(is_featured=True)
     now = timezone.now()
     new_product_ids = products.filter(created_at__gte=now - datetime.timedelta(days=30)).values_list('id', flat=True)
-    return render(request, 'store/featured.html', {'products': products, 'new_products': new_product_ids})
-
-
-def offers(request):
-    return render(request, 'store/offers.html')
+    context = {
+        'products': products, 'new_products': new_product_ids,
+    }
+    return render(request, 'store/featured.html', context)
 
 
 def search(request):
     query = request.GET.get('query')
     products = Product.objects.filter(Q(name__contains=query) | Q(description__contains=query) | Q(category__name__icontains=query))
+    now = timezone.now()
+    new_product_ids = products.filter(created_at__gte=now - datetime.timedelta(days=30)).values_list('id', flat=True)
     context = {
         'query': query,
         'products': products,
+        'new_products': new_product_ids,
     }
     return render(request, 'store/search.html', context)
 
