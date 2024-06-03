@@ -22,20 +22,20 @@
   border-radius: 4px;
 }
 
-.product-images {
+/* .product-images {
   display: flex;
   justify-content: space-between;
-}
+} */
 
-.image {
+/* .image {
   width: 23%;
   box-shadow: 0 3px 6px rgba(0,0,0,0.2);
   border-radius: 3px;
-}
+} */
 
-.image img {
+/* .image img {
   border-radius: 3px;
-}
+} */
 
 .product-page-information {
   width: 60%;
@@ -78,6 +78,17 @@
   padding: .3em;
 }
 
+.color p {
+  font-size: 1.1rem;
+  color: black;
+}
+
+.color-option {
+  width: 15em;
+  height: 2em;
+  margin-bottom: 1em;
+  padding: .3em;
+}
 .quantity input {
   width: 5em;
   height: 2.5em;
