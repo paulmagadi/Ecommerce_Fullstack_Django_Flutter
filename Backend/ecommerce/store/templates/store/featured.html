@@ -12,7 +12,9 @@
     <h3 class="section-title">Featured Products</h3>
     <div class= "product-container">
         {% for product in products %}
-        {% include 'store/include/product_card.html' %}
+            {% if product.id in new_products %}
+                {% include 'store/include/product_card.html' %}
+            {% endif %}
         {% endfor %}
     </div>
 </section>

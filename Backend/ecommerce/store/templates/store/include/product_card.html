@@ -1,4 +1,3 @@
-
 <div class="product-card">
     <div class="product-image">
         <a href="{% url 'product' product.id %}"><img src="{{ product.imageURL }}" alt="product" width="100%"></a>
@@ -9,7 +8,7 @@
         <p>
             <strong>
                 <span id="price"><del>$ {{ product.price }}</del></span> &nbsp;
-                <span id="sale-price">$ {{product.sale_price }}</span>
+                <span id="sale-price">$ {{ product.sale_price }}</span>
             </strong>
         </p>
         <p class="star">&#9733;&#9733;&#9733;&#9733;&#9733;</p>
@@ -17,7 +16,6 @@
             <div class="discount-section" style="width: {{ product.percentage_discount }}%;"></div>
         </div>
         <br>
-
         {% else %}
         <p>
             <strong>
@@ -45,13 +43,8 @@
         <p>Sale</p>
         <p id="percentage-discount">- {{ product.percentage_discount }}%</p>
     </div>
-    {% else %}
     {% endif %}
-
-    {% if product.new_products %}
+    {% if product.id in new_products %}
     <div class="new-product">New</div>
-    {% else %}
     {% endif %}
-        
 </div>
-

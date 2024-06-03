@@ -4,43 +4,44 @@
 {% block title %}
     Ecom
 {% endblock title %}
-    
 
 {% block content %}
     {% include 'main/include/hero.html' %}
     <section>
-        <h3 class="section-title"><a href="{% url 'home' %}">Products</h3></a>
-        <div class= "product-container">
-            
+        <h3 class="section-title"><a href="{% url 'home' %}">Products</a></h3>
+        <div class="product-container">
             {% for product in products %}
-            {% include 'store/include/product_card.html' %}
+                {% include 'store/include/product_card.html' %}
             {% endfor %}
         </div>
     </section>
 
     <section>
-        <h3 class="section-title"><a href="{% url 'new' %}">New Products</h3></a>
-        <div class= "product-container">
-            {% for product in new_products %}
-            {% include 'store/include/product_card.html' %}
+        <h3 class="section-title"><a href="{% url 'new' %}">New Products</a></h3>
+        <div class="product-container">
+            {% for product in products %}
+                {% if product.id in new_products %}
+                    {% include 'store/include/product_card.html' %}
+                {% endif %}
             {% endfor %}
         </div>
     </section>
+
     <section>
-        <h3 class="section-title"><a href="{% url 'sale' %}">Products on Sale</h3></a>
-        <div class= "product-container">
+        <h3 class="section-title"><a href="{% url 'sale' %}">Products on Sale</a></h3>
+        <div class="product-container">
             {% for product in sale_products %}
-            {% include 'store/include/product_card.html' %}
+                {% include 'store/include/product_card.html' %}
             {% endfor %}
         </div>
     </section>
+
     <section>
-        <h3 class="section-title"><a href="{% url 'featured' %}">Featured Products</h3></a>
-        <div class= "product-container">
+        <h3 class="section-title"><a href="{% url 'featured' %}">Featured Products</a></h3>
+        <div class="product-container">
             {% for product in featured_products %}
-            {% include 'store/include/product_card.html' %}
+                {% include 'store/include/product_card.html' %}
             {% endfor %}
         </div>
     </section>
 {% endblock content %}
-    

@@ -1,30 +1,32 @@
-from django.shortcuts import render, get_object_or_404
+from datetime import datetime
+from django.shortcuts import render, redirect, get_object_or_404
 from .models import Product, Category, WebBanner
+from django.contrib import messages
 from django.utils import timezone
 from django.db.models import Q
 import datetime
 
-def home(request):
-    all_products = Product.objects.all()
-    products = all_products.filter(is_listed=True)
-    banners = WebBanner.objects.filter(in_use=True)
-    sale_products = products.filter(is_sale=True)
-    now = timezone.now()
-    new_products = all_products.filter(created_at__gte=now - datetime.timedelta(days=30))
-    featured_products = products.filter(is_featured=True)
+# def home(request):
+#     all_products = Product.objects.all()
+#     products = all_products.filter(is_listed=True)
+#     banners = WebBanner.objects.filter(in_use=True)
+#     sale_products = products.filter(is_sale=True)
+#     now = timezone.now()
+#     new_products= all_products.filter(created_at__gte=now - datetime.timedelta(days=30))
+#     featured_products = products.filter(is_featured=True)
 
-    context = {
-        'products': products,
-        'sale_products': sale_products,
-        'new_products': new_products,
-        'featured_products': featured_products,
-        'banners': banners,
-    }
-    return render(request, 'store/home.html', context)
+#     context = {
+#         'products': products,
+#         'sale_products': sale_products,
+#         'new_products': new_products,
+#         'featured_products': featured_products,
+#         'banners': banners,
+#     }
+#     return render(request, 'mains/index.html', context)
 
 
 def product(request, pk):
-    product = get_object_or_404(Product, id=pk)
+    product = Product.objects.get(id=pk)
     stock_quantity = product.stock_quantity
     context = {
         'product': product,
@@ -34,7 +36,7 @@ def product(request, pk):
 
 
 def category(request, pk):
-    category = get_object_or_404(Category, id=pk)
+    category = Category.objects.get(id=pk)
     products = Product.objects.filter(category=category)
     context = {
         'category': category,
@@ -59,14 +61,18 @@ def sale(request):
 
 
 def new(request):
+    all_products = Product.objects.all()
     now = timezone.now()
-    products = Product.objects.filter(created_at__gte=now - datetime.timedelta(days=30))
+    products = all_products.filter(created_at__gte=now - datetime.timedelta(days=30))
     return render(request, 'store/new.html', {'products': products})
+    
 
 
 def featured(request):
     products = Product.objects.filter(is_featured=True)
-    return render(request, 'store/featured.html', {'products': products})
+    now = timezone.now()
+    new_product_ids = products.filter(created_at__gte=now - datetime.timedelta(days=30)).values_list('id', flat=True)
+    return render(request, 'store/featured.html', {'products': products, 'new_products': new_product_ids})
 
 
 def offers(request):
@@ -81,5 +87,4 @@ def search(request):
         'products': products,
     }
     return render(request, 'store/search.html', context)
-
 
