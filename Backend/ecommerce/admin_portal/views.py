@@ -39,7 +39,7 @@ def add_product(request):
     products = Product.objects.all()
     products_count = products.count()
     now = timezone.now()
-    new_products_count = products.filter(created_at__gte=now - timezone.timedelta(days=30)).count()
+    new_products_count = products.filter(created_at__gte=now - timezone.timedelta(min==5)).count()
     out_of_stock_count = products.filter(stock_quantity__lte=0).count()
     is_listed_count = products.filter(is_listed=True).count()
 

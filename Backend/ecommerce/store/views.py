@@ -1,15 +1,16 @@
-from django.shortcuts import render, redirect, get_object_or_404
+from django.shortcuts import render, get_object_or_404
 from .models import Product, Category, WebBanner
-from django.contrib import messages
-import datetime
+from django.utils import timezone
 from django.db.models import Q
+import datetime
 
 def home(request):
     all_products = Product.objects.all()
     products = all_products.filter(is_listed=True)
     banners = WebBanner.objects.filter(in_use=True)
     sale_products = products.filter(is_sale=True)
-    new_products = products.filter(is_new=True)
+    now = timezone.now()
+    new_products = all_products.filter(created_at__gte=now - datetime.timedelta(days=30))
     featured_products = products.filter(is_featured=True)
 
     context = {
@@ -23,7 +24,7 @@ def home(request):
 
 
 def product(request, pk):
-    product = Product.objects.get(id=pk)
+    product = get_object_or_404(Product, id=pk)
     stock_quantity = product.stock_quantity
     context = {
         'product': product,
@@ -33,7 +34,7 @@ def product(request, pk):
 
 
 def category(request, pk):
-    category = Category.objects.get(id=pk)
+    category = get_object_or_404(Category, id=pk)
     products = Product.objects.filter(category=category)
     context = {
         'category': category,
@@ -58,9 +59,9 @@ def sale(request):
 
 
 def new(request):
-    products = Product.objects.filter(is_new=True)
+    now = timezone.now()
+    products = Product.objects.filter(created_at__gte=now - datetime.timedelta(days=30))
     return render(request, 'store/new.html', {'products': products})
-    
 
 
 def featured(request):
@@ -80,4 +81,5 @@ def search(request):
         'products': products,
     }
     return render(request, 'store/search.html', context)
+
 
