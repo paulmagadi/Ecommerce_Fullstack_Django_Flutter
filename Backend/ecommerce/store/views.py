@@ -62,12 +62,11 @@ def new(request):
 def featured(request):
     products = Product.objects.filter(is_featured=True)
     now = timezone.now()
-    new_product_ids = products.filter(created_at__gte=now - datetime.timedelta(days=30)).values_list('id', flat=True)
+    new_product_ids = products.filter(created_at__gte=now - datetime.timedelta(hours=3)).values_list('id', flat=True)
     context = {
         'products': products, 'new_products': new_product_ids,
     }
     return render(request, 'store/featured.html', context)
-
 
 
 def search(request):
