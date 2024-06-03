@@ -1,17 +1,14 @@
 from django import forms
-from django.forms import ModelForm
+from mptt.forms import TreeNodeChoiceField
+from store.models import Category, Product, ProductImage
 
-from store.models import Category
-from store.models import Product, ProductImage
-
-    
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
 class MultipleFileField(forms.FileField):
     def __init__(self, *args, **kwargs):
         kwargs.setdefault("widget", MultipleFileInput())
-        kwargs.setdefault("required", False) 
+        kwargs.setdefault("required", False)
         super().__init__(*args, **kwargs)
 
     def clean(self, data, initial=None):
@@ -23,28 +20,47 @@ class MultipleFileField(forms.FileField):
         else:
             result = [single_file_clean(data, initial)]
         return result
-    
+
 class CategoryForm(forms.ModelForm):
+    parent = TreeNodeChoiceField(queryset=Category.objects.all(), required=False)
+
     class Meta:
         model = Category
-        fields = ['name']
+        fields = ['parent', 'name', 'key_words', 'descriptions', 'image']
         widgets = {
             'name': forms.TextInput(attrs={
                 'placeholder': 'Enter category name'
+            }),
+            'key_words': forms.TextInput(attrs={
+                'placeholder': 'Enter key words'
+            }),
+            'descriptions': forms.TextInput(attrs={
+                'placeholder': 'Enter descriptions'
             }),
         }
 
 class ProductModelForm(forms.ModelForm):
     new_category = forms.CharField(
-    max_length=100, 
-    required=False, 
-    label="New Category",
-    widget=forms.TextInput(attrs={'placeholder': 'Enter new category if not listed above. Leave blank if availlable.'})
+        max_length=100,
+        required=False,
+        label="New Category",
+        widget=forms.TextInput(attrs={'placeholder': 'Enter new category if not listed above. Leave blank if available.'})
     )
+    new_category_parent = TreeNodeChoiceField(
+        queryset=Category.objects.all(),
+        required=False,
+        label="Parent Category for New Category"
+    )
+
+    category = TreeNodeChoiceField(queryset=Category.objects.all())
 
     class Meta:
         model = Product
-        fields = ['name', 'price', 'category', 'description', 'profile_image', 'is_sale', 'sale_price', 'stock_quantity', 'is_featured', 'is_listed']
+        fields = [
+            'name', 'price', 'category', 'description', 'profile_image',
+            'is_sale', 'sale_price', 'stock_quantity', 'is_featured', 'is_listed',
+            'key_words', 'brand', 'material', 'color', 'size'
+        ]
         widgets = {
             'name': forms.TextInput(attrs={
                 'placeholder': 'Enter product name'
@@ -63,12 +79,25 @@ class ProductModelForm(forms.ModelForm):
             'stock_quantity': forms.NumberInput(attrs={
                 'placeholder': 'Enter stock quantity'
             }),
+            'key_words': forms.TextInput(attrs={
+                'placeholder': 'Enter key words'
+            }),
+            'brand': forms.TextInput(attrs={
+                'placeholder': 'Enter brand'
+            }),
+            'material': forms.TextInput(attrs={
+                'placeholder': 'Enter material'
+            }),
         }
 
     def save(self, commit=True):
         new_category_name = self.cleaned_data.get('new_category')
+        new_category_parent = self.cleaned_data.get('new_category_parent')
         if new_category_name:
-            category, created = Category.objects.get_or_create(name=new_category_name)
+            category, created = Category.objects.get_or_create(
+                name=new_category_name,
+                defaults={'parent': new_category_parent}
+            )
             self.instance.category = category
         return super().save(commit=commit)
 
@@ -80,5 +109,3 @@ class ProductImageForm(forms.Form):
         if len(images) > 12:
             raise forms.ValidationError('You can upload a maximum of 12 images.')
         return images
-
-        
