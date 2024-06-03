@@ -17,6 +17,7 @@
         </div>
 
         <div class="product-images-container">
+            <button class="scroll-button left" onclick="scrollImages(-1)">&#10094;</button>
             <div class="product-images">
                 {% for image in product_images %}
                 <div class="image">
@@ -24,6 +25,7 @@
                 </div>
                 {% endfor %}
             </div>
+            <button class="scroll-button right" onclick="scrollImages(1)">&#10095;</button>
         </div>
     </div>
 
@@ -86,6 +88,12 @@
         document.getElementById('main-product-image').src = imageUrl;
     }
 
+    function scrollImages(direction) {
+        const container = document.querySelector('.product-images');
+        const scrollAmount = container.clientWidth / 3 * direction;
+        container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+    }
+
     document.getElementById('add-cart').addEventListener('click', function() {
         var productId = this.value;
         var quantity = document.getElementById('quantity').value;
@@ -104,18 +112,24 @@
 
 <style>
 .product-images-container {
-    overflow-x: scroll;
-    white-space: nowrap;
+    position: relative;
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    min-width: 100px;
 }
 
 .product-images {
     display: flex;
+    overflow-x: auto;
+    scroll-behavior: smooth;
+    white-space: nowrap;
 }
 
 .image {
     display: inline-block;
-    margin-right: 10px;
-    min-width: 100px;
+    width: 100%;
+    margin-right: 5px;
 }
 
 .image img {
@@ -125,6 +139,27 @@
 
 .image img:hover {
     transform: scale(1.1);
+}
+
+.scroll-button {
+    background-color: rgba(0, 0, 0, 0.5);
+    border: none;
+    color: white;
+    font-size: 24px;
+    padding: 10px;
+    cursor: pointer;
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 10;
+}
+
+.scroll-button.left {
+    left: 0;
+}
+
+.scroll-button.right {
+    right: 0;
 }
 </style>
 {% endblock content %}
