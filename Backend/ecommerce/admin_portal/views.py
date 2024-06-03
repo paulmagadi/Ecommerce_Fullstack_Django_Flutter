@@ -31,9 +31,39 @@ def admin_portal(request):
     context = {
         'products':products,
         'latest_products': latest_products,
-        
     }
     return render(request, 'admin_portal/admin_portal.html', context)
+
+def add_category(request):
+    products = Product.objects.all()
+    products_count = products.count()
+    now = timezone.now()
+    new_products_count = products.filter(created_at__gte=now - datetime.timedelta(days=30)).count()
+    out_of_stock_count = products.filter(stock_quantity__lte=0).count()
+    is_listed_count = products.filter(is_listed=True).count()
+    
+    if request.method == 'POST':
+        category_form = CategoryForm(request.POST, request.FILES)
+        if category_form.is_valid():
+            category_form.save()
+            return redirect('add_product')  
+        else:
+            messages.error(request, 'Please correct the errors below.')
+            
+    else:
+        category_form = CategoryForm()
+        
+    context = {
+        'category_form': category_form,
+        'products': products,
+        'products_count': products_count,
+        'new_products_count': new_products_count,
+        'out_of_stock_count': out_of_stock_count,
+        'is_listed_count': is_listed_count,
+    }
+    return render(request, 'admin_portal/add_category.html', context)
+
+
 
 def add_product(request):
     products = Product.objects.all()
