@@ -2,48 +2,53 @@
 {% load static %}
 
 {% block title %}
-    product
+    Product Details
 {% endblock title %}
-    
 
 {% block content %}
 <div class="product-page-container">
-    
     <div class="product-image-card">
         <div class="back_home">
             <a href="{% url 'home' %}"><button>&larr; Back to Home</button></a>
         </div>
 
         <div class="product-profile-image">
-            <img src="{{product.imageURL}}" alt="Product" width="100%">
+            <img src="{{ product.imageURL }}" alt="{{ product.name }}" width="100%">
         </div>
         <div class="product-images">
-            <div class="image"><img src="{{ product.imageURL }}" alt="Product" width="100%"></div>
-            <div class="image"><img src="{{ product.imageURL }}" alt="Product" width="100%"></div>
-            <div class="image"><img src="{{ product.imageURL }}" alt="Product" width="100%"></div>
-            <div class="image"><img src="{{ product.imageURL }}" alt="Product" width="100%"></div> 
+            {% for image in product_images %}
+            <div class="image"><img src="{{ image.imageURL }}" alt="{{ product.name }}" width="100%"></div>
+            {% endfor %}
         </div>
     </div>
     <div class="product-page-information">
+        <h3>{{ product.name }}</h3>
         {% if product.is_sale %}
-        <h3>{{ product.name }}</h3> 
-        <h4>Price: <del>${{ product.price }}</del>&nbsp; ${{ product.sale_price }}</h4>
-        <p>{{ product.description }}</p>
+        <h4>Price: <del>${{ product.price }}</del> ${{ product.sale_price }}</h4>
         {% else %}
-        <h3>{{ product.name }}</h3> 
         <h4>Price: ${{ product.price }}</h4>
-        <p>{{ product.description }}</p>
         {% endif %}
+        <p>{{ product.description }}</p>
 
         <div class="sizes">
             <p>Size:</p>
-            <select name="Size" id="size" class="size-option">
-                <option value="xxl">XXL</option>
-                <option value="xl">XL</option>
-                <option value="medium">Medium</option>
-                <option value="small">Small</option>
+            <select name="size" id="size" class="size-option">
+                {% for size in sizes %}
+                <option value="{{ size.id }}">{{ size.size }}</option>
+                {% endfor %}
             </select>
         </div>
+
+        {% if colors %}
+        <div class="colors">
+            <p>Color:</p>
+            <select name="color" id="color" class="color-option">
+                {% for color in colors %}
+                <option value="{{ color.id }}">{{ color.color }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        {% endif %}
 
         <div class="info">
             <p style="color: red;">
@@ -55,20 +60,35 @@
                     Item out of stock!!!
                 {% endif %}
             </p>
-            
         </div>
-        
+
         {% if product.in_stock %}
         <div class="quantity">
             <p>Quantity:  
-            <span><input type="number" value="1" min="1" max="{{ stock_quantity }}"></span>
+            <span><input type="number" value="1" min="1" max="{{ stock_quantity }}" id="quantity"></span>
             </p>
             <button type="button" value="{{ product.id }}" id="add-cart" class="add-to-cart">Add to Cart</button>
         </div>
         {% else %}
-        <button>Enquire availablility</button>
+        <button>Enquire availability</button>
         {% endif %}
     </div>
 </div>
 
+<script>
+    document.getElementById('add-cart').addEventListener('click', function() {
+        var productId = this.value;
+        var quantity = document.getElementById('quantity').value;
+        var size = document.getElementById('size').value;
+        var color = document.getElementById('color') ? document.getElementById('color').value : null;
+
+        // Implement your add to cart functionality here
+        console.log('Product ID:', productId);
+        console.log('Quantity:', quantity);
+        console.log('Size:', size);
+        console.log('Color:', color);
+
+        // You can use AJAX to send this data to the backend or handle it otherwise
+    });
+</script>
 {% endblock content %}

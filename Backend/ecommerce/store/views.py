@@ -8,10 +8,16 @@ import datetime
 
 
 def product(request, pk):
-    product = Product.objects.get(id=pk)
+    product = get_object_or_404(Product, id=pk)
+    product_images = product.product_images.all() 
+    sizes = product.size.all()
+    colors = product.color.all()
     stock_quantity = product.stock_quantity
     context = {
         'product': product,
+        'product_images': product_images,
+        'sizes': sizes,
+        'colors': colors,
         'stock_quantity': stock_quantity
     }
     return render(request, 'store/product.html', context)
