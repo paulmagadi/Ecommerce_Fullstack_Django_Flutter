@@ -6,24 +6,6 @@ from django.utils import timezone
 from django.db.models import Q
 import datetime
 
-# def home(request):
-#     all_products = Product.objects.all()
-#     products = all_products.filter(is_listed=True)
-#     banners = WebBanner.objects.filter(in_use=True)
-#     sale_products = products.filter(is_sale=True)
-#     now = timezone.now()
-#     new_products= all_products.filter(created_at__gte=now - datetime.timedelta(days=30))
-#     featured_products = products.filter(is_featured=True)
-
-#     context = {
-#         'products': products,
-#         'sale_products': sale_products,
-#         'new_products': new_products,
-#         'featured_products': featured_products,
-#         'banners': banners,
-#     }
-#     return render(request, 'mains/index.html', context)
-
 
 def product(request, pk):
     product = Product.objects.get(id=pk)
@@ -85,6 +67,7 @@ def featured(request):
         'products': products, 'new_products': new_product_ids,
     }
     return render(request, 'store/featured.html', context)
+
 
 
 def search(request):
