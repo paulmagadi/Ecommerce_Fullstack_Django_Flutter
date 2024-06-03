@@ -96,20 +96,7 @@
         container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
     }
 
-    document.getElementById('add-cart').addEventListener('click', function() {
-        var productId = this.value;
-        var quantity = document.getElementById('quantity').value;
-        var size = document.getElementById('size').value;
-        var color = document.getElementById('color') ? document.getElementById('color').value : null;
 
-        // Implement your add to cart functionality here
-        console.log('Product ID:', productId);
-        console.log('Quantity:', quantity);
-        console.log('Size:', size);
-        console.log('Color:', color);
-
-        // You can use AJAX to send this data to the backend or handle it otherwise
-    });
 </script>
 
 <style>
