@@ -114,7 +114,7 @@
         </section>
 
         <section>
-            <h4 class="admin-main-headings">New Products</h4>
+            <h4 class="admin-main-headings">Latest Products</h4>
             <div class="inventory">
                 <table>
                     <thead>
@@ -129,9 +129,9 @@
                     </thead>
                     <tbody>
                         
-                        {% for product in new_products %}
+                        {% for product in latest_products %}
                         
-                        {% if product.new_product %}
+                       
                         <tr>
                             <td><img src="{{product.imageURL}}" alt="" width="30%"></td>
                             <td>{{ product.name }}</td>
@@ -143,9 +143,9 @@
                             <td>No</td>
                             {% endif %}
                                 
-                            <td><a href="{% url 'product_inventory' product.id %}">Update</a></td>
+                            <td><a href="{% url 'product_inventory' product.id %}">View/Update</a></td>
                         </tr>
-                        {% endif %}
+                        
                             
                         
                         {% endfor %}

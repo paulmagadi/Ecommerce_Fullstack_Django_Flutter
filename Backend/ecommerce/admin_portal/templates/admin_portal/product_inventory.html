@@ -67,13 +67,10 @@
                 </form>
                 <h2>Profile Image</h2>
                   <img src="{{product.imageURL }}" alt="{{product.name}}" width="50px">
-                <h2>Existing Images</h2>
-                {% for image in product_images %}
-                    <img src="{{ image.imageURL }}" alt="{{ product.name }}" width="50px">
-                {% endfor %}
+                
 
-                <h2>Existing Images</h2>
-<ul>
+                <h2>Product Photos. <span style="color: red;">You can uplaod upto 12 images</span></h2>
+<ul style="list-style: none;">
     {% for image in product_images %}
         <li>
             <img src="{{ image.imageURL }}" alt="{{ product.name }}" width="100">

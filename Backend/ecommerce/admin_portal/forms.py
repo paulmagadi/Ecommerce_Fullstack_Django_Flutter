@@ -77,8 +77,8 @@ class ProductImageForm(forms.Form):
 
     def clean_product_images(self):
         images = self.files.getlist('product_images')
-        if len(images) > 5:
-            raise forms.ValidationError('You can upload a maximum of 5 images.')
+        if len(images) > 12:
+            raise forms.ValidationError('You can upload a maximum of 12 images.')
         return images
 
         

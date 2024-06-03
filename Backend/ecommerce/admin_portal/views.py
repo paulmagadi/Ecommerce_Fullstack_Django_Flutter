@@ -1,3 +1,4 @@
+import datetime
 from pyexpat.errors import messages
 from django.forms import modelformset_factory
 from django.shortcuts import render, redirect, get_object_or_404
@@ -25,12 +26,11 @@ def admin_or_staff_required(view_func):
 # @group_required('Admin')
 def admin_portal(request):
     products = Product.objects.all()
-    
-    new_products = products.order_by('-created_at')[:10] 
-
+    #list the last 10 products(newest)
+    latest_products = products.order_by('-created_at')[:10]
     context = {
         'products':products,
-        'new_products': new_products,
+        'latest_products': latest_products,
         
     }
     return render(request, 'admin_portal/admin_portal.html', context)
@@ -39,7 +39,7 @@ def add_product(request):
     products = Product.objects.all()
     products_count = products.count()
     now = timezone.now()
-    new_products_count = products.filter(created_at__gte=now - timezone.timedelta(min==5)).count()
+    new_products_count = products.filter(created_at__gte=now - datetime.timedelta(days=30)).count()
     out_of_stock_count = products.filter(stock_quantity__lte=0).count()
     is_listed_count = products.filter(is_listed=True).count()
 
@@ -80,7 +80,7 @@ def inventory(request):
     products = Product.objects.all()
     products_count = products.count()
     now = timezone.now()
-    new_products_count = products.filter(created_at__gte=now - timezone.timedelta(days=30)).count()
+    new_products_count = products.filter(created_at__gte=now - datetime.timedelta(days=30)).count()
     out_of_stock_count = products.filter(stock_quantity__lte=0).count() 
     is_listed_count = products.filter(is_listed=True).count()  
     context = {
@@ -99,7 +99,7 @@ def product_inventory(request, pk):
     product_images = ProductImage.objects.filter(product=product)  
     products_count = products.count()
     now = timezone.now()
-    new_products_count = products.filter(created_at__gte=now - timezone.timedelta(days=30)).count()
+    new_products_count = products.filter(created_at__gte=now - datetime.timedelta(days=30)).count()
     out_of_stock_count = products.filter(stock_quantity__lte=0).count()
     is_listed_count = products.filter(is_listed=True).count()
 

@@ -82,8 +82,8 @@ class Product(models.Model):
         
         if self.stock_quantity == 0:
             self.is_listed = False
-        else:
-            self.is_listed = True
+        # else:
+        #     self.is_listed = True
 
         if self.is_sale and self.sale_price and self.sale_price < self.price:
             self.discount = round(self.price - self.sale_price, 2)
