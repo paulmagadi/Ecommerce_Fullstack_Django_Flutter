@@ -81,3 +81,24 @@ def search(request):
     }
     return render(request, 'store/search.html', context)
 
+
+def get_category_tree():
+    categories = Category.objects.all()
+    category_tree = []
+    def build_tree(nodes, parent_id=None):
+        tree = []
+        for node in nodes:
+            if node.parent_id == parent_id:
+                children = build_tree(nodes, node.id)
+                tree.append({
+                    'id': node.id,
+                    'text': node.name,
+                    'children': children
+                })
+        return tree
+    category_tree = build_tree(categories)
+    return category_tree
+
+def category_view(request):
+    category_tree = get_category_tree()
+    return render(request, 'store/category_template.html', {'category_tree': category_tree})
