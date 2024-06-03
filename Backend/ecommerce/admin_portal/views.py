@@ -46,7 +46,7 @@ def add_category(request):
         category_form = CategoryForm(request.POST, request.FILES)
         if category_form.is_valid():
             category_form.save()
-            return redirect('add_product')  
+            return redirect('add_category')  
         else:
             messages.error(request, 'Please correct the errors below.')
             
