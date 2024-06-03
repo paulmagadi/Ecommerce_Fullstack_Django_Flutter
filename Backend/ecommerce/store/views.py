@@ -72,7 +72,7 @@ def featured(request):
 
 def search(request):
     query = request.GET.get('query')
-    products = Product.objects.filter(Q(name__contains=query) | Q(description__contains=query) | Q(category__name__icontains=query))
+    products = Product.objects.filter(Q(name__contains=query) | Q(key_words__contains=query) |  Q(description__contains=query) | Q(category__name__icontains=query))
     now = timezone.now()
     new_product_ids = products.filter(created_at__gte=now - datetime.timedelta(days=30)).values_list('id', flat=True)
     context = {
