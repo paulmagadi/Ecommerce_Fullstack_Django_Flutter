@@ -20,8 +20,10 @@
             <button class="scroll-button left" onclick="scrollImages(-1)">&#10094;</button>
             <div class="product-images">
                 {% for image in product_images %}
-                <div class="image">
-                    <img src="{{ image.imageURL }}" alt="{{ product.name }}" width="100%" onclick="updateMainImage('{{ image.imageURL }}')">
+                <div class="product-image-container">
+                    <div class="image">
+                        <img src="{{ image.imageURL }}" alt="{{ product.name }}" width="100%" onclick="updateMainImage('{{ image.imageURL }}')">
+                    </div>
                 </div>
                 {% endfor %}
             </div>
@@ -116,7 +118,15 @@
     display: flex;
     align-items: center;
     overflow: hidden;
+    
+}
+
+.product-image-container {
     min-width: 100px;
+    margin-right: 5px;
+    margin-left: 5px;
+    margin-top: 1px;
+    margin-bottom: 1px;
 }
 
 .product-images {
@@ -129,7 +139,7 @@
 .image {
     display: inline-block;
     width: 100%;
-    margin-right: 5px;
+    
 }
 
 .image img {
@@ -139,12 +149,13 @@
 
 .image img:hover {
     transform: scale(1.1);
+    border: 1px solid black;
 }
 
 .scroll-button {
-    background-color: rgba(0, 0, 0, 0.5);
+    background-color: rgb(255, 255, 255);
     border: none;
-    color: white;
+    color: orange;
     font-size: 24px;
     padding: 10px;
     cursor: pointer;
@@ -152,6 +163,7 @@
     top: 50%;
     transform: translateY(-50%);
     z-index: 10;
+    height: 100%;
 }
 
 .scroll-button.left {
