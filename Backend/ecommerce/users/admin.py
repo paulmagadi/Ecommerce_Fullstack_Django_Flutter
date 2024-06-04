@@ -26,11 +26,13 @@ class CustomUserAdmin(UserAdmin):
     ordering = ("email",)
     filter_horizontal = ("groups", "user_permissions",)
     readonly_fields = ("id", "last_login", "date_joined",)
+
+admin.site.register(CustomUser, CustomUserAdmin)
     
 class ProfileAdmin(admin.ModelAdmin):
     list_display = ('user',)
     search_fields = ('email',)
+    
 
-admin.site.register(CustomUser, CustomUserAdmin)
 admin.site.register(Profile, ProfileAdmin)
 admin.site.register(ShippingAddress)
