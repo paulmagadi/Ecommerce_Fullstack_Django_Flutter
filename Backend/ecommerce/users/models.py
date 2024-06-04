@@ -2,14 +2,12 @@ from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
 from users.managers import CustomUserManager
 from django.db.models.signals import post_save, pre_save
-from django.dispatch import receiver
+
 
 class CustomUser(AbstractBaseUser, PermissionsMixin):
-    # email = models.EmailField(verbose_name='email', unique=True)
+    email = models.EmailField(verbose_name='email', unique=True)
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=50, blank=True)
-    email = models.EmailField(verbose_name='email', unique=True)
-    full_name = models.CharField(max_length=255, blank=True, null=True)
     is_staff = models.BooleanField(default=False)
     is_active = models.BooleanField(default=True)
     date_joined = models.DateTimeField(auto_now_add=True)
@@ -23,12 +21,6 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def __str__(self):
         return self.email
     
-# @receiver(pre_save, sender=CustomUser)
-# def full_name(sender, instance, **kwargs):
-#     if instance.pk:
-#         name= f'{sender.first_name} {sender.last_name}'
-#         instance.full_name = name
-        
 
 
 class Profile(models.Model):
