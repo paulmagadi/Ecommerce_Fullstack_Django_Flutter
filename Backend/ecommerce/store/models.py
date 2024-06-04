@@ -140,8 +140,8 @@ class ProductImage(models.Model):
     def resize_image(self):
         if self.product_images:
             img = Image.open(self.product_images.path)
-            if img.height > 1125 or img.width > 1125:
-                img.thumbnail((1125, 1125))
+            if img.height > 600 or img.width > 400:
+                img.thumbnail((600, 400))
                 img.save(self.product_images.path, quality=70, optimize=True)
 
     @property
