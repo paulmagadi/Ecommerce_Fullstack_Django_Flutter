@@ -2,6 +2,7 @@ from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import CustomUser, Profile, ShippingAddress
+# from django.contrib.auth.models import
 
 
 class CustomUserAdmin(UserAdmin):
@@ -25,7 +26,11 @@ class CustomUserAdmin(UserAdmin):
     ordering = ("email",)
     filter_horizontal = ("groups", "user_permissions",)
     readonly_fields = ("id", "last_login", "date_joined",)
+    
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+    search_fields = ('email',)
 
 admin.site.register(CustomUser, CustomUserAdmin)
-admin.site.register(Profile)
+admin.site.register(Profile, ProfileAdmin)
 admin.site.register(ShippingAddress)
