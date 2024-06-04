@@ -35,6 +35,9 @@ class Profile(models.Model):
 
     def __str__(self):
         return self.user.email
+    
+    class Meta:
+        verbose_name = 'User Profile'
 
 class ShippingAddress(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
