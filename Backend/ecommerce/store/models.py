@@ -8,11 +8,11 @@ from PIL import Image
 
 class Category(MPTTModel):
     parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
-    name = models.CharField(max_length=50, unique=True)
-    key_words = models.CharField(max_length=255)
-    descriptions = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='uploads/categories/')
-    slug = models.SlugField(unique=True, blank=True)
+    name = models.CharField(max_length=50, unique=True, blank=True, null=True)
+    key_words = models.CharField(max_length=255, blank=True, null=True)
+    descriptions = models.CharField(max_length=255, blank=True, null=True)
+    image = models.ImageField(upload_to='uploads/categories/', blank=True, null=True)
+    slug = models.SlugField(unique=True, blank=True, null=True)
 
     class MPTTMeta:
         order_insertion_by = ['name']
@@ -37,13 +37,13 @@ class Category(MPTTModel):
                 img.save(self.image.path, quality=70, optimize=True)
 
 class Color(models.Model):
-    color = models.CharField(max_length=100, unique=True)
+    color = models.CharField(max_length=100, unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.color
 
 class Size(models.Model):
-    size = models.CharField(max_length=255, unique=True)
+    size = models.CharField(max_length=255, unique=True, blank=True, null=True)
 
     def __str__(self):
         return self.size
@@ -60,14 +60,14 @@ class Product(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     is_listed = models.BooleanField(default=True)
     is_featured = models.BooleanField(default=True)
-    slug = models.SlugField(unique=True, blank=True)
-    key_words = models.CharField(max_length=255)
+    slug = models.SlugField(unique=True, blank=True, null=True)
+    key_words = models.CharField(max_length=255, blank=True, null=True)
     stock_quantity = models.IntegerField(default=1)
     brand = models.CharField(max_length=255, blank=True, null=True)
     material = models.CharField(max_length=255, blank=True, null=True)
-    category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name='products')
-    color = models.ManyToManyField(Color, related_name='products')
-    size = models.ManyToManyField(Size, related_name='products')
+    category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
+    color = models.ManyToManyField(Color, related_name='products', blank=True, null=True)
+    size = models.ManyToManyField(Size, related_name='products', blank=True, null=True)
 
     def __str__(self):
         return self.name
