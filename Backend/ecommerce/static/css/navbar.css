@@ -27,8 +27,11 @@
   padding: .8em;
 }
 
-.navbar-links li:hover, .cart:hover {
+.navbar-links li:not(:last-child):hover {
   background-color: orange;
+}
+
+.navbar-links li:hover {
   cursor: pointer;
 }
 
