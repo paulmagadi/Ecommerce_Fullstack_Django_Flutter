@@ -5,7 +5,7 @@ from mptt.admin import MPTTModelAdmin
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
-    extra = 12
+    extra = 0
 
 class ProductAdmin(admin.ModelAdmin):
     inlines = [ProductImageInline]
