@@ -9,6 +9,8 @@ class Order(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2)
     shipping_address = models.TextField(max_length=15000)
+    is_shipped = models.BooleanField(default=False)
+    shipped_at = models.DateTimeField()
 
     def __str__(self):
         return f"Order {self.id}"
