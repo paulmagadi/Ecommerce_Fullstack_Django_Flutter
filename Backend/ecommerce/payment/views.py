@@ -6,7 +6,7 @@ from django.conf import settings
 from paypalrestsdk import Payment
 
 from cart.cart import Cart
-from .models import Order, OrderItem
+from cart.models import Order, OrderItem
 from . import paypal
 import json
 
