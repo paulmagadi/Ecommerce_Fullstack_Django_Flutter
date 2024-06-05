@@ -1,4 +1,3 @@
-# views.py
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
@@ -37,6 +36,7 @@ def payment(request):
         shipping_address = f"{shipping['phone']} \n {shipping['shipping_address1']} \n {shipping['shipping_address2']} \n {shipping['city']} \n {shipping['state']} \n {shipping['zipcode']} \n {shipping['country']}"
         
         order = Order(user=user, full_name=full_name, email=email, amount_paid=amount_paid, shipping_address=shipping_address)
+        order.save()
     
         
 
