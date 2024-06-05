@@ -8,8 +8,8 @@ class Order(models.Model):
     full_name = models.CharField(max_length=255, null=True, blank=True)
     email = models.CharField(max_length=255)
     amount_paid = models.DecimalField(max_digits=12, decimal_places=2)
-    date_ordered = models.DateTimeField(auto_now_add=True)
     shipping_address = models.TextField(max_length=15000)
+    date_ordered = models.DateTimeField(auto_now_add=True)
     is_shipped = models.BooleanField(default=False)
     shipped_at = models.DateTimeField(null=True, blank=True)
 
