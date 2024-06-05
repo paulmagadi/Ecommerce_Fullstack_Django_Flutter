@@ -1,31 +1,79 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-    Payment
+    Checkout
 {% endblock title %}
 
 {% block content %}
 {% if cart_items %}
-<div class="payment-container">
-    <h1>Order Summary</h1>
-    <hr>
+<div class="checkout-container">
     <div class="order-summary">
-        {% for item in cart_items %}
-        <div class="cart-item">
-            <div class="cart-item-image"><img src="{{ item.imageURL }}" alt="" width="60%"></div>
-            <div class="cart-item-name">{{ item.name }}</div>
-            <div class="cart-item-quantity">x {{ item.quantity }}</div>
-            <div class="cart-item-total">$ {{ item.total_price }}</div>
+        <div class="back-to-cart">
+            <a href="{% url 'cart' %}"><button>&larr; Back to Cart</button></a>
         </div>
-        {% endfor %}
+        <div class="cart-elements-container">
+            <h1>Order Summary</h1>
+            <hr>
+            <div class="cart-element">
+                {% for item in cart_items %}
+                <div class="cart-item-image"><img src="{{ item.imageURL }}" alt="" width="60%"></div>
+                <div class="cart-item-name">{{ item.name }}</div>
+                <div class="cart-item-price">x</div>
+                <div class="cart-item-quantity"><p>{{ item.quantity }}</p></div>
+                <div class="cart-item-total">$ {{ item.total_price }}</div>
+                <div class="cart-item-remove"></div>
+                {% endfor %}
+            </div>
+            <p>Items: {{ total_quantity }}</p>
+            <p>Amount: ${{ order_total }}</p>
+        </div>
     </div>
-    <p>Total Amount: ${{ total_amount }}</p>
-    <form action="{% url 'process_payment' %}" method="post">
-        {% csrf_token %}
-        <input type="submit" value="Pay with PayPal">
-    </form>
+    <div class="customer-information">
+        <h1>Customer Information</h1>
+        <div class="user-information">
+            <form>
+                <input type="text" name="first_name" value="{{ user.first_name }} {{ user.last_name }}" readonly>
+                <input type="email" name="email" value="{{ user.email }}" readonly>
+            </form>
+        </div>
+        <div class="shipping-information">
+            <h1>Shipping Information</h1>
+                {{ form }}
+          
+
+            <div>
+                {% if form.errors %}
+                    <ul>
+                        {% for field in form %}
+                            {% for error in field.errors %}
+                                <li>{{ error }}</li>
+                            {% endfor %}
+                        {% endfor %}
+                        {% for error in form.non_field_errors %}
+                            <li>{{ error }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+            <div>
+                <form action="{% url 'process_payment' %}" method="post">
+                    {% csrf_token %}
+                    <input type="submit" value="Pay with PayPal">
+                </form>
+            </div>
+        </div>
+    </div>
 </div>
 {% else %}
 <h1>You have no items in your cart... <a href="{% url 'home' %}">Continue shopping</a></h1>
 {% endif %}
+<section>
+    <h3 class="section-title"><a href="{% url 'home' %}">Products</a></h3>
+    <div class="product-container">
+        {% for product in products %}
+        {% include 'store/include/product_card.html' %}
+        {% endfor %}
+    </div>
+</section>
 {% endblock content %}
+

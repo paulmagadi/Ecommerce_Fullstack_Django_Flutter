@@ -82,7 +82,7 @@ def checkout(request):
             shipping_address.user = request.user
             shipping_address.save()
             messages.success(request, "Your shipping information has been updated.")
-            return redirect('checkout')
+            return redirect('payment')
         else:
             messages.error(request, "Please correct the errors below.")
     else:

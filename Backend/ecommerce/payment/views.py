@@ -20,14 +20,20 @@ paypalrestsdk.configure({
 
 @login_required
 def payment(request):
-    cart_instance = Cart(request)
-    cart_items = cart_instance.get_prods()
-    total_amount = str(cart_instance.order_total())
+    if request.user.is_authenticated:
+        cart_instance = Cart(request)  
+        cart_items = cart_instance.get_prods() 
+        cart_quantities = cart_instance.get_quants()
+        total_quantity = sum(cart_quantities.values())
+        order_total = cart_instance.order_total()
+        cart_items = cart_instance.get_prods()
+        
 
-    context = {
-        'cart_items': cart_items,
-        'total_amount': total_amount,
-    }
+        context = {
+            'cart_items': cart_items,
+            'order_total': order_total,
+            'total_quantity':total_quantity
+        }
     return render(request, 'payment/payment.html', context)
 
 
@@ -77,6 +83,7 @@ def process_payment(request):
 
 @login_required
 def payment_execute(request):
+    cart = Cart(request)
     payment_id = request.GET.get('paymentId')
     payer_id = request.GET.get('PayerID')
 
@@ -84,7 +91,8 @@ def payment_execute(request):
 
     if payment.execute({"payer_id": payer_id}):
         messages.success(request, 'Payment executed successfully.')
-        return redirect('order_success')
+        cart.clear()
+        return redirect('home')
     else:
         print(payment.error)
         messages.error(request, 'Payment execution failed.')
