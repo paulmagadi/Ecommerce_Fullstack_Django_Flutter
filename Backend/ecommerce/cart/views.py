@@ -77,6 +77,8 @@ def checkout(request):
 
     if request.method == 'POST':
         form = ShippingAddressForm(request.POST, instance=shipping_address)
+        shipping = request.POST
+        request.session['shipping'] = shipping
         if form.is_valid():
             shipping_address = form.save(commit=False)
             shipping_address.user = request.user

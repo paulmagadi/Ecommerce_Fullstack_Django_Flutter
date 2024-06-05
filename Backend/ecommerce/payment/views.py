@@ -28,6 +28,10 @@ def payment(request):
         order_total = cart_instance.order_total()
         cart_items = cart_instance.get_prods()
         
+        shipping = request.session.get('shipping')
+        
+        shipping_address = f"{shipping['phone']} \n {shipping['shipping_address1']} \n {shipping['shipping_address2']} \n {shipping['city']} \n {shipping['state']} \n {shipping['zipcode']} \n {shipping['country']} \n "
+        
 
         context = {
             'cart_items': cart_items,

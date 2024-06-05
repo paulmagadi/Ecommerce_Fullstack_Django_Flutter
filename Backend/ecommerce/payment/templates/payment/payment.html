@@ -9,7 +9,7 @@
 <div class="checkout-container">
     <div class="order-summary">
         <div class="back-to-cart">
-            <a href="{% url 'cart' %}"><button>&larr; Back to Cart</button></a>
+            <a href="{% url 'checkout' %}"><button>&larr; Back to Checkout</button></a>
         </div>
         <div class="cart-elements-container">
             <h3>Order Summary</h3>
@@ -35,7 +35,7 @@
         <br>
         <div class="shipping-information">
             <h4>Shipping Information</h4>
-                {{ form }}
+                {{ form. }}
           
 
             <div>
