@@ -60,6 +60,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
+
 ROOT_URLCONF = 'ecommerce.urls'
 
 TEMPLATES = [
@@ -148,3 +149,6 @@ AUTH_USER_MODEL = "users.CustomUser"
 PAYPAL_CLIENT_ID = 'AaxWzEr1TgVI5DKpnRE_AC_TlNS5phi-2eBMpTE4paGto3_iSxFjTymtidazv1HhoTkQUOAZK9Bh5m3p'
 PAYPAL_CLIENT_SECRET = 'EIztDWw-t_luY_QoSNLLCfPUgGWjHWq9K8lw4LSzhj71Z31wlUF0K_gulzU-2r0nacLPvaao5-n0fx44'
 PAYPAL_MODE = 'sandbox'  # or 'live' for production
+
+
+CART_SESSION_ID = 'cart'

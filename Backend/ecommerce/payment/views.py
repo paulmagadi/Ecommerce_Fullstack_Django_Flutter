@@ -8,7 +8,7 @@ import paypalrestsdk
 from cart.cart import Cart
 from cart.models import Order, OrderItem
 from store.models import Product
-from users.models import ShippingAddress
+from users.models import ShippingAddress, Profile
 from . import paypal
 import json
 
@@ -97,10 +97,8 @@ def process_payment(request):
 def payment_execute(request):
     cart_instance = Cart(request)
     cart_items = cart_instance.get_prods() 
-    cart_quantities = cart_instance.get_quants()
-    total_quantity = sum(cart_quantities.values())
+    cart_quantities = cart_instance.get_quants()  
     order_total = cart_instance.order_total()
-    products = Product.objects.all()
     payment_id = request.GET.get('paymentId')
     payer_id = request.GET.get('PayerID')
 
@@ -112,28 +110,52 @@ def payment_execute(request):
         user = request.user
         shipping = request.session.get('shipping')
         items = request.session.get('cart_items')
-        order_total = cart_instance.order_total()
-         
         amount_paid = order_total
         full_name = f"{user.first_name} {user.last_name}"
         email = user.email
-        shipping_address = f"{shipping['phone']} \n {shipping['shipping_address1']} \n {shipping['shipping_address2']} \n {shipping['city']} \n {shipping['state']} \n {shipping['zipcode']} \n {shipping['country']}"
+        shipping_address = (
+            f"{shipping['phone']} \n"
+            f"{shipping['shipping_address1']} \n"
+            f"{shipping['shipping_address2']} \n"
+            f"{shipping['city']} \n"
+            f"{shipping['state']} \n"
+            f"{shipping['zipcode']} \n"
+            f"{shipping['country']}"
+        )
 
-        order = Order(user=user, full_name=full_name, email=email, amount_paid=amount_paid, shipping_address=shipping_address)
+        # Create the order
+        order = Order(
+            user=user, 
+            full_name=full_name, 
+            email=email, 
+            amount_paid=amount_paid, 
+            shipping_address=shipping_address
+        )
         order.save()
 
+        # Create OrderItems
         for item in cart_items:
-            product = Product.objects.get(id=item['sku'])
+            product = Product.objects.get(id=item.id)
             order_item = OrderItem(
-                order=order, 
-                product=product, 
-                user=user, 
-                quantity=item['quantity'], 
-                price=item['price']
+                order=order,
+                product=product,
+                user=user,
+                quantity=cart_quantities[str(item.id)],  # Get quantity from cart_quantities
+                price=item.sale_price if item.is_sale else item.price
             )
             order_item.save()
             
         
+
+        # Clear the cart
+        for key in list(request.session.keys()):
+            if key == "session_key":
+                del request.session[key]
+
+        # Delete Cart from Database 
+        current_user = Profile.objects.filter(user__id=request.user.id)
+        current_user.update(old_cart="")
+
 
 
         return redirect('order_success')

@@ -1,3 +1,4 @@
+from django.conf import settings
 from store.models import Product
 from users.models import Profile
 from django.contrib import messages
@@ -148,6 +149,10 @@ class Cart():
             cart_dict = str(self.cart)
             cart_dict = cart_dict.replace("\'", "\"")
             current_user.update(old_cart=str(cart_dict))
+            
+    def clear(self):
+        self.session[settings.CART_SESSION_ID] = {}
+        self.session.modified = True
 
     
     
