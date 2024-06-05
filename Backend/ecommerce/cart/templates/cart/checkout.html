@@ -1,0 +1,25 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Checkout
+{% endblock title %}
+
+{% block content %}
+<div class="checkout-container">
+    <h1>Shipping Information</h1>
+    <p>{{ order.shipping_address }}</p>
+    <h1>Order Summary</h1>
+    <div class="order-items">
+        {% for item in order.items.all %}
+        <div class="order-item">
+            <p>{{ item.product.name }} - ${{ item.price }} x {{ item.quantity }}</p>
+        </div>
+        {% endfor %}
+    </div>
+    <h2>Total: ${{ order.total_price }}</h2>
+    <form method="post" action="{% url 'payment' %}">
+        {% csrf_token %}
+        <button type="submit">Pay with PayPal</button>
+    </form>
+</div>
+{% endblock content %}

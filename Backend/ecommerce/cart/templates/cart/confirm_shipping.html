@@ -1,7 +1,7 @@
 {% extends 'main/base.html' %}
 
 {% block title %}
-    Checkout
+    Confirm Shipping
 {% endblock title %}
 
 {% block content %}
@@ -41,7 +41,7 @@
             <form method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
-                <input type="submit" value="Update Shipping Address" style="cursor: pointer;">
+                <input type="submit" value="Confirm and Proceed to Checkout" style="cursor: pointer;">
             </form>
             <div>
                 {% if form.errors %}
@@ -59,17 +59,12 @@
             </div>
         </div>
     </div>
-    <div class="payment-button">
-        <form action="{% url 'payment' %}" method="get">
-            <input type="submit" value="Proceed to Payment" style="cursor: pointer;">
-        </form>
-    </div>
 </div>
 {% else %}
 <h1>You have no items in your cart... <a href="{% url 'home' %}">Continue shopping</a></h1>
 {% endif %}
 <section>
-    <h3 class="section-title"><a href="{% url 'home' %}">Products</a></h3>
+    <h3 class="section-title"><a href="{% url 'home' %}">Products</h3></a>
     <div class="product-container">
         {% for product in products %}
         {% include 'store/include/product_card.html' %}

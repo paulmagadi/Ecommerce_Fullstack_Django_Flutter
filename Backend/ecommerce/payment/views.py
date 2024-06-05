@@ -88,7 +88,7 @@ def payment_execute(request):
         cart.clear()
 
         messages.success(request, 'Payment executed successfully.')
-        return redirect('order_success')
+        return redirect('home')
     else:
         print(payment.error)
         messages.error(request, 'Payment execution failed.')
@@ -96,4 +96,4 @@ def payment_execute(request):
 
 def payment_cancel(request):
     messages.warning(request, 'Payment canceled.')
-    return render(request, 'payment_cancel.html')
+    return render(request, 'payment/payment.html')
