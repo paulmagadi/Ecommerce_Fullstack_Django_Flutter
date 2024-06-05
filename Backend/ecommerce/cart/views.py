@@ -128,7 +128,7 @@ def confirm_shipping(request):
             order = Order.objects.create(
                 user=request.user,
                 total_price=order_total,
-                shipping_address=shipping_address.address,
+                shipping_address=shipping_address.address1,
             )
 
             for item in cart_items:

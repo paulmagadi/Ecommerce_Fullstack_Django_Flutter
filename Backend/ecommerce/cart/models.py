@@ -5,12 +5,13 @@ from users.models import CustomUser
 
 class Order(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    total_price = models.DecimalField(max_digits=10, decimal_places=2)
+    full_name = models.CharField(max_length=255, null=True, blank=True)
+    email = models.CharField(max_length=255)
+    amount_paid = models.DecimalField(max_digits=12, decimal_places=2)
+    date_ordered = models.DateTimeField(auto_now_add=True)
     shipping_address = models.TextField(max_length=15000)
     is_shipped = models.BooleanField(default=False)
-    shipped_at = models.DateTimeField()
+    shipped_at = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         return f"Order {self.id}"
