@@ -21,8 +21,6 @@ class OrderItem(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     price = models.DecimalField(max_digits=12, decimal_places=2)
-    # color = models.CharField(max_length=50, null=True, blank=True)
-    # size = models.CharField(max_length=50, null=True, blank=True)
 
     def __str__(self):
         return f"OrderItem {self.id} for Order {self.order.id}"
