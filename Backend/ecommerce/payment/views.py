@@ -36,7 +36,7 @@ def payment(request):
         amount_paid = order_total
         shipping_address = f"{shipping['phone']} \n {shipping['shipping_address1']} \n {shipping['shipping_address2']} \n {shipping['city']} \n {shipping['state']} \n {shipping['zipcode']} \n {shipping['country']}"
         
-     
+        order = Order(user=user, full_name=full_name, email=email, amount_paid=amount_paid, shipping_address=shipping_address)
     
         
 
