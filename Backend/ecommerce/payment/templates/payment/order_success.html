@@ -1,0 +1,12 @@
+<!-- templates/payment/order_success.html -->
+{% extends 'main/base.html' %}
+
+{% block title %}
+Order Success
+{% endblock title %}
+
+{% block content %}
+<h1>Thank you for your order!</h1>
+<p>Your payment has been successfully processed and your order has been placed.</p>
+<a href="{% url 'home' %}">Continue Shopping</a>
+{% endblock content %}
