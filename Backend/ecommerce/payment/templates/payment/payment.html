@@ -12,7 +12,7 @@
             <a href="{% url 'cart' %}"><button>&larr; Back to Cart</button></a>
         </div>
         <div class="cart-elements-container">
-            <h1>Order Summary</h1>
+            <h3>Order Summary</h3>
             <hr>
             <div class="cart-element">
                 {% for item in cart_items %}
@@ -29,15 +29,12 @@
         </div>
     </div>
     <div class="customer-information">
-        <h1>Customer Information</h1>
         <div class="user-information">
-            <form>
-                <input type="text" name="first_name" value="{{ user.first_name }} {{ user.last_name }}" readonly>
-                <input type="email" name="email" value="{{ user.email }}" readonly>
-            </form>
+          <p><b>Name:</b> {{ user.first_name }} {{ user.last_name }} &nbsp;&nbsp; <b>Email: </b> {{ user.email }}</p>
         </div>
+        <br>
         <div class="shipping-information">
-            <h1>Shipping Information</h1>
+            <h4>Shipping Information</h4>
                 {{ form }}
           
 
