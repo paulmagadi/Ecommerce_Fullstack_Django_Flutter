@@ -150,9 +150,7 @@ class Cart():
             cart_dict = cart_dict.replace("\'", "\"")
             current_user.update(old_cart=str(cart_dict))
             
-    def clear(self):
-        self.session[settings.CART_SESSION_ID] = {}
-        self.session.modified = True
+
 
     
     

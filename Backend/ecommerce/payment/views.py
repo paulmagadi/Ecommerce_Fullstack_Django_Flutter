@@ -146,15 +146,17 @@ def payment_execute(request):
             order_item.save()
             
         
-
+        product.stock_quantity -= cart_quantities[str(item.id)]
+        product.save()
         # Clear the cart
         for key in list(request.session.keys()):
             if key == "session_key":
                 del request.session[key]
 
         # Delete Cart from Database 
-        current_user = Profile.objects.filter(user__id=request.user.id)
-        current_user.update(old_cart="")
+        # current_user = Profile.objects.filter(user__id=request.user.id)
+        # current_user.update(old_cart="")
+        Profile.objects.filter(user__id=request.user.id).update(old_cart="")
 
 
 
