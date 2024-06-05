@@ -127,7 +127,7 @@ def confirm_shipping(request):
             # Create Order and OrderItems
             order = Order.objects.create(
                 user=request.user,
-                total_price=order_total,
+                amount_paid=order_total,
                 shipping_address=shipping_address.address1,
             )
 
