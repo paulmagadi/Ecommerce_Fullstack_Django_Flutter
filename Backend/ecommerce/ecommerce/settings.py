@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'store',
     'cart',
     'admin_portal',
+    'payment',
     'api',
 ]
 
@@ -142,3 +143,7 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 AUTH_USER_MODEL = "users.CustomUser"
+
+PAYPAL_CLIENT_ID = 'AXpHF0FqAubeX94tdKkQlqmR1smefUESTxKOUUGHBetbbKN2ZKL2LP_3v8MxjVuIXHbgaE7-zt7RtiTM'
+PAYPAL_CLIENT_SECRET = 'EHNL6iBCOkXVo8GX4l4Z7Azwss5H8stHIHC7PlTkKDS1NgjlkB35PElpQ6sABEbwLIrQ77a3nlhThEAK'
+PAYPAL_MODE = 'sandbox'  # or 'live' for production
