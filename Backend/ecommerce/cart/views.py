@@ -1,7 +1,5 @@
 from django.shortcuts import redirect, render, get_object_or_404
 from django.contrib.auth.decorators import login_required
-
-from cart.models import Order, OrderItem
 from .cart import Cart
 from store.models import Product
 from django.contrib import messages
@@ -63,49 +61,10 @@ def cart_delete(request):
         messages.info(request, f'{product.name} removed from cart')
         return response
 
-# @login_required
-# def checkout(request):
-#     cart_instance = Cart(request)  
-#     cart_items = cart_instance.get_prods() 
-#     cart_quantities = cart_instance.get_quants()
-#     total_quantity = sum(cart_quantities.values())
-#     order_total = cart_instance.order_total()
-#     products = Product.objects.all()
-
-#     try:
-#         shipping_address = ShippingAddress.objects.get(user=request.user)
-#     except ShippingAddress.DoesNotExist:
-#         shipping_address = None
-
-#     if request.method == 'POST':
-#         form = ShippingAddressForm(request.POST, instance=shipping_address)
-#         if form.is_valid():
-#             shipping_address = form.save(commit=False)
-#             shipping_address.user = request.user
-#             shipping_address.save()
-#             messages.success(request, "Your shipping information has been updated.")
-#             return redirect('checkout')
-#         else:
-#             messages.error(request, "Please correct the errors below.")
-#     else:
-#         form = ShippingAddressForm(instance=shipping_address)
-
-#     user_profile = request.user.profile  
-#     context = {
-#         'cart_items': cart_items,
-#         'cart_quantities': cart_quantities,
-#         'total_quantity': total_quantity,
-#         'order_total': order_total,
-#         'products': products,
-#         'form': form,
-#         'user_profile': user_profile,
-#     }
-#     return render(request, 'cart/checkout.html', context)
-
 @login_required
-def confirm_shipping(request):
-    cart_instance = Cart(request)
-    cart_items = cart_instance.get_prods()
+def checkout(request):
+    cart_instance = Cart(request)  
+    cart_items = cart_instance.get_prods() 
     cart_quantities = cart_instance.get_quants()
     total_quantity = sum(cart_quantities.values())
     order_total = cart_instance.order_total()
@@ -123,31 +82,14 @@ def confirm_shipping(request):
             shipping_address.user = request.user
             shipping_address.save()
             messages.success(request, "Your shipping information has been updated.")
-            
-            # Create Order and OrderItems
-            order = Order.objects.create(
-                user=request.user,
-                amount_paid=order_total,
-                shipping_address=shipping_address.address1,
-            )
-
-            for item in cart_items:
-                OrderItem.objects.create(
-                    order=order,
-                    product=item,
-                    user=request.user,
-                    quantity=cart_quantities[item.id],
-                    price=item.price if not item.is_sale else item.sale_price
-                )
-
-            request.session['order_id'] = order.id
-            return redirect('checkout')  # Redirect to checkout page with payment details
+            return redirect('checkout')
         else:
             messages.error(request, "Please correct the errors below.")
     else:
         form = ShippingAddressForm(instance=shipping_address)
 
-    user_profile = request.user.profile
+    user_profile = request.user.profile  # Assuming the profile is related to CustomUser as a OneToOneField
+
     context = {
         'cart_items': cart_items,
         'cart_quantities': cart_quantities,
@@ -157,4 +99,4 @@ def confirm_shipping(request):
         'form': form,
         'user_profile': user_profile,
     }
-    return render(request, 'cart/confirm_shipping.html', context)
+    return render(request, 'cart/checkout.html', context)

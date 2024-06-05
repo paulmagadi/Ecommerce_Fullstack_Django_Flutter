@@ -1,5 +1,5 @@
 # views.py
-from django.shortcuts import get_object_or_404, render, redirect
+from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.conf import settings
@@ -19,19 +19,23 @@ paypalrestsdk.configure({
 
 
 @login_required
-def checkout(request):
-    order_id = request.session.get('order_id')
-    order = get_object_or_404(Order, id=order_id)
+def payment(request):
+    cart_instance = Cart(request)
+    cart_items = cart_instance.get_prods()
+    total_amount = str(cart_instance.order_total())
 
     context = {
-        'order': order,
+        'cart_items': cart_items,
+        'total_amount': total_amount,
     }
-    return render(request, 'cart/checkout.html', context)
+    return render(request, 'payment/payment.html', context)
+
 
 @login_required
-def payment(request):
-    order_id = request.session.get('order_id')
-    order = get_object_or_404(Order, id=order_id)
+def process_payment(request):
+    cart_instance = Cart(request)
+    cart_items = cart_instance.get_prods()
+    total_amount = str(cart_instance.order_total())
 
     payment = Payment({
         "intent": "sale",
@@ -45,15 +49,15 @@ def payment(request):
         "transactions": [{
             "item_list": {
                 "items": [{
-                    "name": item.product.name,
-                    "sku": str(item.product.id),
-                    "price": str(item.price),
+                    "name": item.name,
+                    "sku": str(item.id),
+                    "price": str(item.price if not item.is_sale else item.sale_price),
                     "currency": "USD",
                     "quantity": item.quantity
-                } for item in order.items.all()]
+                } for item in cart_items]
             },
             "amount": {
-                "total": str(order.total_price),
+                "total": total_amount,
                 "currency": "USD"
             },
             "description": "Order payment."
@@ -68,7 +72,8 @@ def payment(request):
     else:
         print(payment.error)
         messages.error(request, 'An error occurred while creating the PayPal payment.')
-        return redirect('checkout')
+        return redirect('payment')
+
 
 @login_required
 def payment_execute(request):
@@ -78,22 +83,14 @@ def payment_execute(request):
     payment = Payment.find(payment_id)
 
     if payment.execute({"payer_id": payer_id}):
-        order_id = request.session.get('order_id')
-        order = get_object_or_404(Order, id=order_id)
-        order.is_paid = True
-        order.save()
-
-        # Clear the cart after successful payment
-        cart = Cart(request)
-        cart.clear()
-
         messages.success(request, 'Payment executed successfully.')
-        return redirect('home')
+        return redirect('order_success')
     else:
         print(payment.error)
         messages.error(request, 'Payment execution failed.')
-        return redirect('checkout')
+        return redirect('payment')
+
 
 def payment_cancel(request):
     messages.warning(request, 'Payment canceled.')
-    return render(request, 'payment/payment.html')
+    return render(request, 'payment_cancel.html')
