@@ -111,7 +111,7 @@ def payment_execute(request):
 
         user = request.user
         shipping = request.session.get('shipping')
-        items = request.session.get('items')
+        items = request.session.get('cart_items')
         order_total = cart_instance.order_total()
          
         amount_paid = order_total
@@ -122,18 +122,16 @@ def payment_execute(request):
         order = Order(user=user, full_name=full_name, email=email, amount_paid=amount_paid, shipping_address=shipping_address)
         order.save()
 
-        order_id = order.pk
-        for product in cart_items():
-            product_id = product.id
-            if product.is_sale:
-                price = product.sale_price
-            else:
-                price = product.price
-        
-        for key, value in cart_quantities().items():
-            if int(key) == product.id:
-                order_item = OrderItem(order_id=order_id, product_id=product_id, user=user, quantity=value, price=price)
-                order_item.save()
+        for item in cart_items:
+            product = Product.objects.get(id=item['sku'])
+            order_item = OrderItem(
+                order=order, 
+                product=product, 
+                user=user, 
+                quantity=item['quantity'], 
+                price=item['price']
+            )
+            order_item.save()
             
         
 
