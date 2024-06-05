@@ -91,6 +91,9 @@ button {
     text-align: center;
     background-color: var(--white-color);
     padding: .5em;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.5em 2em 0.5em 4em;
 }
 
 .product-container {

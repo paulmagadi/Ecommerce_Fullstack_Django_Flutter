@@ -8,7 +8,11 @@
 {% block content %}
     {% include 'main/include/hero.html' %}
     <section>
-        <h3 class="section-title"><a href="{% url 'home' %}">Products</a></h3>
+        <div class="section-title">
+            <h3>Products</h3>
+            <h3><a href="{% url 'home' %}">See More</a></h3>
+        </div>
+       
         <div class="product-container">
             {% for product in products %}
                 {% include 'store/include/product_card.html' %}
@@ -17,7 +21,10 @@
     </section>
 
     <section>
-        <h3 class="section-title"><a href="{% url 'new' %}">New Products</a></h3>
+        <div class="section-title">
+            <h3>New Products</h3>
+            <h3><a href="{% url 'new' %}">See More</a></h3>
+        </div>
         <div class="product-container">
             {% for product in products %}
                 {% if product.id in new_products %}
@@ -28,7 +35,10 @@
     </section>
 
     <section>
-        <h3 class="section-title"><a href="{% url 'sale' %}">Products on Sale</a></h3>
+        <div class="section-title">
+            <h3>Products on Sale</h3>
+            <h3><a href="{% url 'sale' %}">See More</a></h3>
+        </div>
         <div class="product-container">
             {% for product in sale_products %}
                 {% include 'store/include/product_card.html' %}
@@ -37,7 +47,10 @@
     </section>
 
     <section>
-        <h3 class="section-title"><a href="{% url 'featured' %}">Featured Products</a></h3>
+        <div class="section-title">
+            <h3>Featured Products</h3>
+            <h3><a href="{% url 'featured' %}">See More</a></h3>
+        </div>
         <div class="product-container">
             {% for product in featured_products %}
                 {% include 'store/include/product_card.html' %}
