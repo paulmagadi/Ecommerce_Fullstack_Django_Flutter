@@ -66,8 +66,8 @@ class Product(models.Model):
     brand = models.CharField(max_length=255, blank=True, null=True)
     material = models.CharField(max_length=255, blank=True, null=True)
     category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
-    color = models.ManyToManyField(Color, related_name='products', blank=True, null=True)
-    size = models.ManyToManyField(Size, related_name='products', blank=True, null=True)
+    color = models.ManyToManyField(Color, related_name='products', blank=True)
+    size = models.ManyToManyField(Size, related_name='products', blank=True)
 
     def __str__(self):
         return self.name
