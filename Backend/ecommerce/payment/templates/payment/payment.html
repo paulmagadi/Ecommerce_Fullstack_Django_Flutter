@@ -1,0 +1,31 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+    Payment
+{% endblock title %}
+
+{% block content %}
+{% if cart_items %}
+<div class="payment-container">
+    <h1>Order Summary</h1>
+    <hr>
+    <div class="order-summary">
+        {% for item in cart_items %}
+        <div class="cart-item">
+            <div class="cart-item-image"><img src="{{ item.imageURL }}" alt="" width="60%"></div>
+            <div class="cart-item-name">{{ item.name }}</div>
+            <div class="cart-item-quantity">x {{ item.quantity }}</div>
+            <div class="cart-item-total">$ {{ item.total_price }}</div>
+        </div>
+        {% endfor %}
+    </div>
+    <p>Total Amount: ${{ total_amount }}</p>
+    <form action="{% url 'process_payment' %}" method="post">
+        {% csrf_token %}
+        <input type="submit" value="Pay with PayPal">
+    </form>
+</div>
+{% else %}
+<h1>You have no items in your cart... <a href="{% url 'home' %}">Continue shopping</a></h1>
+{% endif %}
+{% endblock content %}
