@@ -1,5 +1,5 @@
+import 'package:ecommerce/screens/category.dart';
 import 'package:flutter/material.dart';
-import 'package:myapp/screens/category.dart';
 
 import '../components/home/banner_carousel.dart';
 import 'product_list.dart';
