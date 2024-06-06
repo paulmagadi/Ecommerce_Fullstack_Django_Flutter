@@ -46,8 +46,8 @@ class HomeScreen extends StatelessWidget {
           final dealsProducts =
               productsModel.where((product) => product.isSale).toList();
 
-          final newArrivals =
-              productsModel.where((product) => product.isNew).toList();
+          // final newArrivals =
+          //     productsModel.where((product) => product.isNew).toList();
 
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -86,12 +86,12 @@ class HomeScreen extends StatelessWidget {
               ),
 
               // New Arrivals Section
-              Padding(
-                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                child: NewArrivalSection(
-                  products: newArrivals,
-                ),
-              ),
+              // Padding(
+              //   padding: const EdgeInsets.symmetric(vertical: 8.0),
+              //   child: NewArrivalSection(
+              //     products: newArrivals,
+              //   ),
+              // ),
 
               // All Products section
               Padding(

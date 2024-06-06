@@ -5,11 +5,9 @@ class Product {
   final String image;
   final bool isSale;
   final double salePrice;
-  final bool inStock;
   final int stockQuantity;
   final double discount;
   final int percentageDiscount;
-  final bool isNew;
   final bool isFeatured;
   final bool isListed;
   final DateTime createdAt;
@@ -21,11 +19,9 @@ class Product {
     required this.image,
     required this.isSale,
     required this.salePrice,
-    required this.inStock,
     required this.stockQuantity,
     required this.discount,
     required this.percentageDiscount,
-    required this.isNew,
     required this.isFeatured,
     required this.isListed,
     required this.createdAt,
@@ -70,11 +66,9 @@ class Product {
       image: json['image'] as String,
       isSale: json['is_sale'] as bool,
       salePrice: salePrice,
-      inStock: json['in_stock'] as bool,
       stockQuantity: json['stock_quantity'] as int,
       discount: discount,
       percentageDiscount: percentageDiscount,
-      isNew: json['is_new'] as bool,
       isFeatured: json['is_featured'] as bool,
       isListed: json['is_listed'] as bool,
       createdAt: DateTime.parse(json['created_at']),
