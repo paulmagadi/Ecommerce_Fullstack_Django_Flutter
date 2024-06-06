@@ -1,5 +1,5 @@
 {% extends 'main/base.html' %}
-{% load static %}
+
 
 {% block title %}
     Sale
@@ -7,16 +7,30 @@
     
 
 {% block content %}
-    {% include 'main/include/hero.html' %}
-    <section>
-        <h3 class="section-title">Products on Sale</h3>
-        <div class= "product-container">
-            {% for product in products %}
-                {% if product.id in new_products %}
-                    {% include 'store/include/product_card.html' %}
-                {% endif %}
-            {% endfor %}
-        </div>
-    </section>
+{% include 'main/include/hero.html' %}
+
+{% if products %}
+    
+
+    
+<section>
+    <div class="section-title">
+        <h3><a href="{% url 'home' %}">Home</a></h3>
+        <h3>Products on sale</h3>
+    </div>
+    <div class= "product-container">
+        {% for product in products %}
+            {% if product.id in new_products %}
+                {% include 'store/include/product_card.html' %}
+            {% endif %}
+        {% endfor %}
+    </div>
+</section>
+
+{% else %}
+<div class= "product-container">
+<h1>No sale</h1>
+</div>
+{% endif %}
 {% endblock content %}
     

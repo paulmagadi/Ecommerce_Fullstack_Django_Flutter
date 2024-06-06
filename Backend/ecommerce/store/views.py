@@ -45,8 +45,9 @@ def categories(request):
 
 def sale(request):
     products = Product.objects.filter(is_sale=True)
+    # products = Product.objects.filter(Q(is_sale=True) | Q(sale_price__isnull=False))
     now = timezone.now()
-    new_products = products.filter(created_at__gte=now - datetime.timedelta(days=30))
+    new_products = products.filter(created_at__gte=now - datetime.timedelta(days=30)).values_list('id', flat=True)
     context = {
         'products': products,
         'new_products': new_products,
@@ -73,6 +74,24 @@ def featured(request):
         'products': products, 'new_products': new_product_ids,
     }
     return render(request, 'store/featured.html', context)
+
+def products(request):
+    all_products = Product.objects.all()
+    products = all_products.filter(is_listed=True)
+    banners = WebBanner.objects.filter(in_use=True)
+    sale_products = products.filter(is_sale=True)
+    now = timezone.now()
+    new_product_ids = all_products.filter(created_at__gte=now - datetime.timedelta(days=30)).values_list('id', flat=True)
+    featured_products = products.filter(is_featured=True)
+
+    context = {
+        'products': products,
+        'sale_products': sale_products,
+        'new_products': new_product_ids,
+        'featured_products': featured_products,
+        'banners': banners,
+    }
+    return render(request, 'store/all_products.html', context)
 
 
 def search(request):

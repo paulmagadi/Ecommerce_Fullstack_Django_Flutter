@@ -80,10 +80,15 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         self.full_clean()
         
-        if self.stock_quantity == 0:
+        if self.stock_quantity <= 0:
             self.is_listed = False
         # else:
         #     self.is_listed = True
+        
+        if self.sale_price:
+            self.is_sale=True
+        else:
+            self.is_sale=False
 
         if self.is_sale and self.sale_price and self.sale_price < self.price:
             self.discount = round(self.price - self.sale_price, 2)
