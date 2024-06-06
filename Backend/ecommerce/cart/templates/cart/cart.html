@@ -23,7 +23,7 @@
                 {% if user.is_authenticated %}
                 <th class="checkout"><a href="{% url 'checkout' %}"><button type="button">Checkout</button></a></th>
                 {% else %}
-                <th class="checkout"><a href="{% url 'login' %}"><button type="button">Checkout</button></a></th>
+                <th class="checkout"><a href="{% url 'signin' %}"><button type="button">Checkout</button></a></th>
                 {% endif %}
                     
             </tr>

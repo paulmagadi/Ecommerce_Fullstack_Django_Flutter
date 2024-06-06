@@ -40,14 +40,21 @@
         {% endif %}
         <p>{{ product.description }}</p>
 
-        <div class="sizes">
-            <p>Size:</p>
+        
+            
+            {% if sizes %}
+            <div class="sizes">
+                <p>Size:</p>
             <select name="size" id="size" class="size-option">
                 {% for size in sizes %}
                 <option value="{{ size.id }}">{{ size.size }}</option>
                 {% endfor %}
             </select>
         </div>
+            {% endif %}
+                
+            
+        
 
         {% if colors %}
         <div class="colors">
