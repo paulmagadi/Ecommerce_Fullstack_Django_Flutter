@@ -32,9 +32,9 @@
             <a href="{% url 'product' product.slug %}"><button type="button">View</button></a>
             
             {% if product.in_stock %}
-            <button type="button" value="{{ product.slug }}" class="add-to-cart">Add to Cart</button>
+            <button type="button" value="{{ product.id }}" class="add-to-cart">Add to Cart</button>
             {% else %}
-            <button type="button" value="{{ product.slug }}" class="add-to-cart" disabled>Add to Cart <title>Out of stock</title></button>
+            <button type="button" value="{{ product.id }}" class="add-to-cart" disabled>Add to Cart <title>Out of stock</title></button>
             {% endif %}
         </div>
     </div>

@@ -98,7 +98,13 @@ class Product(models.Model):
             self.percentage_discount = 0
 
         if not self.slug:
-            self.slug = slugify(self.name)
+            base_slug = slugify(self.name)
+            slug = base_slug
+            counter = 1
+            while Product.objects.filter(slug=slug).exists():
+                slug = f"{base_slug}-{counter}"
+                counter += 1
+            self.slug = slug
 
         super().save(*args, **kwargs)
         self.resize_image()
