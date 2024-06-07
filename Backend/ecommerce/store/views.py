@@ -20,7 +20,7 @@ def product(request, slug):
 
 
 def category(request, pk):
-    category = Category.objects.get(slug=pk)
+    category = get_object_or_404(Category, slug=pk)
     products = Product.objects.filter(category=category)
     context = {
         'category': category,
