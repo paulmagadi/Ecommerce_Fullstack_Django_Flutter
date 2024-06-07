@@ -10,7 +10,7 @@
 <h3 class="section-title">Product Categories</h3>
 
 {% for category in categories %}
-    <p><a href="{% url 'category' category.id %}" style="color: white;">{{category.name}}</a></p>
+    <p><a href="{% url 'category' category.slug %}" style="color: white;">{{category.name}}</a></p>
 {% endfor %}
 
 

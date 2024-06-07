@@ -19,8 +19,8 @@ def product(request, slug):
     return render(request, 'store/product.html', context)
 
 
-def category(request, pk):
-    category = get_object_or_404(Category, slug=pk)
+def category(request, slug):
+    category = get_object_or_404(Category, slug=slug)
     products = Product.objects.filter(category=category)
     context = {
         'category': category,
@@ -41,7 +41,6 @@ def categories(request):
 
 def sale(request):
     products = Product.objects.filter(is_sale=True)
-    # products = Product.objects.filter(Q(is_sale=True) | Q(sale_price__isnull=False))
     context = {
         'products': products,
     }
