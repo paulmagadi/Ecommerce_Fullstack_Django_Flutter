@@ -1,13 +1,11 @@
 from datetime import timezone
 from django.db import models
 from django.utils.text import slugify
-from mptt.models import MPTTModel, TreeForeignKey
 from django.core.exceptions import ValidationError
 from PIL import Image
 
 
-class Category(MPTTModel):
-    parent = TreeForeignKey('self', on_delete=models.CASCADE, null=True, blank=True, related_name='children')
+class Category(models.Model):
     name = models.CharField(max_length=50, unique=True, blank=True, null=True)
     key_words = models.CharField(max_length=255, blank=True, null=True)
     descriptions = models.CharField(max_length=255, blank=True, null=True)
@@ -65,7 +63,7 @@ class Product(models.Model):
     stock_quantity = models.IntegerField(default=1)
     brand = models.CharField(max_length=255, blank=True, null=True)
     material = models.CharField(max_length=255, blank=True, null=True)
-    category = TreeForeignKey(Category, on_delete=models.CASCADE, related_name='products', null=True, blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', blank=True)
     color = models.ManyToManyField(Color, related_name='products', blank=True)
     size = models.ManyToManyField(Size, related_name='products', blank=True)
 
