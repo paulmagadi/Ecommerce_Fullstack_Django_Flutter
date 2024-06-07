@@ -1,11 +1,18 @@
 from django.shortcuts import render
 from rest_framework import viewsets
+from rest_framework import generics
 # from rest_framework.decorators import api_view
 
 from store.models import Category, Product, ProductImage, WebBanner, MobileBanner
 from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer
 
-# @api_view(['GET'])
+from rest_framework.permissions import AllowAny
+from .serializers import CustomUserCreateSerializer
+
+class CustomUserCreateView(generics.CreateAPIView):
+    permission_classes = [AllowAny]
+    serializer_class = CustomUserCreateSerializer
+    
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
