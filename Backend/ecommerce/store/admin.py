@@ -13,7 +13,7 @@ class ProductAdmin(admin.ModelAdmin):
     search_fields = ('name',)
 
 class CategoryAdmin(admin.ModelAdmin):
-    list_display = ('name', 'slug', 'parent')
+    list_display = ('name', 'slug',)
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
 
