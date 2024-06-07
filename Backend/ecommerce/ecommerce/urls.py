@@ -22,10 +22,12 @@ from . import settings
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('main.urls')),
-    path('', include('users.urls')),
+    path('users/', include('users.urls')),
     path('', include('store.urls')),
     path('cart/', include('cart.urls')),
     path('', include('admin_portal.urls')),
     path('payment/', include('payment.urls')),
     path('api/', include('api.urls')),
+    path('api/auth/', include('djoser.urls')),  
+    path('api/auth/', include('djoser.urls.authtoken')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

@@ -12,3 +12,5 @@ router.register(r'mobile-banners', MobileBannerViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 ]
+
+

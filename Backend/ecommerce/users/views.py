@@ -6,6 +6,9 @@ from django.contrib.auth.forms import AuthenticationForm
 from .models import CustomUser, Profile, ShippingAddress
 import json
 from cart.cart import Cart
+from rest_framework import generics
+
+
 
 def register_user(request):
     if request.method == 'POST':
