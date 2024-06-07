@@ -34,18 +34,6 @@ class Category(models.Model):
                 img.thumbnail((1125, 1125))
                 img.save(self.image.path, quality=70, optimize=True)
 
-class Color(models.Model):
-    color = models.CharField(max_length=100, unique=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.color
-
-class Size(models.Model):
-    size = models.CharField(max_length=255, unique=True, blank=True, null=True)
-
-    def __str__(self):
-        return self.size
-
 class Product(models.Model):
     profile_image = models.ImageField(upload_to='uploads/products', null=True, blank=True, default='media/default/product.png')
     name = models.CharField(max_length=255, verbose_name='Product Name')
@@ -64,8 +52,8 @@ class Product(models.Model):
     brand = models.CharField(max_length=255, blank=True, null=True)
     material = models.CharField(max_length=255, blank=True, null=True)
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', blank=True)
-    color = models.ManyToManyField(Color, related_name='products', blank=True)
-    size = models.ManyToManyField(Size, related_name='products', blank=True)
+    color = models.CharField(max_length=255, related_name='products', blank=True)
+    size = models.CharField(max_length=255, related_name='products', blank=True)
 
     def __str__(self):
         return self.name
