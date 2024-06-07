@@ -109,14 +109,11 @@ def add_product(request):
 def inventory(request):
     products = Product.objects.all()
     products_count = products.count()
-    now = timezone.now()
-    new_products_count = products.filter(created_at__gte=now - datetime.timedelta(days=30)).count()
     out_of_stock_count = products.filter(stock_quantity__lte=0).count() 
     is_listed_count = products.filter(is_listed=True).count()  
     context = {
         'products': products,
         'products_count': products_count,
-        'new_products_count': new_products_count,
         'out_of_stock_count': out_of_stock_count,
         'is_listed_count': is_listed_count,
     }
@@ -128,8 +125,6 @@ def product_inventory(request, slug):
     products = Product.objects.all()
     product_images = ProductImage.objects.filter(product=product)  
     products_count = products.count()
-    now = timezone.now()
-    new_products_count = products.filter(created_at__gte=now - datetime.timedelta(days=30)).count()
     out_of_stock_count = products.filter(stock_quantity__lte=0).count()
     is_listed_count = products.filter(is_listed=True).count()
 
@@ -163,7 +158,6 @@ def product_inventory(request, slug):
         'product_form': product_form,
         'product_image_form': product_image_form,
         'products_count': products_count,
-        'new_products_count': new_products_count,
         'out_of_stock_count': out_of_stock_count,
         'is_listed_count': is_listed_count
     }
