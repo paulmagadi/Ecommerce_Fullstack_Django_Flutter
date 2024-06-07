@@ -1,23 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/auth_provider.dart';
-
-// class ProfileScreen extends StatelessWidget {
-//   const ProfileScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SafeArea(child:
-//     SingleChildScrollView(
-//       child: Row(
-//         children: [
-//           Text('Account')
-//         ],
-//       ),
-//     ));
-//   }
-// }
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -33,11 +16,12 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Welcome! You are logged in.'),
+              Text('Welcome!'),
+              // Text('Welcome, ${authProvider.user.email}!'),
               ElevatedButton(
                 onPressed: () {
                   authProvider.logout();
-                  Navigator.pushReplacementNamed(context, '/login');
+                  Navigator.pushReplacementNamed(context, '/');
                 },
                 child: const Text('Logout'),
               ),
@@ -55,13 +39,13 @@ class ProfileScreen extends StatelessWidget {
               const Text('You are not logged in.'),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/login');
+                  Navigator.pushNamed(context, '/login');
                 },
                 child: const Text('Login'),
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/register');
+                  Navigator.pushNamed(context, '/register');
                 },
                 child: const Text('Register'),
               ),

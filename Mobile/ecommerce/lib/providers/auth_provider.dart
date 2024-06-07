@@ -8,6 +8,8 @@ class AuthProvider extends ChangeNotifier {
 
   bool get isAuthenticated => _isAuthenticated;
 
+  get user => null;
+
   Future<void> register(String email, String password, String firstName, String lastName) async {
     bool success = await _authService.register(email, password, firstName, lastName);
     if (success) {
