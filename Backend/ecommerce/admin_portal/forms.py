@@ -91,3 +91,4 @@ class ProductImageForm(forms.Form):
             raise forms.ValidationError('You can upload a maximum of 12 images.')
         return images
 
+
