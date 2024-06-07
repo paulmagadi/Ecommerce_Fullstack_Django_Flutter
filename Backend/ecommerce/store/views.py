@@ -7,8 +7,8 @@ from django.db.models import Q
 import datetime
 
 
-def product(request, pk):
-    product = get_object_or_404(Product, id=pk)
+def product(request, slug):
+    product = get_object_or_404(Product, slug=slug)
     product_images = product.product_images.all() 
     sizes = product.size.all()
     colors = product.color.all()

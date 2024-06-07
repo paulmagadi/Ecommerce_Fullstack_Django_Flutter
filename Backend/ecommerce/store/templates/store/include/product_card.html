@@ -1,6 +1,6 @@
 <div class="product-card">
     <div class="product-image">
-        <a href="{% url 'product' product.id %}"><img src="{{ product.imageURL }}" alt="product" width="100%"></a>
+        <a href="{% url 'product' product.slug %}"><img src="{{ product.imageURL }}" alt="product" width="100%"></a>
     </div>
     <div class="card-text">
         <h4>{{ product.name }}</h4>
@@ -29,12 +29,12 @@
         {% endif %} 
         {% endif %} 
         <div class="card-btn">
-            <a href="{% url 'product' product.id %}"><button type="button">View</button></a>
+            <a href="{% url 'product' product.slug %}"><button type="button">View</button></a>
             
             {% if product.in_stock %}
-            <button type="button" value="{{ product.id }}" class="add-to-cart">Add to Cart</button>
+            <button type="button" value="{{ product.slug }}" class="add-to-cart">Add to Cart</button>
             {% else %}
-            <button type="button" value="{{ product.id }}" class="add-to-cart" disabled>Add to Cart <title>Out of stock</title></button>
+            <button type="button" value="{{ product.slug }}" class="add-to-cart" disabled>Add to Cart <title>Out of stock</title></button>
             {% endif %}
         </div>
     </div>
