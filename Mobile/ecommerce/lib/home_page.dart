@@ -5,7 +5,7 @@ import 'screens/cart.dart';
 import 'screens/category.dart';
 import 'screens/deals.dart';
 import 'screens/home.dart';
-import 'screens/profile.dart';
+import 'screens/profile_screen.dart';
 import '../models/cart.dart';
 
 class HomePage extends StatefulWidget {

@@ -8,7 +8,7 @@ import '../providers/auth_provider.dart';
 
 //   @override
 //   Widget build(BuildContext context) {
-//     return SafeArea(child: 
+//     return SafeArea(child:
 //     SingleChildScrollView(
 //       child: Row(
 //         children: [
@@ -19,30 +19,27 @@ import '../providers/auth_provider.dart';
 //   }
 // }
 
-
-// import 'package:flutter/material.dart';
-// import 'package:provider/provider.dart';
-// import '../providers/auth_provider.dart';
-
 class ProfileScreen extends StatelessWidget {
+  const ProfileScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
 
     if (authProvider.isAuthenticated) {
       return Scaffold(
-        appBar: AppBar(title: Text('Profile')),
+        appBar: AppBar(title: const Text('Profile')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Welcome! You are logged in.'),
+              const Text('Welcome! You are logged in.'),
               ElevatedButton(
                 onPressed: () {
                   authProvider.logout();
                   Navigator.pushReplacementNamed(context, '/login');
                 },
-                child: Text('Logout'),
+                child: const Text('Logout'),
               ),
             ],
           ),
@@ -50,23 +47,23 @@ class ProfileScreen extends StatelessWidget {
       );
     } else {
       return Scaffold(
-        appBar: AppBar(title: Text('Profile')),
+        appBar: AppBar(title: const Text('Profile')),
         body: Center(
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('You are not logged in.'),
+              const Text('You are not logged in.'),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, '/login');
                 },
-                child: Text('Login'),
+                child: const Text('Login'),
               ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushReplacementNamed(context, '/register');
                 },
-                child: Text('Register'),
+                child: const Text('Register'),
               ),
             ],
           ),
@@ -75,7 +72,3 @@ class ProfileScreen extends StatelessWidget {
     }
   }
 }
-
-
-
-

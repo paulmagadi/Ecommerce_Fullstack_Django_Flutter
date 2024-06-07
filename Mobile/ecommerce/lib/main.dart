@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import 'providers/auth_provider.dart';
 import 'home_page.dart';
-import 'models/cart.dart';
+import 'providers/auth_provider.dart';
+import 'screens/auth/login_screen.dart';
+import 'screens/auth/register_screen.dart';
+import 'screens/profile_screen.dart';
 import 'screens/static/about.dart';
 import 'screens/static/contact.dart';
 import 'screens/static/help.dart';
@@ -16,20 +18,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (ctx) => Cart(),
+    return MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => AuthProvider()..checkAuthStatus()),
+      ],
       child: MaterialApp(
         title: 'Bellamore Apparels',
         theme: ThemeData(
           primarySwatch: Colors.orange,
         ),
-        home: const HomePage(),
+        initialRoute: '/',
         routes: {
+          '/': (context) => const HomePage(),
+          '/login': (context) =>  LoginScreen(),
+          '/register': (context) => RegisterScreen(),
+          '/profile': (context) => const ProfileScreen(),
           '/about': (context) => AboutPage(),
-          '/help': (context) => HelpPage(),
           '/contact': (context) => ContactUsPage(),
+          '/help': (context) => HelpPage(),
         },
       ),
     );
   }
 }
+
+
