@@ -6,7 +6,7 @@ import 'screens/category.dart';
 import 'screens/deals.dart';
 import 'screens/home.dart';
 import 'screens/profile_screen.dart';
-import 'models/cart.dart';
+import '../models/cart.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -22,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     CategoriesScreen(),
     const DealsScreen(),
     const HomeScreen(),
-    CartScreen(),
+    //  CartScreen(),
     // const ProfileScreen(),
   ];
 
@@ -38,7 +38,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 243, 243),
       appBar: AppBar(
-        title: const Text('Bellamore Apparels'),
+        title: const Text('Runtime Cakes'),
         actions: [
           Stack(
             children: [
