@@ -83,7 +83,7 @@
                             <td>No</td>
                             {% endif %}
                                 
-                            <td><a href="{% url 'product_inventory' product.id %}">View/Update</a></td>
+                            <td><a href="{% url 'product_inventory' product.slug %}">View/Update</a></td>
                         </tr>
                         {% endfor %}
                             

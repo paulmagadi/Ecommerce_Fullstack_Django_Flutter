@@ -1,7 +1,7 @@
 from django import forms
 from store.models import Category, Product, ProductImage
 
-# Custom Widget for handling multiple file input
+# Custom widget for handling multiple file input
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
@@ -21,18 +21,11 @@ class MultipleFileField(forms.FileField):
             result = [single_file_clean(data, initial)]
         return result
 
-# Category Form without MPTT
+# Category form without MPTT
 class CategoryForm(forms.ModelForm):
-    parent = forms.ModelChoiceField(
-        queryset=Category.objects.all(),
-        required=False,
-        label="Parent Category",
-        help_text="Select a parent category if applicable."
-    )
-
     class Meta:
         model = Category
-        fields = ['parent', 'name', 'key_words', 'description', 'image']
+        fields = ['name', 'key_words', 'description', 'image']
         widgets = {
             'name': forms.TextInput(attrs={'placeholder': 'Enter category name'}),
             'key_words': forms.TextInput(attrs={'placeholder': 'Enter key words'}),
@@ -43,7 +36,7 @@ class CategoryForm(forms.ModelForm):
             }),
         }
 
-# Product Form without MPTT
+# Product form without MPTT
 class ProductModelForm(forms.ModelForm):
     new_category = forms.CharField(
         max_length=100,
@@ -51,13 +44,6 @@ class ProductModelForm(forms.ModelForm):
         label="New Category",
         widget=forms.TextInput(attrs={'placeholder': 'Enter new category if not listed above. Leave blank if available.'})
     )
-    new_category_parent = forms.ModelChoiceField(
-        queryset=Category.objects.all(),
-        required=False,
-        label="Parent Category for New Category",
-        help_text="Select a parent category for the new category if applicable."
-    )
-
     category = forms.ModelChoiceField(
         queryset=Category.objects.all(),
         label="Category",
@@ -88,16 +74,14 @@ class ProductModelForm(forms.ModelForm):
 
     def save(self, commit=True):
         new_category_name = self.cleaned_data.get('new_category')
-        new_category_parent = self.cleaned_data.get('new_category_parent')
         if new_category_name:
             category, created = Category.objects.get_or_create(
                 name=new_category_name,
-                defaults={'parent': new_category_parent}
             )
             self.instance.category = category
         return super().save(commit=commit)
 
-
+# Form for handling multiple product image uploads
 class ProductImageForm(forms.Form):
     product_images = MultipleFileField()
 
@@ -106,3 +90,4 @@ class ProductImageForm(forms.Form):
         if len(images) > 12:
             raise forms.ValidationError('You can upload a maximum of 12 images.')
         return images
+

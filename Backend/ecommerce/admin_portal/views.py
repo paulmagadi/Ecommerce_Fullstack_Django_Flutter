@@ -123,8 +123,8 @@ def inventory(request):
     return render(request, 'admin_portal/inventory.html', context)
 
 
-def product_inventory(request, pk):
-    product = get_object_or_404(Product, id=pk)
+def product_inventory(request, slug):
+    product = get_object_or_404(Product, slug=slug)
     products = Product.objects.all()
     product_images = ProductImage.objects.filter(product=product)  
     products_count = products.count()
@@ -151,7 +151,7 @@ def product_inventory(request, pk):
             image_to_delete = get_object_or_404(ProductImage, id=image_id)
             image_to_delete.delete()
             messages.success(request, 'Image removed successfully!')
-            return redirect('product_inventory', pk=pk)  
+            return redirect('product_inventory', slug=slug)  
 
     else:
         product_form = ProductModelForm(instance=product)
