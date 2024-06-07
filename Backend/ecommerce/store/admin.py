@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Category, Product, Color, Size, ProductImage, WebBanner, MobileBanner
+from .models import Category, Product, ProductImage, WebBanner, MobileBanner
 
 class ProductImageInline(admin.TabularInline):
     model = ProductImage
@@ -17,11 +17,7 @@ class CategoryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
     search_fields = ('name',)
 
-class ColorAdmin(admin.ModelAdmin):
-    list_display = ('color',)
 
-class SizeAdmin(admin.ModelAdmin):
-    list_display = ('size',)
 
 class WebBannerAdmin(admin.ModelAdmin):
     list_display = ('caption', 'created_at', 'in_use')
@@ -31,8 +27,6 @@ class MobileBannerAdmin(admin.ModelAdmin):
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
-admin.site.register(Color, ColorAdmin)
-admin.site.register(Size, SizeAdmin)
 admin.site.register(ProductImage)
 admin.site.register(WebBanner, WebBannerAdmin)
 admin.site.register(MobileBanner)

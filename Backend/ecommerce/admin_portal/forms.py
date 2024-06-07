@@ -1,7 +1,7 @@
 from django import forms
-from mptt.forms import TreeNodeChoiceField
 from store.models import Category, Product, ProductImage
 
+# Custom Widget for handling multiple file input
 class MultipleFileInput(forms.ClearableFileInput):
     allow_multiple_selected = True
 
@@ -21,24 +21,29 @@ class MultipleFileField(forms.FileField):
             result = [single_file_clean(data, initial)]
         return result
 
+# Category Form without MPTT
 class CategoryForm(forms.ModelForm):
-    parent = TreeNodeChoiceField(queryset=Category.objects.all(), required=False)
+    parent = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        required=False,
+        label="Parent Category",
+        help_text="Select a parent category if applicable."
+    )
 
     class Meta:
         model = Category
-        fields = ['parent', 'name', 'key_words', 'descriptions', 'image']
+        fields = ['parent', 'name', 'key_words', 'description', 'image']
         widgets = {
-            'name': forms.TextInput(attrs={
-                'placeholder': 'Enter category name'
-            }),
-            'key_words': forms.TextInput(attrs={
-                'placeholder': 'Enter key words'
-            }),
-            'descriptions': forms.TextInput(attrs={
-                'placeholder': 'Enter descriptions'
+            'name': forms.TextInput(attrs={'placeholder': 'Enter category name'}),
+            'key_words': forms.TextInput(attrs={'placeholder': 'Enter key words'}),
+            'description': forms.Textarea(attrs={
+                'placeholder': 'Enter description',
+                'rows': 4,
+                'cols': 50
             }),
         }
 
+# Product Form without MPTT
 class ProductModelForm(forms.ModelForm):
     new_category = forms.CharField(
         max_length=100,
@@ -46,13 +51,18 @@ class ProductModelForm(forms.ModelForm):
         label="New Category",
         widget=forms.TextInput(attrs={'placeholder': 'Enter new category if not listed above. Leave blank if available.'})
     )
-    new_category_parent = TreeNodeChoiceField(
+    new_category_parent = forms.ModelChoiceField(
         queryset=Category.objects.all(),
         required=False,
-        label="Parent Category for New Category"
+        label="Parent Category for New Category",
+        help_text="Select a parent category for the new category if applicable."
     )
 
-    category = TreeNodeChoiceField(queryset=Category.objects.all())
+    category = forms.ModelChoiceField(
+        queryset=Category.objects.all(),
+        label="Category",
+        help_text="Select an existing category or create a new one below."
+    )
 
     class Meta:
         model = Product
@@ -62,32 +72,18 @@ class ProductModelForm(forms.ModelForm):
             'key_words', 'brand', 'material', 'color', 'size'
         ]
         widgets = {
-            'name': forms.TextInput(attrs={
-                'placeholder': 'Enter product name'
-            }),
-            'price': forms.NumberInput(attrs={
-                'placeholder': 'Enter product price'
-            }),
+            'name': forms.TextInput(attrs={'placeholder': 'Enter product name'}),
+            'price': forms.NumberInput(attrs={'placeholder': 'Enter product price'}),
             'description': forms.Textarea(attrs={
                 'placeholder': 'Enter product description',
                 'rows': 8,
                 'cols': 60
             }),
-            'sale_price': forms.NumberInput(attrs={
-                'placeholder': 'Enter sale price if applicable'
-            }),
-            'stock_quantity': forms.NumberInput(attrs={
-                'placeholder': 'Enter stock quantity'
-            }),
-            'key_words': forms.TextInput(attrs={
-                'placeholder': 'Enter key words'
-            }),
-            'brand': forms.TextInput(attrs={
-                'placeholder': 'Enter brand'
-            }),
-            'material': forms.TextInput(attrs={
-                'placeholder': 'Enter material'
-            }),
+            'sale_price': forms.NumberInput(attrs={'placeholder': 'Enter sale price if applicable'}),
+            'stock_quantity': forms.NumberInput(attrs={'placeholder': 'Enter stock quantity'}),
+            'key_words': forms.TextInput(attrs={'placeholder': 'Enter key words'}),
+            'brand': forms.TextInput(attrs={'placeholder': 'Enter brand'}),
+            'material': forms.TextInput(attrs={'placeholder': 'Enter material'}),
         }
 
     def save(self, commit=True):
@@ -100,6 +96,7 @@ class ProductModelForm(forms.ModelForm):
             )
             self.instance.category = category
         return super().save(commit=commit)
+
 
 class ProductImageForm(forms.Form):
     product_images = MultipleFileField()

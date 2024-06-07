@@ -1,19 +1,16 @@
-from datetime import timezone
+from datetime import timedelta
 from django.db import models
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
+from django.utils import timezone
 from PIL import Image
 
-
 class Category(models.Model):
-    name = models.CharField(max_length=50, unique=True, blank=True, null=True)
+    name = models.CharField(max_length=50, unique=True, blank=False, null=False)
     key_words = models.CharField(max_length=255, blank=True, null=True)
-    descriptions = models.CharField(max_length=255, blank=True, null=True)
+    description = models.CharField(max_length=255, blank=True, null=True)
     image = models.ImageField(upload_to='uploads/categories/', blank=True, null=True)
     slug = models.SlugField(unique=True, blank=True, null=True)
-
-    class MPTTMeta:
-        order_insertion_by = ['name']
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -22,7 +19,7 @@ class Category(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if not self.slug:
+        if not self.slug and self.name:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
         self.resize_image()
@@ -33,6 +30,7 @@ class Category(models.Model):
             if img.height > 1125 or img.width > 1125:
                 img.thumbnail((1125, 1125))
                 img.save(self.image.path, quality=70, optimize=True)
+
 
 class Product(models.Model):
     profile_image = models.ImageField(upload_to='uploads/products', null=True, blank=True, default='media/default/product.png')
@@ -45,15 +43,15 @@ class Product(models.Model):
     percentage_discount = models.DecimalField(default=0, max_digits=5, decimal_places=0, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
     is_listed = models.BooleanField(default=True)
-    is_featured = models.BooleanField(default=True)
+    is_featured = models.BooleanField(default=False)
     slug = models.SlugField(unique=True, blank=True, null=True)
     key_words = models.CharField(max_length=255, blank=True, null=True)
     stock_quantity = models.IntegerField(default=1)
     brand = models.CharField(max_length=255, blank=True, null=True)
     material = models.CharField(max_length=255, blank=True, null=True)
-    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', blank=True)
-    color = models.CharField(max_length=255, related_name='products', blank=True)
-    size = models.CharField(max_length=255, related_name='products', blank=True)
+    category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
+    color = models.CharField(max_length=255, blank=True)
+    size = models.CharField(max_length=255, blank=True)
 
     def __str__(self):
         return self.name
@@ -65,16 +63,14 @@ class Product(models.Model):
 
     def save(self, *args, **kwargs):
         self.full_clean()
-        
+
         if self.stock_quantity <= 0:
             self.is_listed = False
-        # else:
-        #     self.is_listed = True
-        
+
         if self.sale_price:
-            self.is_sale=True
+            self.is_sale = True
         else:
-            self.is_sale=False
+            self.is_sale = False
 
         if self.is_sale and self.sale_price and self.sale_price < self.price:
             self.discount = round(self.price - self.sale_price, 2)
@@ -112,8 +108,7 @@ class Product(models.Model):
 
     @property
     def is_new(self):
-        now = timezone.now()
-        return (now - self.created_at).days <= 30
+        return (timezone.now() - self.created_at) <= timedelta(days=30)
     
     @property
     def in_stock(self):
@@ -149,11 +144,15 @@ class ProductImage(models.Model):
             url = ''
         return url
 
-class WebBanner(models.Model):
+
+class Banner(models.Model):
     image = models.ImageField(upload_to='uploads/banners/', verbose_name="Image")
     caption = models.CharField(max_length=255, blank=True, null=True, verbose_name="Caption")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
     in_use = models.BooleanField(default=False)
+
+    class Meta:
+        abstract = True
 
     def __str__(self):
         return self.caption
@@ -177,30 +176,13 @@ class WebBanner(models.Model):
             url = ''
         return url
 
-class MobileBanner(models.Model):
-    image = models.ImageField(upload_to='uploads/banners/', verbose_name="Image")
-    caption = models.CharField(max_length=255, blank=True, null=True, verbose_name="Caption")
-    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
-    in_use = models.BooleanField(default=False)
 
-    def __str__(self):
-        return self.caption
+class WebBanner(Banner):
+    class Meta:
+        verbose_name_plural = 'Web Banners'
 
-    def save(self, *args, **kwargs):
-        super().save(*args, **kwargs)
-        self.resize_image()
 
-    def resize_image(self):
-        if self.image:
-            img = Image.open(self.image.path)
-            if img.height > 1125 or img.width > 1125:
-                img.thumbnail((1125, 1125))
-                img.save(self.image.path, quality=70, optimize=True)
+class MobileBanner(Banner):
+    class Meta:
+        verbose_name_plural = 'Mobile Banners'
 
-    @property
-    def imageURL(self):
-        try:
-            url = self.image.url
-        except:
-            url = ''
-        return url

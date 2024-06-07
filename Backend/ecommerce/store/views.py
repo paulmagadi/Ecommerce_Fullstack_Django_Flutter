@@ -10,21 +10,17 @@ import datetime
 def product(request, slug):
     product = get_object_or_404(Product, slug=slug)
     product_images = product.product_images.all() 
-    sizes = product.size.all()
-    colors = product.color.all()
     stock_quantity = product.stock_quantity
     context = {
         'product': product,
         'product_images': product_images,
-        'sizes': sizes,
-        'colors': colors,
         'stock_quantity': stock_quantity
     }
     return render(request, 'store/product.html', context)
 
 
 def category(request, pk):
-    category = Category.objects.get(id=pk)
+    category = Category.objects.get(slug=pk)
     products = Product.objects.filter(category=category)
     context = {
         'category': category,

@@ -2,21 +2,14 @@ from django.shortcuts import render
 from rest_framework import viewsets
 # from rest_framework.decorators import api_view
 
-from store.models import Category, Product, Color, Size, ProductImage, WebBanner, MobileBanner
-from .serializers import CategorySerializer, ProductSerializer, ColorSerializer, SizeSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer
+from store.models import Category, Product, ProductImage, WebBanner, MobileBanner
+from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer
 
 # @api_view(['GET'])
 class CategoryViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer
 
-class ColorViewSet(viewsets.ModelViewSet):
-    queryset = Color.objects.all()
-    serializer_class = ColorSerializer
-
-class SizeViewSet(viewsets.ModelViewSet):
-    queryset = Size.objects.all()
-    serializer_class = SizeSerializer
 
 class ProductImageViewSet(viewsets.ModelViewSet):
     queryset = ProductImage.objects.all()
