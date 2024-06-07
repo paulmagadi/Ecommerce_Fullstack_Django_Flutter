@@ -44,7 +44,7 @@
         <p id="percentage-discount">- {{ product.percentage_discount }}%</p>
     </div>
     {% endif %}
-    {% if product.id in new_products %}
+    {% if product.is_new %}
     <div class="new-product">New</div>
     {% endif %}
 </div>

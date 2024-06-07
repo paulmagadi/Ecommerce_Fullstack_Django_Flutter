@@ -41,32 +41,6 @@
         <p>{{ product.description }}</p>
 
         
-            
-            {% if sizes %}
-            <div class="sizes">
-                <p>Size:</p>
-            <select name="size" id="size" class="size-option">
-                {% for size in sizes %}
-                <option value="{{ size.id }}">{{ size.size }}</option>
-                {% endfor %}
-            </select>
-        </div>
-            {% endif %}
-                
-            
-        
-
-        {% if colors %}
-        <div class="colors">
-            <p>Color:</p>
-            <select name="color" id="color" class="color-option">
-                {% for color in colors %}
-                <option value="{{ color.id }}">{{ color.color }}</option>
-                {% endfor %}
-            </select>
-        </div>
-        {% endif %}
-
         <div class="info">
             <p style="color: red;">
                 {% if stock_quantity >= 5 %}

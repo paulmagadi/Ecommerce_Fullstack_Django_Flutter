@@ -27,9 +27,7 @@
         </div>
         <div class="product-container">
             {% for product in products %}
-                {% if product.id in new_products %}
                     {% include 'store/include/product_card.html' %}
-                {% endif %}
             {% endfor %}
         </div>
     </section>
