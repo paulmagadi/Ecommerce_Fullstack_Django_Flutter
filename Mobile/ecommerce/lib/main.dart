@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// import 'providers/auth_provider.dart';
 import 'home_page.dart';
 import 'models/cart.dart';
 import 'screens/static/about.dart';
@@ -27,7 +28,7 @@ class MyApp extends StatelessWidget {
           '/about': (context) => AboutPage(),
           '/help': (context) => HelpPage(),
           '/contact': (context) => ContactUsPage(),
-        }, 
+        },
       ),
     );
   }

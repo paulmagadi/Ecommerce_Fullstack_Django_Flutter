@@ -19,10 +19,18 @@ class RegisterScreen extends StatelessWidget {
         padding: EdgeInsets.all(16.0),
         child: Column(
           children: [
-            TextField(controller: _emailController, decoration: InputDecoration(labelText: 'Email')),
-            TextField(controller: _passwordController, decoration: InputDecoration(labelText: 'Password')),
-            TextField(controller: _firstNameController, decoration: InputDecoration(labelText: 'First Name')),
-            TextField(controller: _lastNameController, decoration: InputDecoration(labelText: 'Last Name')),
+            TextField(
+                controller: _emailController,
+                decoration: InputDecoration(labelText: 'Email')),
+            TextField(
+                controller: _passwordController,
+                decoration: InputDecoration(labelText: 'Password')),
+            TextField(
+                controller: _firstNameController,
+                decoration: InputDecoration(labelText: 'First Name')),
+            TextField(
+                controller: _lastNameController,
+                decoration: InputDecoration(labelText: 'Last Name')),
             ElevatedButton(
               onPressed: () async {
                 await authProvider.register(
@@ -34,7 +42,8 @@ class RegisterScreen extends StatelessWidget {
                 if (authProvider.isAuthenticated) {
                   Navigator.pushReplacementNamed(context, '/home');
                 } else {
-                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text('Registration failed')));
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('Registration failed')));
                 }
               },
               child: Text('Register'),
