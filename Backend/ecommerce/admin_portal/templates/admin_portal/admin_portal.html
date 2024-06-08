@@ -61,7 +61,7 @@
                         <tr>
                             
                             <th>Order ID</th>
-                            <th>Name</th>
+                            <th>Customer</th>
                             <th>Date</th>
                             <th>Status</th>
                             <th>Details</th>
@@ -72,8 +72,8 @@
                         {% for order in  orders %}
                         <tr>
                             <td>{{order.id}}</td>
-                            <td>{{0rder.full_name}}</td>
-                            <td>{{1 Jan, 2023}}</td>
+                            <td>{{order.full_name}}</td>
+                            <td>{{order.date_ordered}}</td>
                             <td>Pending</td>
                             <td>View</td>
                         </tr>
