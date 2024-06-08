@@ -27,11 +27,12 @@ def admin_or_staff_required(view_func):
 # @group_required('Admin')
 def admin_portal(request):
     products = Product.objects.all()
-    #list the last 10 products(newest)
     latest_products = products.order_by('-created_at')[:10]
+    orders = Order.objects.all()
     context = {
         'products':products,
         'latest_products': latest_products,
+        'orders': orders
     }
     return render(request, 'admin_portal/admin_portal.html', context)
 
