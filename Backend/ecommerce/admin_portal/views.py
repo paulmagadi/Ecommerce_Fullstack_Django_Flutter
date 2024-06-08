@@ -165,3 +165,11 @@ def product_inventory(request, slug):
     }
     return render(request, 'admin_portal/product_inventory.html', context)
 
+
+def orders(request):
+    orders = Order.objects.all()
+    context = {
+        'orders': orders
+    }
+    return render(request, 'admin_portal/orders.html', context)
+     
