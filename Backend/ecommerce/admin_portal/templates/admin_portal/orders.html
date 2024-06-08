@@ -68,13 +68,20 @@
                         </tr>
                     </thead>
                     <tbody>
+                        {% for order in  orders %}
                         <tr>
-                            <td>sk0001</td>
-                            <td>John</td>
-                            <td>1 Jan, 2023</td>
+                            <td>{{order.id}}</td>
+                            <td>{{order.full_name}}</td>
+                            <td>{{order.date_ordered}}</td>
+                            {% if order.is_shipped %}
+                            <td style="color: green;">Shipped</td>
+                            {% else %}
                             <td>Pending</td>
+                            {% endif %}
+                                
                             <td>View</td>
                         </tr>
+                        {% endfor %}
                         <tr>
                             <td>#sk0002</td>
                             <td>John</td>
