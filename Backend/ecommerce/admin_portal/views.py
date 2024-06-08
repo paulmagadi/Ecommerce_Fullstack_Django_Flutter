@@ -168,9 +168,11 @@ def product_inventory(request, slug):
 
 def orders(request):
     orders = Order.objects.all()
+    shipped = orders.get(is_shipped=True)
     products = Product.objects.all()
     context = {
         'orders': orders,
+        'shipped': shipped,
         'products': products,
     }
     return render(request, 'admin_portal/orders.html', context)
