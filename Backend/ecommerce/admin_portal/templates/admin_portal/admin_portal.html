@@ -74,7 +74,12 @@
                             <td>{{order.id}}</td>
                             <td>{{order.full_name}}</td>
                             <td>{{order.date_ordered}}</td>
+                            {% if order.is_shipped %}
+                            <td style="color: green;">Shipped</td>
+                            {% else %}
                             <td>Pending</td>
+                            {% endif %}
+                                
                             <td>View</td>
                         </tr>
                         {% endfor %}
