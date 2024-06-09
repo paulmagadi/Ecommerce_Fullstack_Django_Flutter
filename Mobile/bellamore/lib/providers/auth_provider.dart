@@ -2,12 +2,15 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../models/user.dart';
 
 class AuthProvider with ChangeNotifier {
-  String? _token;
+  User? _user;
   bool _isAuthenticated = false;
+  String? _token;
 
   bool get isAuthenticated => _isAuthenticated;
+  User? get user => _user;
 
   Future<void> login(String email, String password) async {
     final url = Uri.parse('http://127.0.0.1:8000/api/auth/jwt/create/');
@@ -20,20 +23,25 @@ class AuthProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       _token = data['access'];
-      _isAuthenticated = true;
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('token', _token!);
+      _isAuthenticated = true;
       notifyListeners();
     } else {
       throw Exception('Failed to login');
     }
   }
 
-  Future<void> register(String email, String password) async {
+  Future<void> register(String email, String password, String firstName, String lastName) async {
     final url = Uri.parse('http://127.0.0.1:8000/api/auth/users/');
     final response = await http.post(
       url,
-      body: json.encode({'email': email, 'password': password}),
+      body: json.encode({
+        'email': email,
+        'password': password,
+        'first_name': firstName,
+        'last_name': lastName,
+      }),
       headers: {'Content-Type': 'application/json'},
     );
 
@@ -45,8 +53,9 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> logout() async {
-    _token = null;
+    _user = null;
     _isAuthenticated = false;
+    _token = null;
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
     notifyListeners();
