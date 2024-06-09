@@ -6,7 +6,6 @@ import '../screens/categories_screen.dart';
 import '../screens/deals_screen.dart';
 import '../screens/home_screen.dart';
 import '../screens/profile_screen.dart';
-
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
