@@ -13,7 +13,7 @@ class AuthProvider with ChangeNotifier {
   User? get user => _user;
 
   Future<void> login(String email, String password) async {
-    final url = Uri.parse('http://your-backend-url/api/auth/login/');
+    final url = Uri.parse('http://10.0.0.1:8000/api/auth/login/');
     final response = await http.post(
       url,
       body: json.encode({'email': email, 'password': password}),
@@ -34,7 +34,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> register(String email, String password) async {
-    final url = Uri.parse('http://your-backend-url/api/auth/register/');
+    final url = Uri.parse('http://10.0.0.1:8000/api/auth/register/');
     final response = await http.post(
       url,
       body: json.encode({'email': email, 'password': password}),
@@ -94,4 +94,7 @@ Future<http.Response> _authenticatedRequest(String method, Uri url, {dynamic bod
     default:
       throw Exception('Unsupported HTTP method');
   }
+}
+
+getToken() {
 }
