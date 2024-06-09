@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import '../providers/auth_provider.dart';
 import 'pages/home_page.dart';
 
 void main() {
