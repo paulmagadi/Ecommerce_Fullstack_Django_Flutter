@@ -25,11 +25,15 @@ class AuthProvider with ChangeNotifier {
       _user = User.fromJson(data['user']);
       _token = data['token'];
       _isAuthenticated = true;
+
+      // Save token to shared preferences
       final prefs = await SharedPreferences.getInstance();
-      prefs.setString('token', _token!);
+      await prefs.setString('token', _token!);
+
       notifyListeners();
     } else {
-      throw Exception('Failed to login');
+      final errorResponse = json.decode(response.body);
+      throw Exception('Failed to login: ${errorResponse['message'] ?? 'Unknown error'}');
     }
   }
 
@@ -44,7 +48,8 @@ class AuthProvider with ChangeNotifier {
     if (response.statusCode == 201) {
       await login(email, password);
     } else {
-      throw Exception('Failed to register');
+      final errorResponse = json.decode(response.body);
+      throw Exception('Failed to register: ${errorResponse['message'] ?? 'Unknown error'}');
     }
   }
 
@@ -52,8 +57,11 @@ class AuthProvider with ChangeNotifier {
     _user = null;
     _isAuthenticated = false;
     _token = null;
+
+    // Remove token from shared preferences
     final prefs = await SharedPreferences.getInstance();
-    prefs.remove('token');
+    await prefs.remove('token');
+
     notifyListeners();
   }
 
@@ -61,9 +69,29 @@ class AuthProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     _token = prefs.getString('token');
     if (_token != null) {
-      // Optionally, verify the token or fetch user data with it
       _isAuthenticated = true;
+
+      // Optionally, verify the token or fetch user data with it
+      try {
+        await fetchUserData();
+      } catch (error) {
+        // If fetching user data fails, consider the token invalid
+        await logout();
+      }
+
       notifyListeners();
+    }
+  }
+
+  Future<void> fetchUserData() async {
+    final url = Uri.parse('http://127.0.0.1:8000/api/auth/user/');
+    final response = await _authenticatedRequest('GET', url);
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      _user = User.fromJson(data);
+    } else {
+      throw Exception('Failed to fetch user data');
     }
   }
 
@@ -71,7 +99,25 @@ class AuthProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
+
+  Future<http.Response> _authenticatedRequest(String method, Uri url, {dynamic body}) async {
+    final token = await getToken();
+    if (token == null) {
+      throw Exception('No token found');
+    }
+    
+    final headers = {
+      'Content-Type': 'application/json',
+      'Authorization': 'Bearer $token',
+    };
+
+    switch (method.toUpperCase()) {
+      case 'POST':
+        return http.post(url, headers: headers, body: json.encode(body));
+      case 'GET':
+        return http.get(url, headers: headers);
+      default:
+        throw Exception('Unsupported HTTP method');
+    }
+  }
 }
-
-
-
