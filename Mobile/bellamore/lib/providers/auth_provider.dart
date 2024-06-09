@@ -74,24 +74,4 @@ class AuthProvider with ChangeNotifier {
 }
 
 
-// Future<http.Response> authenticatedRequest(String method, Uri url, {dynamic body}) async {
-//   final token = await getToken();
-//   if (token == null) {
-//     throw Exception('No token found');
-//   }
-  
-//   final headers = {
-//     'Content-Type': 'application/json',
-//     'Authorization': 'Bearer $token',
-//   };
 
-//   switch (method.toUpperCase()) {
-//     case 'POST':
-//       return http.post(url, headers: headers, body: json.encode(body));
-//     case 'GET':
-//       return http.get(url, headers: headers);
-//     // Add other HTTP methods as needed
-//     default:
-//       throw Exception('Unsupported HTTP method');
-//   }
-// }
