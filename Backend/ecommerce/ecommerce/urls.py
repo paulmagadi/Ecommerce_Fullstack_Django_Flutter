@@ -29,5 +29,5 @@ urlpatterns = [
     path('payment/', include('payment.urls')),
     path('api/', include('api.urls')),
     path('api/auth/', include('djoser.urls')),  
-    path('api/auth/', include('djoser.urls.authtoken')),
+    path('api/auth/', include('djoser.urls.jwt')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
