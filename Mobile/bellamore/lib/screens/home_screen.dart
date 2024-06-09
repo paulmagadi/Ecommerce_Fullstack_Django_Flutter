@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'home_screen_components/banner_carousel.dart';
+
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
@@ -16,7 +18,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 34),
             ),
           ]),
-          CategoryView(),
+          // CategoryView(),
           SizedBox(height: 10,),
           BannerCarousel(),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
@@ -25,7 +27,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 34),
             ),
           ]),
-          ProductsView(),
+          // ProductsView(),
         ]),
       ),
     );
