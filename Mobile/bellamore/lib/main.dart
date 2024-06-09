@@ -6,6 +6,7 @@ import 'screens/home_screen.dart';
 import 'screens/login_screen.dart';
 import 'screens/profile_screen.dart';
 import 'screens/register_screen.dart';
+
 void main() {
   runApp(const MyApp());
 }
@@ -17,7 +18,8 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) => AuthProvider()..checkAuthStatus()),
+        ChangeNotifierProvider(
+            create: (_) => AuthProvider()..checkAuthStatus()),
       ],
       child: MaterialApp(
         title: 'Flutter Auth App',
@@ -27,7 +29,7 @@ class MyApp extends StatelessWidget {
         initialRoute: '/',
         routes: {
           '/': (context) => const HomeScreen(),
-          '/login': (context) => const LoginScreen(),
+          '/login': (context) => LoginScreen(),
           '/register': (context) => const RegisterScreen(),
           '/profile': (context) => const ProfileScreen(),
         },
@@ -35,4 +37,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
