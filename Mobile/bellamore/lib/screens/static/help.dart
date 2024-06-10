@@ -6,7 +6,7 @@ class HelpPage extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
-        foregroundColor: Colors.white, //set Text and icon colors to white
+        foregroundColor: Colors.white, 
         title: const Text('Help'),
       ),
       body: Padding(

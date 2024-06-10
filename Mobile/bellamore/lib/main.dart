@@ -8,6 +8,9 @@ import 'screens/login_screen.dart';
 import 'screens/profile_info_form.dart';
 import 'screens/profile_screen.dart';
 import 'screens/register_screen.dart';
+import 'screens/static/about.dart';
+import 'screens/static/contact.dart';
+import 'screens/static/help.dart';
 
 
 void main() {
@@ -38,6 +41,11 @@ class MyApp extends StatelessWidget {
         '/profile_form': (context) => ProfileFormScreen(),
         '/profile': (context) => ProfileScreen(),
         '/home': (context) => HomeScreen(),
+        '/about': (context) => AboutPage(),
+        '/help': (context) => HelpPage(),
+        '/contact': (context) => ContactUsPage(),
+        
+        
       },
     );
   }
