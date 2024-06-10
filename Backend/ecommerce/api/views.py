@@ -41,3 +41,4 @@ class ProfileViewSet(viewsets.ModelViewSet):
         if user.is_authenticated:
             return Profile.objects.filter(user=user)
         return Profile.objects.none()
+    

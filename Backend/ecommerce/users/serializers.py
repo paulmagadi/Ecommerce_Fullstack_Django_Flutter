@@ -51,4 +51,4 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('phone', 'address1', 'address2', 'city', 'state', 'zipcode', 'country', 'old_cart')
+        fields = ('image', 'phone', 'address1', 'address2', 'city', 'state', 'zipcode', 'country', 'old_cart')
