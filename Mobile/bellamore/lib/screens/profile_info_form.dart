@@ -1,6 +1,7 @@
+import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/profile_provider.dart';
 
 class ProfileFormScreen extends StatefulWidget {
@@ -17,6 +18,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   late TextEditingController _stateController;
   late TextEditingController _zipcodeController;
   late TextEditingController _countryController;
+  File? _imageFile;
 
   @override
   void initState() {
@@ -31,11 +33,21 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
     _countryController = TextEditingController(text: profile?.country ?? '');
   }
 
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    setState(() {
+      if (pickedFile != null) {
+        _imageFile = File(pickedFile.path);
+      }
+    });
+  }
+
   void _submitProfile() async {
     if (_formKey.currentState!.validate()) {
       try {
         await Provider.of<ProfileProvider>(context, listen: false).updateProfile(
-          image: _imageController.image,
+          image: _imageFile,
           phone: _phoneController.text,
           address1: _address1Controller.text,
           address2: _address2Controller.text,
@@ -64,6 +76,19 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
             key: _formKey,
             child: Column(
               children: <Widget>[
+                if (_imageFile != null)
+                  Image.file(
+                    _imageFile!,
+                    height: 150,
+                    width: 150,
+                    fit: BoxFit.cover,
+                  )
+                else
+                  Icon(Icons.image, size: 150),
+                ElevatedButton(
+                  onPressed: _pickImage,
+                  child: Text('Choose Image'),
+                ),
                 TextFormField(
                   controller: _phoneController,
                   decoration: InputDecoration(labelText: 'Phone'),
