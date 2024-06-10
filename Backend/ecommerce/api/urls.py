@@ -8,11 +8,11 @@ router.register(r'products', ProductViewSet)
 router.register(r'product-images', ProductImageViewSet)
 router.register(r'web-banners', WebBannerViewSet)
 router.register(r'mobile-banners', MobileBannerViewSet)
-router.register(r'profile', ProfileViewSet)
+router.register(r'profiles', ProfileViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('api/profile/', profile_view, name='profile'),
+    path('profile/', profile_view, name='profile'),
 ]
 
 

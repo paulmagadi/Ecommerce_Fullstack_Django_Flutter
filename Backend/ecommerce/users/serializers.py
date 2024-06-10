@@ -47,8 +47,27 @@ class CustomUserCreateSerializer(serializers.ModelSerializer):
         user.save()
         return user
     
-    
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
-        fields = ('image', 'phone', 'address1', 'address2', 'city', 'state', 'zipcode', 'country', 'old_cart')
+        fields = [
+            'phone', 
+            'image',
+            'address1', 
+            'address2', 
+            'city', 
+            'state', 
+            'zipcode', 
+            'country'
+        ]
+        
+    def create(self, validated_data):
+        user = self.context['request'].user
+        profile, created = Profile.objects.update_or_create(user=user, defaults=validated_data)
+        return profile
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
