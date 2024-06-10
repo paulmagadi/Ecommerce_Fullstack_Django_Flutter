@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:your_app/providers/auth_provider.dart';
-import 'package:your_app/providers/profile_provider.dart';
+
+import '../providers/profile_provider.dart';
 
 class ProfileFormScreen extends StatefulWidget {
   @override
