@@ -47,7 +47,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
     if (_formKey.currentState!.validate()) {
       try {
         await Provider.of<ProfileProvider>(context, listen: false).updateProfile(
-          image: _imageFile,
+          image: _imageFile, // Pass the File object
           phone: _phoneController.text,
           address1: _address1Controller.text,
           address2: _address2Controller.text,
