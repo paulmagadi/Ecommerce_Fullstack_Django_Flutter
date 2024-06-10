@@ -18,7 +18,7 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Logged in as: '),
+              Text('Logged in as: ${authProvider.user?.firstName}'),
               const SizedBox(height: 20),
               ElevatedButton(
                 onPressed: () {

@@ -32,13 +32,14 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  Future<void> register(String email, String password, String firstName, String lastName) async {
+  Future<void> register(String email, String password1, String password2, String firstName, String lastName) async {
     final url = Uri.parse('http://127.0.0.1:8000/api/auth/users/');
     final response = await http.post(
       url,
       body: json.encode({
         'email': email,
-        'password': password,
+        'password1': password1,
+        'password2': password2,
         'first_name': firstName,
         'last_name': lastName,
       }),
@@ -46,7 +47,7 @@ class AuthProvider with ChangeNotifier {
     );
 
     if (response.statusCode == 201) {
-      await login(email, password);
+      await login(email, password1); // Use password1 for login as passwords are same.
     } else {
       throw Exception('Failed to register');
     }
