@@ -1,31 +1,44 @@
-class User {
-  final int id;
-  final String email;
-  final String firstName;
-  final String lastName;
+class Profile {
+    final String phone;
+    final String address1;
+    final String? address2;
+    final String city;
+    final String state;
+    final String zipcode;
+    final String country;
 
-  User({
-    required this.id,
-    required this.email,
-    required this.firstName,
-    required this.lastName,
+  Profile({
+    required  this.phone,
+    required  this.address1,
+    this.address2,
+    required  this.city,
+    required  this.state,
+    required  this.zipcode,
+    required  this.country,
   });
 
-  factory User.fromJson(Map<String, dynamic> json) {
-    return User(
-      id: json['id'],
-      email: json['email'],
-      firstName: json['first_name'],
-      lastName: json['last_name'],
+  factory Profile.fromJson(Map<String, dynamic> json) {
+    return Profile(
+      phone : json['phone'],
+      address1 : json['address1'],
+      address2 : json['address2'],
+      city : json['city'],
+      state : json['state'],
+      zipcode : json['zipcode'],
+      country : json['country'],
     );
   }
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
-      'email': email,
-      'first_name': firstName,
-      'last_name': lastName,
+
+      'phone' : phone,
+      'address1' : address1,
+      'address2' : address2,
+      'city' : city,
+      'state' : state,
+      'zipcode' : zipcode,
+      'country' : country,
     };
   }
 }

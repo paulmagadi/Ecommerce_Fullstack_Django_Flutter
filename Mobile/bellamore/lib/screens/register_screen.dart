@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
-import 'profile_screen.dart';
+import 'profile_info_form.dart';
 
 class RegisterScreen extends StatefulWidget {
   @override
@@ -84,7 +84,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         await Provider.of<AuthProvider>(context, listen: false)
                             .register(_email!, _password1!, _password2!, _firstName!, _lastName!);
                         Navigator.of(context).push(
-                          MaterialPageRoute(builder: (context) => ProfileScreen()),
+                          MaterialPageRoute(builder: (context) => ProfileFormScreen()),
                         );
                       } catch (e) {
                         ScaffoldMessenger.of(context).showSnackBar(

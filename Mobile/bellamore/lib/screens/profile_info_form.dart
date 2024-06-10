@@ -10,13 +10,26 @@ class ProfileFormScreen extends StatefulWidget {
 
 class _ProfileFormScreenState extends State<ProfileFormScreen> {
   final _formKey = GlobalKey<FormState>();
-  final _phoneController = TextEditingController();
-  final _address1Controller = TextEditingController();
-  final _address2Controller = TextEditingController();
-  final _cityController = TextEditingController();
-  final _stateController = TextEditingController();
-  final _zipcodeController = TextEditingController();
-  final _countryController = TextEditingController();
+  late TextEditingController _phoneController;
+  late TextEditingController _address1Controller;
+  late TextEditingController _address2Controller;
+  late TextEditingController _cityController;
+  late TextEditingController _stateController;
+  late TextEditingController _zipcodeController;
+  late TextEditingController _countryController;
+
+  @override
+  void initState() {
+    super.initState();
+    final profile = Provider.of<ProfileProvider>(context, listen: false).profile;
+    _phoneController = TextEditingController(text: profile?.phone ?? '');
+    _address1Controller = TextEditingController(text: profile?.address1 ?? '');
+    _address2Controller = TextEditingController(text: profile?.address2 ?? '');
+    _cityController = TextEditingController(text: profile?.city ?? '');
+    _stateController = TextEditingController(text: profile?.state ?? '');
+    _zipcodeController = TextEditingController(text: profile?.zipcode ?? '');
+    _countryController = TextEditingController(text: profile?.country ?? '');
+  }
 
   void _submitProfile() async {
     if (_formKey.currentState!.validate()) {
