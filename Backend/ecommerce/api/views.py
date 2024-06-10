@@ -7,6 +7,14 @@ from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.views import APIView
 
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from users.models import Profile
+from .serializers import ProfileSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.views import APIView
+
 
 from store.models import Category, Product, ProductImage, WebBanner, MobileBanner
 from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer
@@ -37,17 +45,17 @@ class MobileBannerViewSet(viewsets.ModelViewSet):
 from users.models import Profile
 from users.serializers import ProfileSerializer
 
-class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+# class ProfileViewSet(viewsets.ModelViewSet):
+#     queryset = Profile.objects.all()
+#     serializer_class = ProfileSerializer
 
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_authenticated:
-            return Profile.objects.filter(user=user)
-        return Profile.objects.none()
+#     def get_queryset(self):
+#         user = self.request.user
+#         if user.is_authenticated:
+#             return Profile.objects.filter(user=user)
+#         return Profile.objects.none()
 
-class ProfileView(APIView):
+class ProfileViewSet(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):

@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from store.models import Category, Product , ProductImage, WebBanner, MobileBanner
+from users.models import Profile
 # from users.models import CustomUser
 
 
@@ -25,6 +26,30 @@ from store.models import Category, Product , ProductImage, WebBanner, MobileBann
 #             password=validated_data['password']
 #         )
 #         return user
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = [
+            'phone', 
+            'address1', 
+            'address2', 
+            'city', 
+            'state', 
+            'zipcode', 
+            'country'
+        ]
+        
+    def create(self, validated_data):
+        user = self.context['request'].user
+        profile, created = Profile.objects.update_or_create(user=user, defaults=validated_data)
+        return profile
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
