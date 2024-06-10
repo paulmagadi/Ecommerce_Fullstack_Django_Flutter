@@ -43,52 +43,54 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Complete Profile')),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            children: <Widget>[
-              TextFormField(
-                controller: _phoneController,
-                decoration: InputDecoration(labelText: 'Phone'),
-              ),
-              TextFormField(
-                controller: _address1Controller,
-                decoration: InputDecoration(labelText: 'Address 1'),
-              ),
-              TextFormField(
-                controller: _address2Controller,
-                decoration: InputDecoration(labelText: 'Address 2'),
-              ),
-              TextFormField(
-                controller: _cityController,
-                decoration: InputDecoration(labelText: 'City'),
-              ),
-              TextFormField(
-                controller: _stateController,
-                decoration: InputDecoration(labelText: 'State'),
-              ),
-              TextFormField(
-                controller: _zipcodeController,
-                decoration: InputDecoration(labelText: 'Zip Code'),
-              ),
-              TextFormField(
-                controller: _countryController,
-                decoration: InputDecoration(labelText: 'Country'),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _submitProfile,
-                child: Text('Submit'),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushReplacementNamed(context, '/home');
-                },
-                child: Text('Skip'),
-              ),
-            ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              children: <Widget>[
+                TextFormField(
+                  controller: _phoneController,
+                  decoration: InputDecoration(labelText: 'Phone'),
+                ),
+                TextFormField(
+                  controller: _address1Controller,
+                  decoration: InputDecoration(labelText: 'Address 1'),
+                ),
+                TextFormField(
+                  controller: _address2Controller,
+                  decoration: InputDecoration(labelText: 'Address 2'),
+                ),
+                TextFormField(
+                  controller: _cityController,
+                  decoration: InputDecoration(labelText: 'City'),
+                ),
+                TextFormField(
+                  controller: _stateController,
+                  decoration: InputDecoration(labelText: 'State'),
+                ),
+                TextFormField(
+                  controller: _zipcodeController,
+                  decoration: InputDecoration(labelText: 'Zip Code'),
+                ),
+                TextFormField(
+                  controller: _countryController,
+                  decoration: InputDecoration(labelText: 'Country'),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: _submitProfile,
+                  child: Text('Submit'),
+                ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/home');
+                  },
+                  child: Text('Skip'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

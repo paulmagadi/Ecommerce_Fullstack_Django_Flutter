@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from rest_framework import status
+from rest_framework.response import Response
 from rest_framework import viewsets
 from rest_framework import generics
 # from rest_framework.decorators import api_view
@@ -32,13 +34,16 @@ class MobileBannerViewSet(viewsets.ModelViewSet):
 from users.models import Profile
 from users.serializers import ProfileSerializer
 
-class ProfileViewSet(viewsets.ModelViewSet):
-    queryset = Profile.objects.all()
-    serializer_class = ProfileSerializer
+def profile_view(request):
+    try:
+        profile = Profile.objects.get(user=request.user)
+    except Profile.DoesNotExist:
+        profile = Profile(user=request.user)
 
-    def get_queryset(self):
-        user = self.request.user
-        if user.is_authenticated:
-            return Profile.objects.filter(user=user)
-        return Profile.objects.none()
+    serializer = ProfileSerializer(profile, data=request.data)
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
     

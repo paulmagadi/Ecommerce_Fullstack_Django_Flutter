@@ -18,6 +18,21 @@ class ProfileScreen extends StatelessWidget {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
+              Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            Text('User Profile Info'),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushNamed(context, '/profile_form');
+              },
+              child: Text('Edit Profile Info'),
+            ),
+          ],
+        ),
+      ),
+    
               Text('Logged in as: ${authProvider.user?.firstName}'),
               const SizedBox(height: 20),
               ElevatedButton(

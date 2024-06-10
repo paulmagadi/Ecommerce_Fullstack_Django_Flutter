@@ -48,10 +48,13 @@ class AuthProvider with ChangeNotifier {
 
     if (response.statusCode == 201) {
       await login(email, password1); // Use password1 for login as passwords are same.
+      // Navigator.pushReplacementNamed(context, '/profile_form');
     } else {
       throw Exception('Failed to register');
     }
   }
+
+  
 
   Future<void> logout() async {
     _user = null;

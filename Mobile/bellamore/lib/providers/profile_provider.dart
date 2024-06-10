@@ -6,7 +6,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 class ProfileProvider with ChangeNotifier {
   Future<void> updateProfile({
     required String phone,
-    Image? image,
     required String address1,
     String? address2,
     required String city,
@@ -30,7 +29,6 @@ class ProfileProvider with ChangeNotifier {
       },
       body: json.encode({
         'phone': phone,
-        'image': image,
         'address1': address1,
         'address2': address2 ?? '',
         'city': city,
