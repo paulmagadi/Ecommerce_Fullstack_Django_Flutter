@@ -36,6 +36,7 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future<void> updateProfile({
+    required Image image,
     required String phone,
     required String address1,
     String? address2,
@@ -59,6 +60,7 @@ class ProfileProvider with ChangeNotifier {
         'Authorization': 'Bearer $token',
       },
       body: json.encode({
+        'image': image,
         'phone': phone,
         'address1': address1,
         'address2': address2 ?? '',

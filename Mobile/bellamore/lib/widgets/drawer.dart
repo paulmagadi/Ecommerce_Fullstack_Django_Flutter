@@ -9,11 +9,19 @@ Drawer appDrawer(BuildContext context) {
     child: ListView(
       padding: EdgeInsets.zero,
       children: [
-        const DrawerHeader(
-          decoration: BoxDecoration(
+         UserAccountsDrawerHeader(
+          decoration: const BoxDecoration(
             color: Colors.blue,
           ),
-          child: Text('App Drawer'),
+          currentAccountPicture: const CircleAvatar(
+            backgroundImage: AssetImage('assets/images/cassidy.jpg'),
+          ),
+          // accountName: authProvider.isAuthenticated
+              // ? Text(authProvider.user.firstName)
+              // : const Text('Guest'),
+          // accountEmail: authProvider.isAuthenticated
+              // ? Text(authProvider.user)
+              // : const Text('Not logged in'),
         ),
         ListTile(
           leading: const Icon(Icons.home),
