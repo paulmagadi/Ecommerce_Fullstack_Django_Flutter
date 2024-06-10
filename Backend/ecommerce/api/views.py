@@ -34,6 +34,16 @@ class MobileBannerViewSet(viewsets.ModelViewSet):
 from users.models import Profile
 from users.serializers import ProfileSerializer
 
+class ProfileViewSet(viewsets.ModelViewSet):
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
+
+    def get_queryset(self):
+        user = self.request.user
+        if user.is_authenticated:
+            return Profile.objects.filter(user=user)
+        return Profile.objects.none()
+
 def profile_view(request):
     try:
         profile = Profile.objects.get(user=request.user)
