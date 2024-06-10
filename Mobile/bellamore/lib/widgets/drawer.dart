@@ -13,20 +13,13 @@ Drawer appDrawer(BuildContext context) {
           decoration: BoxDecoration(
             color: Colors.blue,
           ),
-          child: Text('Drawer Header'),
+          child: Text('App Drawer'),
         ),
         ListTile(
           leading: const Icon(Icons.home),
           title: const Text('Home'),
           onTap: () {
             Navigator.pushReplacementNamed(context, '/');
-          },
-        ),
-        ListTile(
-          leading: const Icon(Icons.person),
-          title: const Text('Profile'),
-          onTap: () {
-            Navigator.pushNamed(context, '/profile');
           },
         ),
         ListTile(
@@ -43,22 +36,46 @@ Drawer appDrawer(BuildContext context) {
             Navigator.pushNamed(context, '/help');
           },
         ),
-        authProvider.isAuthenticated
-            ? ListTile(
+        const Divider(),
+        if (authProvider.isAuthenticated)
+          Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.person),
+                title: const Text('Profile'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/profile');
+                },
+              ),
+              ListTile(
                 leading: const Icon(Icons.logout),
                 title: const Text('Logout'),
                 onTap: () {
                   authProvider.logout();
                   Navigator.pushReplacementNamed(context, '/');
                 },
-              )
-            : ListTile(
+              ),
+            ],
+          )
+        else
+          Column(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.person_add),
+                title: const Text('Register'),
+                onTap: () {
+                  Navigator.pushNamed(context, '/register');
+                },
+              ),
+              ListTile(
                 leading: const Icon(Icons.login),
                 title: const Text('Login'),
                 onTap: () {
                   Navigator.pushNamed(context, '/login');
                 },
               ),
+            ],
+          ),
       ],
     ),
   );
