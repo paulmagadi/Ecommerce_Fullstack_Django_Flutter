@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
 import '../widgets/banner_carousel.dart';
+import 'home_view/category_view.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -25,6 +26,8 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
+              const CategoryView(), 
+
               const SizedBox(height: 10),
               BannerCarousel(),
               Row(

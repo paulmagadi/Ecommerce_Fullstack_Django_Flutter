@@ -20,7 +20,7 @@ class Product {
   final String name;
   final String description;
   final String profileImage;
-  final List<ProductImage> productImages;  // List of ProductImage objects
+  final List<ProductImage> productImages; 
   final double price;
   final bool isSale;
   final double? salePrice;
@@ -41,7 +41,7 @@ class Product {
     required this.name,
     required this.description,
     required this.profileImage,
-    required this.productImages,  // Add this line
+    required this.productImages, 
     required this.price,
     required this.isSale,
     this.salePrice,

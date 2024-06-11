@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 // import '../models/category.dart'; 
-import '../models/product.dart';
+// import '../models/product.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
   final Category category;
