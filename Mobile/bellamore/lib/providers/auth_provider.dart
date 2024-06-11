@@ -10,13 +10,11 @@ class AuthProvider with ChangeNotifier {
   String? _token;
   String? _userName;
   String? _userEmail;
-  // String? _userImage;
 
   bool get isAuthenticated => _isAuthenticated;
   User? get user => _user;
   String? get userName => _userName;
   String? get userEmail => _userEmail;
-  // String? get userImage => _userImage;
 
   Future<void> login(String email, String password) async {
     final url = Uri.parse('http://127.0.0.1:8000/api/auth/jwt/create/');
@@ -78,7 +76,6 @@ class AuthProvider with ChangeNotifier {
       _user = User.fromJson(data);
       _userName = '${_user?.firstName} ${_user!.lastName}';
       _userEmail = _user?.email;
-      // _userImage = _user?.image;
       _saveUserInfoToPrefs();
     } else {
       throw Exception('Failed to fetch user details. Error: ${response.body}');
@@ -89,14 +86,12 @@ class AuthProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('userName', _userName ?? '');
     prefs.setString('userEmail', _userEmail ?? '');
-    // prefs.setString('userImage', _userImage ?? '');
   }
 
   Future<void> _loadUserInfoFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     _userName = prefs.getString('userName');
     _userEmail = prefs.getString('userEmail');
-    // _userImage = prefs.getString('userImage');
   }
 
   Future<void> logout() async {
@@ -105,7 +100,7 @@ class AuthProvider with ChangeNotifier {
     _token = null;
     _userName = null;
     _userEmail = null;
-    // _userImage = null;
+
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
     prefs.remove('userName');
