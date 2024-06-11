@@ -19,7 +19,7 @@ class ProfileProvider with ChangeNotifier {
       throw Exception('No token found');
     }
 
-    final url = Uri.parse('http://127.0.0.1:8000/api/profile/');
+    final url = Uri.parse('http://10.0.2.2:8000/api/profile/');
     final response = await http.get(
       url,
       headers: {
