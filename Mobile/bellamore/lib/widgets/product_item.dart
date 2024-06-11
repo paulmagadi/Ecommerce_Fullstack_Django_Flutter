@@ -1,43 +1,14 @@
 import 'package:flutter/material.dart';
-
 import '../models/product.dart';
-// import 'package:provider/provider.dart';
-
-
 
 class ProductItem extends StatelessWidget {
-
-   final Product product;
+  final Product product;
 
   ProductItem(this.product);
-//   final String id;
-//   final String title;
-//   final String imageUrl;
-//   final double price;
-
-//   ProductItem({
-//     required this.id,
-//     required this.title,
-//     required this.imageUrl,
-//     required this.price,
-//   });
-
-  // void selectProduct(BuildContext context) {
-  //   Navigator.of(context).push(
-  //     MaterialPageRoute(
-  //       builder: (ctx) => ProductDetailsScreen(
-  //         productId: id,
-  //       ),
-  //     ),
-  //   );
-  // }
 
   @override
   Widget build(BuildContext context) {
-    // final cart = Provider.of<Cart>(context, listen: false);
-
     return GestureDetector(
-      // onTap: () => selectProduct(context),
       child: Card(
         elevation: 5,
         shape: RoundedRectangleBorder(
@@ -47,12 +18,15 @@ class ProductItem extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.asset(
-                product.imageUrl,
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
+              child: Image.network( // Assuming image is from a URL, use network instead of asset
+                product.imageUrl, // Ensure the image URL is valid
                 height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,
+                errorBuilder: (context, error, stackTrace) {
+                  return Image.asset('assets/images/default_product.png'); // Fallback image
+                },
               ),
             ),
             Expanded(
@@ -71,12 +45,12 @@ class ProductItem extends StatelessWidget {
                       overflow: TextOverflow.ellipsis,
                       maxLines: 2,
                     ),
-                    const Spacer(), 
+                    const Spacer(),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$$product.price',
+                          '\$${product.price.toStringAsFixed(2)}',
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.grey,
@@ -85,7 +59,7 @@ class ProductItem extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.add_shopping_cart_outlined),
                           onPressed: () {
-                            // cart.addItem(id, price, title, 1, imageUrl);
+                            // Add to cart logic here
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Item Added to Cart!'),
