@@ -6,7 +6,7 @@ import 'providers/product_provider.dart';
 import 'providers/profile_provider.dart';
 import 'screens/home_page.dart';
 import 'screens/login_screen.dart';
-import 'screens/product_list_screen.dart';
+// import 'screens/product_list_screen.dart';
 import 'screens/profile_info_form.dart';
 import 'screens/profile_screen.dart';
 import 'screens/register_screen.dart';
@@ -46,7 +46,7 @@ class MyApp extends StatelessWidget {
         '/about': (context) => AboutPage(),
         '/help': (context) => HelpPage(),
         '/contact': (context) => ContactUsPage(),
-        '/product_list': (context) => ProductListScreen(),
+        // '/product_list': (context) => ProductListScreen(),
 
         
         

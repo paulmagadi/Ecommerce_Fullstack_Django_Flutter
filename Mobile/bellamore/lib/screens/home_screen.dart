@@ -10,7 +10,7 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => ProductProvider()..fetchProducts(), // Fetch products on widget creation
+      create: (_) => ProductProvider()..fetchProducts(), 
       child: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -36,7 +36,7 @@ class HomeScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const ProductsView(), // ProductsView should be a child of ChangeNotifierProvider
+              const ProductsView(), 
             ],
           ),
         ),

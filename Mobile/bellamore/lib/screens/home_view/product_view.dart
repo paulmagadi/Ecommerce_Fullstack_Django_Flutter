@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-// import '../../models/product.dart';
+import '../../models/product.dart';
 import '../../providers/product_provider.dart';
 import '../../widgets/product_item.dart';
 
@@ -9,29 +9,42 @@ class ProductsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final productProvider = Provider.of<ProductProvider>(context);
+    final productProvider = Provider.of<ProductProvider>(context, listen: false);
 
-    if (productProvider.products.isEmpty) {
-      // Fetch products if not already fetched
-      productProvider.fetchProducts();
-      return const Center(child: CircularProgressIndicator());
-    }
+    return FutureBuilder<List<Product>>(
+      future: productProvider.fetchProductsFuture(),
+      builder: (ctx, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          // Display a loading spinner
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          // Handle error
+          return Center(
+            child: Text('Error: ${snapshot.error}'),
+          );
+        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+          // Handle empty data
+          return const Center(child: Text('No products available.'));
+        }
 
-    final products = productProvider.products;
+        // Data is available
+        final products = snapshot.data!;
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-        maxCrossAxisExtent: 200,
-        childAspectRatio: 1.7 / 3,
-        crossAxisSpacing: 5,
-        mainAxisSpacing: 5,
-      ),
-      itemCount: products.length,
-      itemBuilder: (ctx, index) {
-        final product = products[index];
-        return ProductItem(product);
+        return GridView.builder(
+          shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
+          gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+            maxCrossAxisExtent: 200,
+            childAspectRatio: 1.7 / 3,
+            crossAxisSpacing: 5,
+            mainAxisSpacing: 5,
+          ),
+          itemCount: products.length,
+          itemBuilder: (ctx, index) {
+            final product = products[index];
+            return ProductItem(product: product);
+          },
+        );
       },
     );
   }
