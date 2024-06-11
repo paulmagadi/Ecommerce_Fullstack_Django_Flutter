@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import CategoryViewSet, ProductViewSet, ProductImageViewSet, ProfileViewSet, WebBannerViewSet, MobileBannerViewSet
+from .views import CategoryViewSet, ProductViewSet, ProductImageViewSet, ProfileView, WebBannerViewSet, MobileBannerViewSet
 from . import views
 
 router = DefaultRouter()
@@ -13,7 +13,7 @@ router.register(r'mobile-banners', MobileBannerViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('profile/', ProfileViewSet.as_view(), name='profile'),
+    path('profile/', ProfileView.as_view(), name='profile'),
 ]
 
 

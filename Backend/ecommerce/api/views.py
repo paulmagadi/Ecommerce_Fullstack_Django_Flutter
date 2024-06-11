@@ -45,36 +45,27 @@ class MobileBannerViewSet(viewsets.ModelViewSet):
 from users.models import Profile
 from users.serializers import ProfileSerializer
 
-# class ProfileViewSet(viewsets.ModelViewSet):
-#     queryset = Profile.objects.all()
-#     serializer_class = ProfileSerializer
 
-#     def get_queryset(self):
-#         user = self.request.user
-#         if user.is_authenticated:
-#             return Profile.objects.filter(user=user)
-#         return Profile.objects.none()
-
-class ProfileViewSet(APIView):
+class ProfileView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         try:
             profile = Profile.objects.get(user=request.user)
             serializer = ProfileSerializer(profile)
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
         except Profile.DoesNotExist:
-            return Response({'error': 'Profile does not exist'}, status=status.HTTP_404_NOT_FOUND)
+            return Response({"detail": "Profile not found"}, status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):
         try:
             profile = Profile.objects.get(user=request.user)
-            serializer = ProfileSerializer(profile, data=request.data)
         except Profile.DoesNotExist:
-            serializer = ProfileSerializer(data=request.data)
+            return Response({"detail": "Profile not found"}, status=status.HTTP_404_NOT_FOUND)
         
+        serializer = ProfileSerializer(profile, data=request.data, partial=True)
         if serializer.is_valid():
-            serializer.save(user=request.user)
+            serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
