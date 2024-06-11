@@ -20,7 +20,7 @@ class ProductItem extends StatelessWidget {
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
               child: Image.network(
-                product.imageUrl,
+                product.profileImage,
                 height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,
