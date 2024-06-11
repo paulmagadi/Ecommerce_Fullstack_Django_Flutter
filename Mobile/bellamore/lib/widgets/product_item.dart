@@ -35,7 +35,7 @@ class ProductItem extends StatelessWidget {
                     Text(
                       product.name,
                       style: const TextStyle(
-                        fontSize: 18,
+                        fontSize: 14,
                         fontWeight: FontWeight.bold,
                       ),
                       textAlign: TextAlign.left,
@@ -49,7 +49,7 @@ class ProductItem extends StatelessWidget {
                         Text(
                           '\$${product.price}',
                           style: const TextStyle(
-                            fontSize: 14,
+                            fontSize: 12,
                             color: Colors.grey,
                           ),
                         ),

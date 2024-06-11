@@ -3,7 +3,7 @@ class Product {
   final String name;
   final String description;
   final String profileImage;
-  final List<String> productImages;
+  // final List<String> productImages;
   final double price;
   final bool isSale;
   final double? salePrice;
@@ -24,7 +24,7 @@ class Product {
     required this.name,
     required this.description,
     required this.profileImage,
-    required this.productImages,
+    // required this.productImages,
     required this.price,
     required this.isSale,
     this.salePrice,
@@ -54,7 +54,7 @@ class Product {
       name: json['name'] as String,
       description: json['description'] as String? ?? '',
       profileImage: json['profile_image'] as String,
-      productImages: parseImages(json['product_images']),
+      // productImages: parseImages(json['product_images']),
       price: double.tryParse(json['price'].toString()) ?? 0.0,
       isSale: json['is_sale'] as bool? ?? false,
       salePrice: json['sale_price'] != null ? double.tryParse(json['sale_price'].toString()) : null,
