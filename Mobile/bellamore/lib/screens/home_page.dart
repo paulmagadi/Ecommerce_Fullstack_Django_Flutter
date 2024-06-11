@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import '../widgets/drawer.dart';
+import 'cart_screen.dart';
+import 'categories_screen.dart';
+import 'deals_screen.dart';
 import 'home_screen.dart';
-
-
-
-
+import 'profile_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -17,10 +17,10 @@ class _HomePageState extends State<HomePage> {
   int _selectedIndex = 2;
 
   final List<Widget> _pages = [
-    const CategoriesScreen(),
-    const DealsScreen(),
+    CategoriesScreen(),
+    DealsScreen(),
     const HomeScreen(),
-    const CartScreen(),
+    CartScreen(),
     const ProfileScreen(),
   ];
 
@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 243, 243),
       appBar: AppBar(
-        title: const Text('Runtime Cakes'),
+        title: const Text('Bellamore Apparels'),
         actions: [
           Stack(
             children: [
@@ -102,29 +102,29 @@ class _HomePageState extends State<HomePage> {
               children: [
                 const Icon(Icons.shopping_cart_outlined),
                 // if (cart.itemCount > 0)
-                  Positioned(
-                    right: 0,
-                    child: Container(
-                      padding: const EdgeInsets.all(1),
-                      decoration: BoxDecoration(
-                        color: Colors.red,
-                        borderRadius: BorderRadius.circular(6),
+                Positioned(
+                  right: 0,
+                  child: Container(
+                    padding: const EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(6),
+                    ),
+                    constraints: const BoxConstraints(
+                      minWidth: 12,
+                      minHeight: 12,
+                    ),
+                    child: Text(
+                      '0',
+                      // '${cart.itemCount}',
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 8,
                       ),
-                      constraints: const BoxConstraints(
-                        minWidth: 12,
-                        minHeight: 12,
-                      ),
-                      child: Text(
-                        '0',
-                        // '${cart.itemCount}',
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 8,
-                        ),
-                        textAlign: TextAlign.center,
-                      ),
+                      textAlign: TextAlign.center,
                     ),
                   ),
+                ),
               ],
             ),
             label: 'Cart',
@@ -138,4 +138,3 @@ class _HomePageState extends State<HomePage> {
     );
   }
 }
- 

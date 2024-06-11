@@ -33,13 +33,13 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomeScreen(),
+      home: HomePage(),
       routes: {
         '/login': (context) => LoginScreen(),
         '/register': (context) => RegisterScreen(),
         '/profile_form': (context) => ProfileFormScreen(),
         '/profile': (context) => ProfileScreen(),
-        '/home': (context) => HomeScreen(),
+        '/home': (context) => HomePage(),
         '/about': (context) => AboutPage(),
         '/help': (context) => HelpPage(),
         '/contact': (context) => ContactUsPage(),
