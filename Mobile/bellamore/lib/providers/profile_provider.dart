@@ -61,7 +61,7 @@ class ProfileProvider with ChangeNotifier {
         'Authorization': 'Bearer $token',
       },
       body: json.encode({
-        'image': image,
+        'image': image != null ? base64Encode(image.readAsBytesSync()) : null, // Convert image to base64
         'phone': phone,
         'address1': address1,
         'address2': address2 ?? '',
