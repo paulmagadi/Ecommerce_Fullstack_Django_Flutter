@@ -19,13 +19,13 @@ class ProductItem extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.network( // Assuming image is from a URL, use network instead of asset
-                product.imageUrl, // Ensure the image URL is valid
+              child: Image.network( 
+                product.imageUrl, 
                 height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,
                 errorBuilder: (context, error, stackTrace) {
-                  return Image.asset('assets/images/default_product.png'); // Fallback image
+                  return Image.asset('assets/images/default_product.png'); 
                 },
               ),
             ),
