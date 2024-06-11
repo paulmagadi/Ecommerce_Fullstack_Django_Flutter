@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+// import '../../models/product.dart';
 import '../../providers/product_provider.dart';
 import '../../widgets/product_item.dart';
 
@@ -8,8 +9,14 @@ class ProductsView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Fetch products from your provider
     final productProvider = Provider.of<ProductProvider>(context);
+
+    if (productProvider.products.isEmpty) {
+      // Fetch products if not already fetched
+      productProvider.fetchProducts();
+      return const Center(child: CircularProgressIndicator());
+    }
+
     final products = productProvider.products;
 
     return GridView.builder(

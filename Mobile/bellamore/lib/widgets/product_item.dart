@@ -4,7 +4,7 @@ import '../models/product.dart';
 class ProductItem extends StatelessWidget {
   final Product product;
 
-  ProductItem(this.product);
+  const ProductItem(this.product, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -19,14 +19,12 @@ class ProductItem extends StatelessWidget {
           children: <Widget>[
             ClipRRect(
               borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.network( 
-                product.imageUrl, 
+              child: Image.network(
+                product.imageUrl,
                 height: 150,
                 width: double.infinity,
                 fit: BoxFit.cover,
-                errorBuilder: (context, error, stackTrace) {
-                  return Image.asset('assets/images/default_product.png'); 
-                },
+                errorBuilder: (context, error, stackTrace) => const Icon(Icons.error),
               ),
             ),
             Expanded(
@@ -50,7 +48,7 @@ class ProductItem extends StatelessWidget {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          '\$${product.price.toStringAsFixed(2)}',
+                          '\$${product.price}',
                           style: const TextStyle(
                             fontSize: 14,
                             color: Colors.grey,
@@ -59,7 +57,6 @@ class ProductItem extends StatelessWidget {
                         IconButton(
                           icon: const Icon(Icons.add_shopping_cart_outlined),
                           onPressed: () {
-                            // Add to cart logic here
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
                                 content: Text('Item Added to Cart!'),
