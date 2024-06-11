@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-import '../models/category.dart';
-// import '../models/product.dart';
+import '../../models/category.dart';
 import '../screens/category_items_screen.dart';
 
 class CategoryItem extends StatelessWidget {
@@ -30,7 +29,7 @@ class CategoryItem extends StatelessWidget {
               borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
               child: Image.network(
                 category.image ?? '',
-                height: 150,
+                height: 130,
                 width: double.infinity,
                 fit: BoxFit.cover,
               ),
@@ -40,7 +39,7 @@ class CategoryItem extends StatelessWidget {
               child: Text(
                 category.name,
                 style: const TextStyle(
-                  fontSize: 18,
+                  fontSize: 14,
                   fontWeight: FontWeight.bold,
                 ),
                 textAlign: TextAlign.center,

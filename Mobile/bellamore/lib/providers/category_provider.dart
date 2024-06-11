@@ -20,13 +20,8 @@ class CategoryProvider with ChangeNotifier {
         throw Exception('Failed to load categories');
       }
     } catch (error) {
-      print('Error fetching categories: $error'); // Log error for debugging
+      print('Error fetching categories: $error');
       throw error;
     }
-  }
-
-  Future<List<Category>> fetchCategoriesFuture() async {
-    await fetchCategories(); // This ensures products are fetched and _products is updated
-    return _categories;
   }
 }
