@@ -36,45 +36,8 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 243, 243),
       appBar: AppBar(
-        title: const Text('Bellamore Apparels'),
-        actions: [
-          Stack(
-            children: [
-              IconButton(
-                icon: const Icon(Icons.shopping_cart),
-                onPressed: () {
-                  setState(() {
-                    _selectedIndex = 3;
-                  });
-                },
-              ),
-              Positioned(
-                right: 8,
-                top: 8,
-                child: Container(
-                  padding: const EdgeInsets.all(2),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                  constraints: const BoxConstraints(
-                    minWidth: 16,
-                    minHeight: 16,
-                  ),
-                  child: Text(
-                    '0',
-                    // '${cart.itemCount}',
-                    textAlign: TextAlign.center,
-                    style: const TextStyle(
-                      fontSize: 10,
-                      color: Colors.white, // Ensure text is visible
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
+        title: Center(child: const Text('Bellamore Apparels')),
+        actions: [],
       ),
       drawer: appDrawer(context),
       body: _pages[_selectedIndex],
