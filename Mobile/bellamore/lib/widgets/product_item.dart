@@ -23,6 +23,7 @@ class ProductItem extends StatelessWidget {
           textAlign: TextAlign.center,
         ),
         subtitle: Text('\$${product.price.toString()}'),
+        
       ),
     );
   }

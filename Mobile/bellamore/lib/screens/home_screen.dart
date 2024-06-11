@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/banner_carousel.dart';
+import '../widgets/product_item.dart';
 // import 'product_list.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -9,7 +10,7 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SingleChildScrollView(
+    return  SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(children: [
@@ -29,7 +30,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 34),
             ),
           ]),
-          // ProductsView(),
+          ProductItem(),
         ]),
       ),
     );
