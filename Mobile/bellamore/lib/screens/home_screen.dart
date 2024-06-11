@@ -1,4 +1,3 @@
-
 import 'package:bellamore/screens/home_view/product_view.dart';
 import 'package:flutter/material.dart';
 
@@ -9,11 +8,10 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return  SingleChildScrollView(
+    return SingleChildScrollView(
       child: Padding(
         padding: EdgeInsets.all(8.0),
         child: Column(children: [
-          
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
               'Categories',
@@ -21,7 +19,9 @@ class HomeScreen extends StatelessWidget {
             ),
           ]),
           // CategoryView(),
-          SizedBox(height: 10,),
+          SizedBox(
+            height: 10,
+          ),
           BannerCarousel(),
           Row(mainAxisAlignment: MainAxisAlignment.center, children: [
             Text(
