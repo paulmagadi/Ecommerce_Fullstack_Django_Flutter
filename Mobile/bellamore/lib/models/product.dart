@@ -16,7 +16,6 @@ class Product {
   final String category;
   final String? color;
   final String? size;
-  final bool isNew;
 
   Product({
     required this.id,
@@ -35,7 +34,6 @@ class Product {
     required this.category,
     this.color,
     this.size,
-    this.isNew,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
@@ -56,7 +54,6 @@ class Product {
       category: json['category'],
       color: json['color'],
       size: json['size'],
-      isNew: json['new']
     );
   }
 }

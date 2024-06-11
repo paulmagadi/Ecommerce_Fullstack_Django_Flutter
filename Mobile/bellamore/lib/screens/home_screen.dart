@@ -2,8 +2,6 @@
 import 'package:flutter/material.dart';
 
 import '../widgets/banner_carousel.dart';
-import '../widgets/product_item.dart';
-// import 'product_list.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
@@ -30,7 +28,7 @@ class HomeScreen extends StatelessWidget {
               style: TextStyle(fontSize: 34),
             ),
           ]),
-          ProductItem(),
+          // ProductItem(),
         ]),
       ),
     );

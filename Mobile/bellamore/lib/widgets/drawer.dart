@@ -36,6 +36,13 @@ Drawer appDrawer(BuildContext context) {
             Navigator.pushReplacementNamed(context, '/');
           },
         ),
+        ListTile(
+          leading: const Icon(Icons.home),
+          title: const Text('Products'),
+          onTap: () {
+            Navigator.pushNamed(context, '/product_list');
+          },
+        ),
         if (authProvider.isAuthenticated) 
           ListTile(
             leading: const Icon(Icons.person),

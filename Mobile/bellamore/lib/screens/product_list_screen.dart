@@ -34,7 +34,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
           : GridView.builder(
               padding: const EdgeInsets.all(10.0),
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount: 1,
                 childAspectRatio: 3 / 2,
                 crossAxisSpacing: 10,
                 mainAxisSpacing: 10,
