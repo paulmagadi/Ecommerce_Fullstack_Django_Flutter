@@ -1,4 +1,3 @@
-// models/product.dart
 class Product {
   final int id;
   final String name;
@@ -36,78 +35,43 @@ class Product {
     this.size,
   });
 
-//   factory Product.fromJson(Map<String, dynamic> json) {
-//     return Product(
-//       id: json['id'],
-//       name: json['name'],
-//       description: json['description'],
-//       imageUrl: json['profile_image'],
-//       price: json['price'].toDouble(),
-//       isSale: json['is_sale'],
-//       salePrice: json['sale_price']?.toDouble(),
-//       discount: json['discount']?.toDouble(),
-//       percentageDiscount: json['percentage_discount']?.toDouble(),
-//       slug: json['slug'],
-//       stockQuantity: json['stock_quantity'],
-//       brand: json['brand'],
-//       material: json['material'],
-//       category: json['category'],
-//       color: json['color'],
-//       size: json['size'],
-//     );
-//   }
-// }
-
-
-
-  // Factory constructor to parse JSON data into a Product instance
   factory Product.fromJson(Map<String, dynamic> json) {
-    // Safely parse the numeric fields using tryParse and handle null values
     double? parseDouble(dynamic value) {
-      if (value is num) {
-        return value.toDouble();
-      } else if (value is String) {
-        return double.tryParse(value);
-      }
-      return null;  // Return null if parsing fails
+      if (value == null) return null;
+      if (value is num) return value.toDouble();
+      if (value is String) return double.tryParse(value);
+      return null; 
     }
 
     int? parseInt(dynamic value) {
-      if (value is num) {
-        return value.toInt();
-      } else if (value is String) {
-        return int.tryParse(value);
-      }
-      return null;  // Return null if parsing fails
+      if (value == null) return null;
+      if (value is num) return value.toInt();
+      if (value is String) return int.tryParse(value);
+      return null;
     }
 
-    // Handle the parsing of numeric values
-    double? price = parseDouble(json['price']);
-    double? salePrice = parseDouble(json['sale_price']);
-    double? discount = parseDouble(json['discount']);
-    int? percentageDiscount = parseInt(json['percentage_discount']);
-    
-    if (price == null || salePrice == null || discount == null || percentageDiscount == null) {
-        throw const FormatException('Invalid data format');
-    }
+    // Access nested 'url' field inside 'image' map
+    String imageUrl = json['profile_image']?['url'] as String? ?? 'https://via.placeholder.com/150';
+    // String imagesUrl = json['product_images']?['url'] as String ;
 
     return Product(
-      id: json['id'],
-      name: json['name'] as String,
-      description: json['description'] as String,
-      price: price,
-      imageUrl: json['image'] as String,
-      isSale: json['is_sale'] as bool,
-      salePrice: salePrice,
-      stockQuantity: json['stock_quantity'] as int,
-      discount: discount,
-      percentageDiscount: json['percentageDiscount'],
-      slug: json['slug'],
-      brand: json['brand'],
-      material: json['material'],
-      category: json['category'],
-      color: json['color'],
-      size: json['size'],
+      id: json['id'] as int,
+      name: json['name'] as String? ?? 'Unknown Product',
+      description: json['description'] as String? ?? '',
+      imageUrl: imageUrl,
+      // imagesUrl: imagesUrl,
+      price: parseDouble(json['price']) ?? 0.0,
+      isSale: json['is_sale'] as bool? ?? false,
+      salePrice: parseDouble(json['sale_price']),
+      discount: parseDouble(json['discount']),
+      percentageDiscount: parseDouble(json['percentage_discount']),
+      slug: json['slug'] as String? ?? '',
+      stockQuantity: json['stock_quantity'] as int? ?? 0,
+      brand: json['brand'] as String?,
+      material: json['material'] as String?,
+      category: json['category'] as String? ?? 'Unknown',
+      color: json['color'] as String?,
+      size: json['size'] as String?,
     );
   }
 }

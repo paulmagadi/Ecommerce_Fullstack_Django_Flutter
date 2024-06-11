@@ -52,6 +52,8 @@ class Product(models.Model):
     category = models.ForeignKey(Category, on_delete=models.CASCADE, related_name='products', blank=True, null=True)
     color = models.CharField(max_length=255, blank=True)
     size = models.CharField(max_length=255, blank=True)
+    is_new = models.BooleanField(default=True)
+    in_stock = models.BooleanField(default=True)
 
     def __str__(self):
         return self.name
