@@ -9,12 +9,26 @@ Drawer appDrawer(BuildContext context) {
     child: ListView(
       padding: EdgeInsets.zero,
       children: [
-        const DrawerHeader(
-          decoration: BoxDecoration(
-            color: Colors.blue,
+        if (authProvider.isAuthenticated) 
+          UserAccountsDrawerHeader(
+            decoration: const BoxDecoration(
+              color: Colors.blue,
+            ),
+            accountName: Text(authProvider.userName ?? 'User Name'),
+            accountEmail: Text(authProvider.userEmail ?? 'user@example.com'),
+            currentAccountPicture: CircleAvatar(
+              // backgroundImage: authProvider.userImage != null
+                  // ? NetworkImage(authProvider.userImage!)
+                  //  const AssetImage('assets/default_user.png') as ImageProvider, // Provide a default image if none is set
+            ),
+          )
+        else
+          const DrawerHeader(
+            decoration: BoxDecoration(
+              color: Colors.blue,
+            ),
+            child: Text('Welcome Guest'),
           ),
-          child: Text('App Drawer'),
-        ),
         ListTile(
           leading: const Icon(Icons.home),
           title: const Text('Home'),
@@ -22,6 +36,14 @@ Drawer appDrawer(BuildContext context) {
             Navigator.pushReplacementNamed(context, '/');
           },
         ),
+        if (authProvider.isAuthenticated) 
+          ListTile(
+            leading: const Icon(Icons.person),
+            title: const Text('Profile'),
+            onTap: () {
+              Navigator.pushNamed(context, '/profile');
+            },
+          ),
         ListTile(
           leading: const Icon(Icons.info),
           title: const Text('About'),
@@ -36,45 +58,30 @@ Drawer appDrawer(BuildContext context) {
             Navigator.pushNamed(context, '/help');
           },
         ),
-        const Divider(),
-        if (authProvider.isAuthenticated)
-          Column(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.person),
-                title: const Text('Profile'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/profile');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.logout),
-                title: const Text('Logout'),
-                onTap: () {
-                  authProvider.logout();
-                  Navigator.pushReplacementNamed(context, '/');
-                },
-              ),
-            ],
+        if (authProvider.isAuthenticated) 
+          ListTile(
+            leading: const Icon(Icons.logout),
+            title: const Text('Logout'),
+            onTap: () {
+              authProvider.logout();
+              Navigator.pushReplacementNamed(context, '/');
+            },
           )
         else
-          Column(
-            children: [
-              ListTile(
-                leading: const Icon(Icons.person_add),
-                title: const Text('Register'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/register');
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.login),
-                title: const Text('Login'),
-                onTap: () {
-                  Navigator.pushNamed(context, '/login');
-                },
-              ),
-            ],
+          ListTile(
+            leading: const Icon(Icons.login),
+            title: const Text('Login'),
+            onTap: () {
+              Navigator.pushNamed(context, '/login');
+            },
+          ),
+        if (!authProvider.isAuthenticated)
+          ListTile(
+            leading: const Icon(Icons.person_add),
+            title: const Text('Register'),
+            onTap: () {
+              Navigator.pushNamed(context, '/register');
+            },
           ),
       ],
     ),

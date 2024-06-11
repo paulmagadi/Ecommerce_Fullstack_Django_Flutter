@@ -8,9 +8,15 @@ class AuthProvider with ChangeNotifier {
   User? _user;
   bool _isAuthenticated = false;
   String? _token;
+  String? _userName;
+  String? _userEmail;
+  // String? _userImage;
 
   bool get isAuthenticated => _isAuthenticated;
   User? get user => _user;
+  String? get userName => _userName;
+  String? get userEmail => _userEmail;
+  // String? get userImage => _userImage;
 
   Future<void> login(String email, String password) async {
     final url = Uri.parse('http://127.0.0.1:8000/api/auth/jwt/create/');
@@ -25,10 +31,14 @@ class AuthProvider with ChangeNotifier {
       _token = data['access'];
       final prefs = await SharedPreferences.getInstance();
       prefs.setString('token', _token!);
+
+      // Fetch user details
+      await _fetchUserDetails();
+
       _isAuthenticated = true;
       notifyListeners();
     } else {
-      throw Exception('Failed to login');
+      throw Exception('Failed to login. Error: ${response.body}');
     }
   }
 
@@ -47,21 +57,60 @@ class AuthProvider with ChangeNotifier {
     );
 
     if (response.statusCode == 201) {
-      await login(email, password1); // Use password1 for login as passwords are same.
-      // Navigator.pushReplacementNamed(context, '/profile_form');
+      await login(email, password1);
     } else {
-      throw Exception('Failed to register');
+      throw Exception('Failed to register. Error: ${response.body}');
     }
   }
 
-  
+  Future<void> _fetchUserDetails() async {
+    final url = Uri.parse('http://127.0.0.1:8000/api/auth/users/me/');
+    final response = await http.get(
+      url,
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer $_token',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      _user = User.fromJson(data);
+      _userName = '${_user?.firstName} ${_user!.lastName}';
+      _userEmail = _user?.email;
+      // _userImage = _user?.image;
+      _saveUserInfoToPrefs();
+    } else {
+      throw Exception('Failed to fetch user details. Error: ${response.body}');
+    }
+  }
+
+  Future<void> _saveUserInfoToPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    prefs.setString('userName', _userName ?? '');
+    prefs.setString('userEmail', _userEmail ?? '');
+    // prefs.setString('userImage', _userImage ?? '');
+  }
+
+  Future<void> _loadUserInfoFromPrefs() async {
+    final prefs = await SharedPreferences.getInstance();
+    _userName = prefs.getString('userName');
+    _userEmail = prefs.getString('userEmail');
+    // _userImage = prefs.getString('userImage');
+  }
 
   Future<void> logout() async {
     _user = null;
     _isAuthenticated = false;
     _token = null;
+    _userName = null;
+    _userEmail = null;
+    // _userImage = null;
     final prefs = await SharedPreferences.getInstance();
     prefs.remove('token');
+    prefs.remove('userName');
+    prefs.remove('userEmail');
+    prefs.remove('userImage');
     notifyListeners();
   }
 
@@ -70,6 +119,7 @@ class AuthProvider with ChangeNotifier {
     _token = prefs.getString('token');
     if (_token != null) {
       _isAuthenticated = true;
+      await _loadUserInfoFromPrefs();
       notifyListeners();
     }
   }
@@ -80,5 +130,5 @@ class AuthProvider with ChangeNotifier {
   }
 }
 
-
-
+mixin profileImage {
+}
