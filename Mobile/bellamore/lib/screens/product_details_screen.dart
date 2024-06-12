@@ -1,27 +1,38 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../../models/product.dart';
+import '../../providers/cart_provider.dart';
 
-class ProductDetailsScreen extends StatelessWidget {
+class ProductDetailsScreen extends StatefulWidget {
   final Product product;
 
   const ProductDetailsScreen({Key? key, required this.product})
       : super(key: key);
 
   @override
+  _ProductDetailsScreenState createState() => _ProductDetailsScreenState();
+}
+
+class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
+  int _selectedQuantity = 1;
+
+  @override
   Widget build(BuildContext context) {
-    bool isOnSale = product.isSale;
-    double salePrice = product.salePrice ?? 0.0;
+    bool isOnSale = widget.product.isSale;
+    double salePrice = widget.product.salePrice ?? 0.0;
+    int availableStock = widget.product.stockQuantity;
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text(product.name),
+        title: Text(widget.product.name),
       ),
       body: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Image.network(
-              product.profileImage,
+              widget.product.profileImage,
               width: double.infinity,
               height: 250,
               fit: BoxFit.cover,
@@ -44,7 +55,7 @@ class ProductDetailsScreen extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    product.name,
+                    widget.product.name,
                     style: Theme.of(context).textTheme.headlineSmall,
                   ),
                   const SizedBox(height: 10),
@@ -52,7 +63,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     Row(
                       children: [
                         Text(
-                          '\$${product.price.toStringAsFixed(2)}',
+                          '\$${widget.product.price.toStringAsFixed(2)}',
                           style:
                               Theme.of(context).textTheme.titleLarge?.copyWith(
                                     color: Colors.grey,
@@ -73,7 +84,7 @@ class ProductDetailsScreen extends StatelessWidget {
                     )
                   else
                     Text(
-                      '\$${product.price.toStringAsFixed(2)}',
+                      '\$${widget.product.price.toStringAsFixed(2)}',
                       style: Theme.of(context).textTheme.titleLarge?.copyWith(
                             color: Colors.green,
                             fontWeight: FontWeight.bold,
@@ -81,20 +92,52 @@ class ProductDetailsScreen extends StatelessWidget {
                     ),
                   const SizedBox(height: 20),
                   Text(
-                    product.description,
+                    widget.product.description,
                     style: const TextStyle(fontSize: 16),
                   ),
                   const SizedBox(height: 20),
+                  Text(
+                    'Available stock: $availableStock',
+                    style: TextStyle(fontSize: 16, color: Colors.grey),
+                  ),
+                  const SizedBox(height: 10),
+                  Row(
+                    children: [
+                      const Text('Quantity: '),
+                      SizedBox(
+                        width: 10,
+                      ),
+                      DropdownButton<int>(
+                        value: _selectedQuantity,
+                        items:
+                            List.generate(availableStock, (index) => index + 1)
+                                .map((quantity) => DropdownMenuItem(
+                                      value: quantity,
+                                      child: Text(quantity.toString()),
+                                    ))
+                                .toList(),
+                        onChanged: (value) {
+                          setState(() {
+                            _selectedQuantity = value!;
+                          });
+                        },
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 20),
                   ElevatedButton(
-                    onPressed: () {
-                      // Add to cart action
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Added to cart!'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    },
+                    onPressed: _selectedQuantity <= availableStock
+                        ? () {
+                            cartProvider.addToCart(
+                                widget.product, _selectedQuantity);
+                            ScaffoldMessenger.of(context).showSnackBar(
+                              const SnackBar(
+                                content: Text('Added to cart!'),
+                                duration: Duration(seconds: 2),
+                              ),
+                            );
+                          }
+                        : null, // Disable button if quantity exceeds stock
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 50),
                     ),

@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 import '../models/product.dart';
-import '../providers/cart_provider.dart';
 import '../screens/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
@@ -116,7 +114,6 @@ class ProductItem extends StatelessWidget {
                               icon:
                                   const Icon(Icons.add_shopping_cart_outlined),
                               onPressed: () {
-                                Provider.of<CartProvider>(context, listen: false).addToCart(product);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Item Added to Cart!'),
@@ -166,7 +163,7 @@ class ProductItem extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: BorderRadius.circular(100),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                   child: const Text(
                     'New',

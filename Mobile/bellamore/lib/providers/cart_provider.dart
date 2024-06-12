@@ -7,25 +7,38 @@ class CartProvider with ChangeNotifier {
 
   Map<int, CartItem> get cartItems => _cartItems;
 
-  void addToCart(Product product) {
+  void addToCart(Product product, int quantity) {
     if (_cartItems.containsKey(product.id)) {
-      _cartItems[product.id]!.quantity++;
+      if (_cartItems[product.id]!.quantity + quantity <=
+          product.stockQuantity) {
+        _cartItems[product.id]!.quantity += quantity;
+      } else {
+        // Handle case where adding would exceed stock
+        _cartItems[product.id]!.quantity = product.stockQuantity;
+      }
     } else {
-      _cartItems[product.id] = CartItem(product: product);
+      if (quantity <= product.stockQuantity) {
+        _cartItems[product.id] = CartItem(product: product, quantity: quantity);
+      } else {
+        // Handle case where requested quantity exceeds stock
+        _cartItems[product.id] =
+            CartItem(product: product, quantity: product.stockQuantity);
+      }
     }
     notifyListeners();
   }
 
   void removeFromCart(int productId) {
-    if (_cartItems.containsKey(productId)) {
-      _cartItems.remove(productId);
-      notifyListeners();
-    }
+    _cartItems.remove(productId);
+    notifyListeners();
   }
 
   void incrementItem(int productId) {
     if (_cartItems.containsKey(productId)) {
-      _cartItems[productId]!.quantity++;
+      if (_cartItems[productId]!.quantity <
+          _cartItems[productId]!.product.stockQuantity) {
+        _cartItems[productId]!.quantity++;
+      }
       notifyListeners();
     }
   }
