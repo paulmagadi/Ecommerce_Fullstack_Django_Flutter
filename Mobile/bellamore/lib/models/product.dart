@@ -30,7 +30,7 @@ class Product {
   final int stockQuantity;
   final String? brand;
   final String? material;
-  final Category category;
+  final ProductCategory category;
   final String? color;
   final String? size;
   final bool isNew;
@@ -82,7 +82,7 @@ class Product {
       stockQuantity: json['stock_quantity'] as int? ?? 0,
       brand: json['brand'] as String?,
       material: json['material'] as String?,
-      category: Category.fromJson(json['category']),
+      category: ProductCategory.fromJson(json['category']),
       color: json['color'] as String?,
       size: json['size'] as String?,
       isNew: json['is_new'] as bool? ?? true,
@@ -91,19 +91,22 @@ class Product {
   }
 }
 
-class Category {
+class ProductCategory {
+  final int id;
   final String name;
   final String? description;
   final String? image;
 
-  Category({
+  ProductCategory({
+    required this.id,
     required this.name,
     this.description,
     this.image,
   });
 
-  factory Category.fromJson(Map<String, dynamic> json) {
-    return Category(
+  factory ProductCategory.fromJson(Map<String, dynamic> json) {
+    return ProductCategory(
+      id: json['id'] as int,
       name: json['name'] as String,
       description: json['description'] as String?,
       image: json['image'] as String?,

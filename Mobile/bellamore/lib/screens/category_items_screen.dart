@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import '../../providers/product_provider.dart';
+import '../../models/product.dart';
 import '../../models/category.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
@@ -12,8 +15,31 @@ class CategoryItemsScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(category.name),
       ),
-      body: Center(
-        child: Text('Items for ${category.name} will be displayed here.'),
+      body: Consumer<ProductProvider>(
+        builder: (context, productProvider, child) {
+          List<Product> categoryProducts = productProvider.products.where((product) {
+            return product.category.id == category.id;
+          }).toList();
+
+          if (categoryProducts.isEmpty) {
+            return Center(child: Text('No products available in this category.'));
+          }
+
+          return ListView.builder(
+            itemCount: categoryProducts.length,
+            itemBuilder: (context, index) {
+              final product = categoryProducts[index];
+              return ListTile(
+                leading: Image.network(product.profileImage, width: 50, height: 50, fit: BoxFit.cover),
+                title: Text(product.name),
+                subtitle: Text('${product.price.toStringAsFixed(2)} \$'),
+                onTap: () {
+                  // Navigate to the Product Detail Screen if needed
+                },
+              );
+            },
+          );
+        },
       ),
     );
   }

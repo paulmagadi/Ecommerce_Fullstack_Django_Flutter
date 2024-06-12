@@ -11,39 +11,21 @@ class CategoryItem extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(
+        Navigator.push(
+          context,
           MaterialPageRoute(
             builder: (context) => CategoryItemsScreen(category: category),
           ),
         );
       },
       child: Card(
-        elevation: 5,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
-        ),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.network(
-                category.image ?? '',
-                height: 130,
-                width: double.infinity,
-                fit: BoxFit.cover,
-              ),
-            ),
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Image.network(category.image ?? '', height: 100, width: double.infinity, fit: BoxFit.cover),
             Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(
-                category.name,
-                style: const TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
+              padding: const EdgeInsets.all(8.0),
+              child: Text(category.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
             ),
           ],
         ),
