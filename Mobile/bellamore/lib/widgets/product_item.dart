@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../models/product.dart';
+import '../providers/cart_provider.dart';
 import '../screens/product_details_screen.dart';
 
 class ProductItem extends StatelessWidget {
@@ -116,6 +118,10 @@ class ProductItem extends StatelessWidget {
                                 color: Colors.orange,
                               ),
                               onPressed: () {
+                                Provider.of<CartProvider>(context,
+                                        listen: false)
+                                    .addToCart(
+                                        product, 1); // Add 1 quantity for own
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Item Added to Cart!'),
