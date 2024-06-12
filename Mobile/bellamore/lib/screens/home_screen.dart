@@ -11,10 +11,14 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider( // Use MultiProvider to provide multiple providers
+    return MultiProvider(
+      // Use MultiProvider to provide multiple providers
       providers: [
-        ChangeNotifierProvider(create: (_) => ProductProvider()..fetchProducts()),
-        ChangeNotifierProvider(create: (_) => CategoryProvider()..fetchCategories()), // Provide CategoryProvider
+        ChangeNotifierProvider(
+            create: (_) => ProductProvider()..fetchProducts()),
+        ChangeNotifierProvider(
+            create: (_) => CategoryProvider()
+              ..fetchCategories()), // Provide CategoryProvider
       ],
       child: SingleChildScrollView(
         child: Padding(
@@ -32,7 +36,13 @@ class HomeScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  CategoryView(categories: Provider.of<CategoryProvider>(context).categories), // Consume categories from CategoryProvider
+                  SizedBox(
+                    child: CategoryView(
+                      categories:
+                          Provider.of<CategoryProvider>(context).categories,
+                    ),
+                    height: 150,
+                  ), // Consume categories from CategoryProvider
 
                   const SizedBox(height: 10),
                   BannerCarousel(),
