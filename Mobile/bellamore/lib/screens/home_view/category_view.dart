@@ -12,14 +12,10 @@ class CategoryView extends StatelessWidget {
     return categories.isEmpty
         ? const Center(child: CircularProgressIndicator()) // Loading indicator if categories are empty
         : SingleChildScrollView(
-          
             scrollDirection: Axis.horizontal, // Enable horizontal scrolling
             child: Row(
               children: categories.map((category) {
-                return Container(
-                  margin: const EdgeInsets.symmetric(horizontal: 10), // Spacing between items
-                  child: CategoryItem(category: category),
-                );
+                return CategoryItem(category: category);
               }).toList(),
             ),
           );

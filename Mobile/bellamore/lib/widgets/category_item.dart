@@ -19,42 +19,42 @@ class CategoryItem extends StatelessWidget {
         );
       },
       child: Container(
-        margin: const EdgeInsets.all(3), // Margin around each item
-        padding: const EdgeInsets.all(5), // Padding inside the container
+        width: 350, // Fixed width
+        height: 150, // Fixed height
+        margin: const EdgeInsets.symmetric(
+            horizontal: 5, vertical: 5), // Adjust margin as needed
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.purple.withOpacity(0.8),
+              Colors.purple.withOpacity(0.7),
               Colors.purple,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
           ),
-          borderRadius: BorderRadius.circular(5), // Rounded corners
+          borderRadius: BorderRadius.circular(5),
           image: DecorationImage(
             image: NetworkImage(category.image ?? ''),
             fit: BoxFit.cover,
             colorFilter: ColorFilter.mode(
-                Colors.black.withOpacity(0.4), BlendMode.darken),
+              Colors.black.withOpacity(0.4),
+              BlendMode.darken,
+            ),
           ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
+        child: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Align(
+            alignment: Alignment.center,
+            child: Text(
               category.name,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.white,
-                    fontSize: 24, // Increased font size for emphasis
-                    fontWeight: FontWeight.bold, // Bold font weight
+                    fontSize: 26,
+                    fontWeight: FontWeight.bold,
                   ),
-              textAlign: TextAlign.center,
             ),
-            const SizedBox(
-                height:
-                    5), // Space between text and additional content if needed
-            // Additional content like a description or category count can be added here
-          ],
+          ),
         ),
       ),
     );
