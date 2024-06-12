@@ -26,13 +26,14 @@ class ProductProvider with ChangeNotifier {
     }
   }
 
-  Future<List<Product>> fetchProductsByCategory(int categoryId) async {
+  Future<void> fetchProductsByCategory(int categoryId) async {
     final url = Uri.parse('http://10.0.2.2:8000/api/products/?category=$categoryId');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
         final List<dynamic> productData = json.decode(response.body);
-        return productData.map((data) => Product.fromJson(data)).toList();
+        _products = productData.map((data) => Product.fromJson(data)).toList();
+        notifyListeners();
       } else {
         throw Exception('Failed to load products');
       }
