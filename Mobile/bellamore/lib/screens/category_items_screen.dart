@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
-import '../../models/product.dart';
 import '../../models/category.dart';
+import '../../models/product.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
   final Category category;
@@ -22,7 +22,7 @@ class CategoryItemsScreen extends StatelessWidget {
           }).toList();
 
           if (categoryProducts.isEmpty) {
-            return Center(child: Text('No products available in this category.'));
+            return const Center(child: Text('No products available in this category.'));
           }
 
           return ListView.builder(
@@ -30,7 +30,12 @@ class CategoryItemsScreen extends StatelessWidget {
             itemBuilder: (context, index) {
               final product = categoryProducts[index];
               return ListTile(
-                leading: Image.network(product.profileImage, width: 50, height: 50, fit: BoxFit.cover),
+                leading: Image.network(
+                  product.profileImage,
+                  width: 50,
+                  height: 50,
+                  fit: BoxFit.cover,
+                ),
                 title: Text(product.name),
                 subtitle: Text('${product.price.toStringAsFixed(2)} \$'),
                 onTap: () {
