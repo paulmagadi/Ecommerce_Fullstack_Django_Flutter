@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
 import '../../models/category.dart';
-// import '../../models/product.dart';
+import '../../widgets/product_item.dart'; // Import the ProductItem widget
 
 class CategoryItemsScreen extends StatelessWidget {
   final Category category;
@@ -32,23 +32,18 @@ class CategoryItemsScreen extends StatelessWidget {
             return const Center(child: Text('No products available in this category.'));
           }
 
-          return ListView.builder(
+          return GridView.builder(
+            padding: const EdgeInsets.all(10),
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+              crossAxisCount: 2, // Adjust this value to change the number of columns
+              childAspectRatio: 3 / 4, // Adjust to change item dimensions
+              crossAxisSpacing: 10,
+              mainAxisSpacing: 10,
+            ),
             itemCount: categoryProducts.length,
-            itemBuilder: (context, index) {
+            itemBuilder: (ctx, index) {
               final product = categoryProducts[index];
-              return ListTile(
-                leading: Image.network(
-                  product.profileImage,
-                  width: 50,
-                  height: 50,
-                  fit: BoxFit.cover,
-                ),
-                title: Text(product.name),
-                subtitle: Text('${product.price.toStringAsFixed(2)} \$'),
-                onTap: () {
-                  // Navigate to the Product Detail Screen if needed
-                },
-              );
+              return ProductItem(product: product); // Use the ProductItem widget
             },
           );
         },
@@ -56,4 +51,3 @@ class CategoryItemsScreen extends StatelessWidget {
     );
   }
 }
-
