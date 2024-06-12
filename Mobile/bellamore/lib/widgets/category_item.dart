@@ -9,7 +9,7 @@ class CategoryItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
+    return InkWell(
       onTap: () {
         Navigator.push(
           context,
@@ -18,15 +18,42 @@ class CategoryItem extends StatelessWidget {
           ),
         );
       },
-      child: Card(
+      child: Container(
+        margin: const EdgeInsets.all(3), // Margin around each item
+        padding: const EdgeInsets.all(5), // Padding inside the container
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            colors: [
+              Colors.purple.withOpacity(0.8),
+              Colors.purple,
+            ],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+          borderRadius: BorderRadius.circular(5), // Rounded corners
+          image: DecorationImage(
+            image: NetworkImage(category.image ?? ''),
+            fit: BoxFit.cover,
+            colorFilter: ColorFilter.mode(
+                Colors.black.withOpacity(0.4), BlendMode.darken),
+          ),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Image.network(category.image ?? '', height: 100, width: double.infinity, fit: BoxFit.cover),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(category.name, style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+            Text(
+              category.name,
+              style: Theme.of(context).textTheme.titleLarge?.copyWith(
+                    color: Colors.white,
+                    fontSize: 24, // Increased font size for emphasis
+                    fontWeight: FontWeight.bold, // Bold font weight
+                  ),
+              textAlign: TextAlign.center,
             ),
+            const SizedBox(
+                height:
+                    5), // Space between text and additional content if needed
+            // Additional content like a description or category count can be added here
           ],
         ),
       ),

@@ -31,3 +31,4 @@ class CategoryView extends StatelessWidget {
           );
   }
 }
+

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
 import '../../models/category.dart';
-import '../../models/product.dart';
+// import '../../models/product.dart';
 
 class CategoryItemsScreen extends StatelessWidget {
   final Category category;
@@ -11,13 +11,20 @@ class CategoryItemsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final productProvider = Provider.of<ProductProvider>(context, listen: false);
+
+    // Fetch products when the screen is built
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      productProvider.fetchProductsByCategory(category.id);
+    });
+
     return Scaffold(
       appBar: AppBar(
         title: Text(category.name),
       ),
       body: Consumer<ProductProvider>(
         builder: (context, productProvider, child) {
-          List<Product> categoryProducts = productProvider.products.where((product) {
+          final categoryProducts = productProvider.products.where((product) {
             return product.category.id == category.id;
           }).toList();
 
@@ -49,3 +56,4 @@ class CategoryItemsScreen extends StatelessWidget {
     );
   }
 }
+
