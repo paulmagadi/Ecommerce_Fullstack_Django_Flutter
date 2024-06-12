@@ -18,7 +18,8 @@ from rest_framework import viewsets, mixins
 
 
 from store.models import Category, Product, ProductImage, WebBanner, MobileBanner
-from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer
+from users.models import Profile
+from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer, ProfileSerializer
 
 
     
@@ -72,8 +73,7 @@ class MobileBannerViewSet(viewsets.ModelViewSet):
     queryset = MobileBanner.objects.all()
     serializer_class = MobileBannerSerializer
 
-from users.models import Profile
-from users.serializers import ProfileSerializer
+
 
 class ProfileViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     # permission_classes = [IsAuthenticated]
