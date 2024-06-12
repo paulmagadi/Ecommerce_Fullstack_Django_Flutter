@@ -1,4 +1,3 @@
-// providers/cart_provider.dart
 import 'package:flutter/material.dart';
 import '../models/cart.dart';
 import '../models/product.dart';
@@ -22,6 +21,23 @@ class CartProvider with ChangeNotifier {
       _cartItems.remove(productId);
       notifyListeners();
     }
+  }
+
+  void incrementItem(int productId) {
+    if (_cartItems.containsKey(productId)) {
+      _cartItems[productId]!.quantity++;
+      notifyListeners();
+    }
+  }
+
+  void decrementItem(int productId) {
+    if (_cartItems.containsKey(productId) &&
+        _cartItems[productId]!.quantity > 1) {
+      _cartItems[productId]!.quantity--;
+    } else {
+      _cartItems.remove(productId);
+    }
+    notifyListeners();
   }
 
   void clearCart() {

@@ -1,4 +1,3 @@
-// screens/cart_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/cart.dart';
@@ -12,7 +11,7 @@ class CartScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Your Cart'),
+        title: const Text('Cart Summary'),
       ),
       body: cartItems.isEmpty
           ? const Center(
@@ -53,28 +52,7 @@ class CartScreen extends StatelessWidget {
                     itemCount: cartItems.length,
                     itemBuilder: (context, index) {
                       CartItem cartItem = cartItems[index];
-                      return Card(
-                        margin: const EdgeInsets.symmetric(
-                            vertical: 10, horizontal: 15),
-                        child: ListTile(
-                          leading: Image.network(
-                            cartItem.product.profileImage,
-                            width: 50,
-                            height: 50,
-                            fit: BoxFit.cover,
-                          ),
-                          title: Text(cartItem.product.name),
-                          subtitle: Text(
-                            '${cartItem.product.isSale ? cartItem.product.salePrice : cartItem.product.price} \$ x ${cartItem.quantity}',
-                          ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete),
-                            onPressed: () {
-                              cartProvider.removeFromCart(cartItem.product.id);
-                            },
-                          ),
-                        ),
-                      );
+                      return CartItemWidget(cartItem: cartItem);
                     },
                   ),
                 ),
@@ -87,6 +65,63 @@ class CartScreen extends StatelessWidget {
             // Proceed to checkout action
           },
           child: const Text('Proceed to Checkout'),
+        ),
+      ),
+    );
+  }
+}
+
+class CartItemWidget extends StatelessWidget {
+  final CartItem cartItem;
+
+  const CartItemWidget({Key? key, required this.cartItem}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    final cartProvider = Provider.of<CartProvider>(context, listen: false);
+
+    return Card(
+      margin: const EdgeInsets.symmetric(
+        horizontal: 15,
+        vertical: 4,
+      ),
+      child: Padding(
+        padding: const EdgeInsets.all(8),
+        child: ListTile(
+          leading: CircleAvatar(
+            backgroundImage: NetworkImage(cartItem.product.profileImage),
+          ),
+          title: Text(cartItem.product.name),
+          subtitle: Text(
+            'Total: \$${(cartItem.product.isSale ? cartItem.product.salePrice! * cartItem.quantity : cartItem.product.price * cartItem.quantity).toStringAsFixed(2)}',
+          ),
+          trailing: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              IconButton(
+                icon: const Icon(Icons.remove),
+                onPressed: () {
+                  cartProvider.decrementItem(cartItem.product.id);
+                },
+                color: Theme.of(context).primaryColor,
+              ),
+              Text('${cartItem.quantity}'),
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  cartProvider.incrementItem(cartItem.product.id);
+                },
+                color: Theme.of(context).primaryColor,
+              ),
+              IconButton(
+                icon: const Icon(Icons.delete_forever_outlined),
+                onPressed: () {
+                  cartProvider.removeFromCart(cartItem.product.id);
+                },
+                color: Theme.of(context).colorScheme.error,
+              ),
+            ],
+          ),
         ),
       ),
     );
