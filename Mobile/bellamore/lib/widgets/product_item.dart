@@ -12,13 +12,13 @@ class ProductItem extends StatelessWidget {
       child: Card(
         elevation: 5,
         shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(15),
+          borderRadius: BorderRadius.circular(5),
         ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             ClipRRect(
-              borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
+              borderRadius: BorderRadius.vertical(top: Radius.circular(5)),
               child: Image.network(
                 product.profileImage,
                 height: 150,
@@ -40,7 +40,7 @@ class ProductItem extends StatelessWidget {
                       ),
                       textAlign: TextAlign.left,
                       overflow: TextOverflow.ellipsis,
-                      maxLines: 2,
+                      maxLines: 1,
                     ),
                     const Spacer(),
                     Row(
