@@ -32,7 +32,9 @@ class CartProvider with ChangeNotifier {
   double get totalAmount {
     double total = 0.0;
     _cartItems.forEach((key, cartItem) {
-      total += cartItem.product.isSale ? cartItem.product.salePrice! * cartItem.quantity : cartItem.product.price * cartItem.quantity;
+      total += cartItem.product.isSale
+          ? cartItem.product.salePrice! * cartItem.quantity
+          : cartItem.product.price * cartItem.quantity;
     });
     return total;
   }
