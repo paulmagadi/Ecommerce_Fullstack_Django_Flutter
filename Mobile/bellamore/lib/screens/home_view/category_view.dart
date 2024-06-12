@@ -10,25 +10,18 @@ class CategoryView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return categories.isEmpty
-        ? const Center(
-            child:
-                CircularProgressIndicator()) // Loading indicator if categories are empty
-        : GridView.builder(
-            shrinkWrap: true,
-            physics:
-                NeverScrollableScrollPhysics(), // Prevent grid scrolling inside a ScrollView
-            padding: const EdgeInsets.all(10),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              childAspectRatio: 2.8 / 3,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
+        ? const Center(child: CircularProgressIndicator()) // Loading indicator if categories are empty
+        : SingleChildScrollView(
+          
+            scrollDirection: Axis.horizontal, // Enable horizontal scrolling
+            child: Row(
+              children: categories.map((category) {
+                return Container(
+                  margin: const EdgeInsets.symmetric(horizontal: 10), // Spacing between items
+                  child: CategoryItem(category: category),
+                );
+              }).toList(),
             ),
-            itemCount: categories.length,
-            itemBuilder: (ctx, index) {
-              return CategoryItem(category: categories[index]);
-            },
           );
   }
 }
-
