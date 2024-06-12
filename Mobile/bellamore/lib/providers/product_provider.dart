@@ -15,6 +15,7 @@ class ProductProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         final List<dynamic> productData = json.decode(response.body);
         _products = productData.map((data) => Product.fromJson(data)).toList();
+        print('Fetched products: $_products'); // Debug
         notifyListeners();
       } else {
         throw Exception('Failed to load products');
@@ -26,8 +27,7 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future<List<Product>> fetchProductsByCategory(int categoryId) async {
-    final url =
-        Uri.parse('http://10.0.2.2:8000/api/products/?category=$categoryId');
+    final url = Uri.parse('http://10.0.2.2:8000/api/products/?category=$categoryId');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

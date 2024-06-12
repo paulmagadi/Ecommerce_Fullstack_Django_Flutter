@@ -3,7 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 class ApiService {
-  final String baseUrl = 'http://10.0.0.1/api/auth/';
+  final String baseUrl = 'http://10.0.2.2/api/auth/';
 
   Future<http.Response> postRequest(String endpoint, Map<String, dynamic> data) async {
     final url = Uri.parse('$baseUrl$endpoint');
