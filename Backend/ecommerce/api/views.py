@@ -75,28 +75,17 @@ class MobileBannerViewSet(viewsets.ModelViewSet):
 from users.models import Profile
 from users.serializers import ProfileSerializer
 
+class ProfileViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+    # permission_classes = [IsAuthenticated]
+    queryset = Profile.objects.all()
+    serializer_class = ProfileSerializer
 
-class ProfileView(APIView):
-    permission_classes = [IsAuthenticated]
+    def get_object(self):
+        return self.queryset.get(user=self.request.user)
 
-    def get(self, request):
-        try:
-            profile = Profile.objects.get(user=request.user)
-            serializer = ProfileSerializer(profile)
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        except Profile.DoesNotExist:
-            return Response({"detail": "Profile not found"}, status=status.HTTP_404_NOT_FOUND)
-
-    def post(self, request):
-        try:
-            profile = Profile.objects.get(user=request.user)
-        except Profile.DoesNotExist:
-            return Response({"detail": "Profile not found"}, status=status.HTTP_404_NOT_FOUND)
-        
-        serializer = ProfileSerializer(profile, data=request.data, partial=True)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_200_OK)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-    
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
