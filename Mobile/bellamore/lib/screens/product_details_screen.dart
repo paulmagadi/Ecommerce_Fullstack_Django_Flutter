@@ -105,7 +105,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     children: [
                       const Text('Quantity: '),
                       SizedBox(
-                        width: 10,
+                        width: 20,
                       ),
                       DropdownButton<int>(
                         value: _selectedQuantity,

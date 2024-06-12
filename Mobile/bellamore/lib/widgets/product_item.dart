@@ -111,8 +111,10 @@ class ProductItem extends StatelessWidget {
                                 ),
                               ),
                             IconButton(
-                              icon:
-                                  const Icon(Icons.add_shopping_cart_outlined),
+                              icon: const Icon(
+                                Icons.add_shopping_cart_outlined,
+                                color: Colors.orange,
+                              ),
                               onPressed: () {
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
@@ -163,7 +165,7 @@ class ProductItem extends StatelessWidget {
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
                   decoration: BoxDecoration(
                     color: Colors.black,
-                    borderRadius: BorderRadius.circular(10),
+                    borderRadius: BorderRadius.circular(90),
                   ),
                   child: const Text(
                     'New',
