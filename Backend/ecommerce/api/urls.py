@@ -14,6 +14,7 @@ router.register(r'mobile-banners', MobileBannerViewSet)
 urlpatterns = [
     path('', include(router.urls)),
     path('profile/', ProfileView.as_view(), name='profile'),
+	
 ]
 
 
