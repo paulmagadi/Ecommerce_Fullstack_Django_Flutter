@@ -12,11 +12,11 @@ class ProductItem extends StatelessWidget {
     bool isOnSale = product.isSale;
     bool isNew = product.isNew;
     double salePrice = product.salePrice ?? product.price;
-    double discountPercentage = 0;
+    double? discountPercentage = product.percentageDiscount;
 
-    if (isOnSale) {
-      discountPercentage = ((product.price - salePrice) / product.price) * 100;
-    }
+    // if (isOnSale) {
+    //   discountPercentage = ((product.price - salePrice) / product.price) * 100;
+    // }
 
     return GestureDetector(
       onTap: () {
@@ -143,7 +143,7 @@ class ProductItem extends StatelessWidget {
                   borderRadius: BorderRadius.circular(8),
                 ),
                 child: Text(
-                  '-${discountPercentage.toStringAsFixed(0)}%',
+                  '-${discountPercentage?.toStringAsFixed(0)}%',
                   style: const TextStyle(
                     color: Colors.white,
                     fontSize: 12,
@@ -155,19 +155,23 @@ class ProductItem extends StatelessWidget {
           if (isNew)
             Positioned(
               top: 8,
-              left: 8,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                decoration: BoxDecoration(
-                  color: Colors.blue,
-                  borderRadius: BorderRadius.circular(8),
-                ),
-                child: const Text(
-                  'New',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.bold,
+              left: 2,
+              child: Transform.rotate(
+                angle: -20,
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: Colors.black,
+                    borderRadius: BorderRadius.circular(100),
+                  ),
+                  child: const Text(
+                    'New',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
