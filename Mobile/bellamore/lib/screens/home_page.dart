@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import '../widgets/drawer.dart';
 import 'cart_screen.dart';
+import '../providers/cart_provider.dart';
 import 'categories_screen.dart';
 import 'deals_screen.dart';
 import 'home_screen.dart';
@@ -32,12 +34,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    // final cart = Provider.of<Cart>(context);
+    final cartProvider = Provider.of<CartProvider>(context);
+
     return Scaffold(
       backgroundColor: const Color.fromARGB(255, 249, 243, 243),
       appBar: AppBar(
-        title: Center(child: const Text('Bellamore Apparels')),
-        actions: [],
+        title: const Center(child: Text('Bellamore Apparels')),
       ),
       drawer: appDrawer(context),
       body: _pages[_selectedIndex],
@@ -64,30 +66,29 @@ class _HomePageState extends State<HomePage> {
             icon: Stack(
               children: [
                 const Icon(Icons.shopping_cart_outlined),
-                // if (cart.itemCount > 0)
-                Positioned(
-                  right: 0,
-                  child: Container(
-                    padding: const EdgeInsets.all(1),
-                    decoration: BoxDecoration(
-                      color: Colors.red,
-                      borderRadius: BorderRadius.circular(6),
-                    ),
-                    constraints: const BoxConstraints(
-                      minWidth: 12,
-                      minHeight: 12,
-                    ),
-                    child: Text(
-                      '0',
-                      // '${cart.itemCount}',
-                      style: const TextStyle(
-                        color: Colors.white,
-                        fontSize: 8,
+                if (cartProvider.itemCount > 0)
+                  Positioned(
+                    right: 0,
+                    child: Container(
+                      padding: const EdgeInsets.all(1),
+                      decoration: BoxDecoration(
+                        color: Colors.red,
+                        borderRadius: BorderRadius.circular(6),
                       ),
-                      textAlign: TextAlign.center,
+                      constraints: const BoxConstraints(
+                        minWidth: 12,
+                        minHeight: 12,
+                      ),
+                      child: Text(
+                        '${cartProvider.itemCount}',
+                        style: const TextStyle(
+                          color: Colors.white,
+                          fontSize: 8,
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
                     ),
                   ),
-                ),
               ],
             ),
             label: 'Cart',

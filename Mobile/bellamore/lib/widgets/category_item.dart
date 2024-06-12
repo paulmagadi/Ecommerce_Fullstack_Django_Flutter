@@ -19,14 +19,14 @@ class CategoryItem extends StatelessWidget {
         );
       },
       child: Container(
-        width: 350, // Fixed width
-        height: 150, // Fixed height
+        width: 150, // Fixed width
+        height: 100, // Fixed height
         margin: const EdgeInsets.symmetric(
             horizontal: 5, vertical: 5), // Adjust margin as needed
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.purple.withOpacity(0.7),
+              Colors.purple.withOpacity(0.6),
               Colors.purple,
             ],
             begin: Alignment.topLeft,
@@ -50,9 +50,11 @@ class CategoryItem extends StatelessWidget {
               category.name,
               style: Theme.of(context).textTheme.titleLarge?.copyWith(
                     color: Colors.white,
-                    fontSize: 26,
+                    fontSize: 18,
                     fontWeight: FontWeight.bold,
                   ),
+              overflow: TextOverflow.ellipsis,
+              maxLines: 2,
             ),
           ),
         ),

@@ -9,20 +9,16 @@ class CartProvider with ChangeNotifier {
 
   void addToCart(Product product, int quantity) {
     if (_cartItems.containsKey(product.id)) {
-      if (_cartItems[product.id]!.quantity + quantity <=
-          product.stockQuantity) {
+      if (_cartItems[product.id]!.quantity + quantity <= product.stockQuantity) {
         _cartItems[product.id]!.quantity += quantity;
       } else {
-        // Handle case where adding would exceed stock
         _cartItems[product.id]!.quantity = product.stockQuantity;
       }
     } else {
       if (quantity <= product.stockQuantity) {
         _cartItems[product.id] = CartItem(product: product, quantity: quantity);
       } else {
-        // Handle case where requested quantity exceeds stock
-        _cartItems[product.id] =
-            CartItem(product: product, quantity: product.stockQuantity);
+        _cartItems[product.id] = CartItem(product: product, quantity: product.stockQuantity);
       }
     }
     notifyListeners();
@@ -35,8 +31,7 @@ class CartProvider with ChangeNotifier {
 
   void incrementItem(int productId) {
     if (_cartItems.containsKey(productId)) {
-      if (_cartItems[productId]!.quantity <
-          _cartItems[productId]!.product.stockQuantity) {
+      if (_cartItems[productId]!.quantity < _cartItems[productId]!.product.stockQuantity) {
         _cartItems[productId]!.quantity++;
       }
       notifyListeners();
@@ -44,8 +39,7 @@ class CartProvider with ChangeNotifier {
   }
 
   void decrementItem(int productId) {
-    if (_cartItems.containsKey(productId) &&
-        _cartItems[productId]!.quantity > 1) {
+    if (_cartItems.containsKey(productId) && _cartItems[productId]!.quantity > 1) {
       _cartItems[productId]!.quantity--;
     } else {
       _cartItems.remove(productId);
@@ -57,6 +51,8 @@ class CartProvider with ChangeNotifier {
     _cartItems.clear();
     notifyListeners();
   }
+
+  int get itemCount => _cartItems.length;
 
   double get totalAmount {
     double total = 0.0;
