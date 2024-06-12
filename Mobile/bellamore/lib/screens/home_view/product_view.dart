@@ -8,7 +8,8 @@ class ProductsView extends StatelessWidget {
   const ProductsView({super.key});
 
   Future<List<Product>> fetchProducts() async {
-    final response = await http.get(Uri.parse('http://127.0.0.1:8000/api/products/'));
+    final response =
+        await http.get(Uri.parse('http://10.0.2.2:8000/api/products/'));
     if (response.statusCode == 200) {
       List<dynamic> body = json.decode(response.body);
       return body.map((json) => Product.fromJson(json)).toList();
@@ -35,7 +36,7 @@ class ProductsView extends StatelessWidget {
             physics: const NeverScrollableScrollPhysics(),
             gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
               maxCrossAxisExtent: 200,
-              childAspectRatio: 1.7 / 3,
+              childAspectRatio: 2.3 / 3,
               crossAxisSpacing: 5,
               mainAxisSpacing: 5,
             ),

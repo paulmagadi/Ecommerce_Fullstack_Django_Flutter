@@ -19,7 +19,7 @@ class ProfileProvider with ChangeNotifier {
       throw Exception('No token found');
     }
 
-    final url = Uri.parse('http://127.0.0.1:8000/api/profile/');
+    final url = Uri.parse('http://10.0.2.2:8000/api/profile/');
     final response = await http.get(
       url,
       headers: {
@@ -53,7 +53,7 @@ class ProfileProvider with ChangeNotifier {
       throw Exception('No token found');
     }
 
-    final url = Uri.parse('http://127.0.0.1:8000/api/profile/');
+    final url = Uri.parse('http://10.0.2.2:8000/api/profile/');
     final response = await http.post(
       url,
       headers: {
@@ -61,7 +61,9 @@ class ProfileProvider with ChangeNotifier {
         'Authorization': 'Bearer $token',
       },
       body: json.encode({
-        'image': image != null ? base64Encode(image.readAsBytesSync()) : null, // Convert image to base64
+        'image': image != null
+            ? base64Encode(image.readAsBytesSync())
+            : null, // Convert image to base64
         'phone': phone,
         'address1': address1,
         'address2': address2 ?? '',
@@ -74,7 +76,8 @@ class ProfileProvider with ChangeNotifier {
 
     if (response.statusCode != 200) {
       final errorData = json.decode(response.body);
-      throw Exception('Failed to update profile: ${errorData['message'] ?? 'Unknown error'}');
+      throw Exception(
+          'Failed to update profile: ${errorData['message'] ?? 'Unknown error'}');
     }
 
     await fetchProfile();
