@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+import '../models/banner.dart';
+import '../providers/baner_provider.dart';
+
 class BannerCarousel extends StatefulWidget {
   const BannerCarousel({Key? key}) : super(key: key);
 
@@ -9,30 +12,48 @@ class BannerCarousel extends StatefulWidget {
 }
 
 class _BannerCarouselState extends State<BannerCarousel> {
-  final List<String> items = [
-    'assets/images/cakes/1.png',
-    'assets/images/cakes/2.png',
-    'assets/images/cakes/3.png',
-    'assets/images/cakes/4.png',
-    'assets/images/cakes/5.png',
-    'assets/images/cakes/6.png',
-  ];
   final CarouselController _controller = CarouselController();
   int _current = 0;
+  List<MobileBanner> _banners = [];
+  bool _isLoading = true;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchBanners();
+  }
+
+  Future<void> _fetchBanners() async {
+    try {
+      final banners = await ApiService().fetchBanners();
+      setState(() {
+        _banners = banners;
+        _isLoading = false;
+      });
+    } catch (e) {
+      // Handle error
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    if (_isLoading) {
+      return Center(child: CircularProgressIndicator());
+    }
+
     return Column(
       children: [
         // Carousel slider
         CarouselSlider(
-          items: items.map((item) {
+          items: _banners.map((banner) {
             return ClipRRect(
               clipBehavior: Clip.antiAliasWithSaveLayer,
-              borderRadius:
-                  BorderRadius.circular(8.0), 
-              child: Image.asset(
-                item,
+              borderRadius: BorderRadius.circular(8.0),
+              child: Image.network(
+                banner.image,
                 fit: BoxFit.contain,
                 width: double.infinity,
               ),
@@ -55,7 +76,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
         // Dots (indicators) at the bottom of the carousel
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
-          children: items.asMap().entries.map((entry) {
+          children: _banners.asMap().entries.map((entry) {
             return GestureDetector(
               onTap: () => _controller.animateToPage(entry.key),
               child: Container(
@@ -69,13 +90,6 @@ class _BannerCarouselState extends State<BannerCarousel> {
                       ? Colors.blue // Active dot color
                       : Colors.grey, // Inactive dot color
                 ),
-                // decoration: BoxDecoration(
-                //   shape: BoxShape.circle,
-                //   color: (Theme.of(context).brightness == Brightness.dark
-                //           ? Colors.white
-                //           : const Color.fromARGB(255, 255, 149, 0))
-                //       .withOpacity(_current == entry.key ? 0.9 : 0.4),
-                // ),
               ),
             );
           }).toList(),
