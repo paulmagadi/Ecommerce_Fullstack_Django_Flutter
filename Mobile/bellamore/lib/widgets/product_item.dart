@@ -16,9 +16,7 @@ class ProductItem extends StatelessWidget {
     double salePrice = product.salePrice ?? product.price;
     double? discountPercentage = product.percentageDiscount;
 
-    // if (isOnSale) {
-    //   discountPercentage = ((product.price - salePrice) / product.price) * 100;
-    // }
+   
 
     return GestureDetector(
       onTap: () {

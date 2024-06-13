@@ -1,50 +1,38 @@
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'dart:convert';
-import '../../models/product.dart';
+import 'package:provider/provider.dart';
+
+import '../../providers/product_provider.dart';
 import '../../widgets/product_item.dart';
 
 class ProductsView extends StatelessWidget {
-  const ProductsView({super.key});
-
-  Future<List<Product>> fetchProducts() async {
-    final response =
-        await http.get(Uri.parse('http://10.0.2.2:8000/api/products/'));
-    if (response.statusCode == 200) {
-      List<dynamic> body = json.decode(response.body);
-      return body.map((json) => Product.fromJson(json)).toList();
-    } else {
-      throw Exception('Failed to load products');
-    }
-  }
+  const ProductsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<List<Product>>(
-      future: fetchProducts(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
+    return Consumer<ProductProvider>(
+      builder: (context, productProvider, child) {
+        if (productProvider.products.isEmpty) {
+          productProvider.fetchProducts();
           return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No products found.'));
         } else {
-          List<Product> products = snapshot.data!;
-          return GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-              maxCrossAxisExtent: 200,
-              childAspectRatio: 2.3 / 3,
-              crossAxisSpacing: 5,
-              mainAxisSpacing: 5,
+          return Padding(
+            padding: const EdgeInsets.all(4.0),
+            child: GridView.builder(
+              physics:
+                  const NeverScrollableScrollPhysics(), // Disable GridView scrolling
+              shrinkWrap: true, // Ensure GridView takes only required space
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                maxCrossAxisExtent: 200,
+                childAspectRatio: 2.3 / 3,
+                crossAxisSpacing: 5,
+                mainAxisSpacing: 5,
+              ),
+              itemCount: productProvider.products.length,
+              itemBuilder: (ctx, index) {
+                final product = productProvider.products[index];
+                return ProductItem(product: product);
+              },
             ),
-            itemCount: products.length,
-            itemBuilder: (ctx, index) {
-              final product = products[index];
-              return ProductItem(product: product);
-            },
           );
         }
       },
