@@ -1,25 +1,23 @@
 
-class Banner {
-  final int id;
-  final String name;
-  final String description;
+class MobileBanner {
+  final String image;
+  final String? caption;
+  final DateTime createdAt;
+  final bool inUse;
 
-
-  Banner({
-    required this.id,
-    required this.name,
-    required this.description,
-    
+  MobileBanner({
+    required this.image,
+    this.caption,
+    required this.createdAt,
+    required this.inUse,
   });
 
-
-
-    return Banner(
-      id: json['id'] as int,
-      name: json['name'] as String,
-      description: json['description'] as String? ?? '',
-      
-     
+  factory MobileBanner.fromJson(Map<String, dynamic> json) {
+    return MobileBanner(
+      image: json['image'],
+      caption: json['caption'],
+      createdAt: DateTime.parse(json['created_at']),
+      inUse: json['in_use'],
     );
   }
 }
