@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/cart.dart';
 import '../providers/cart_provider.dart';
+import '../widgets/cart_item.dart';
+import '../screens/home_screen.dart'; // Import HomeScreen
 
 class CartScreen extends StatelessWidget {
   @override
@@ -60,69 +62,22 @@ class CartScreen extends StatelessWidget {
             ),
       bottomNavigationBar: Container(
         padding: const EdgeInsets.all(20),
-        child: ElevatedButton(
-          onPressed: () {
-            // Proceed to checkout action
-          },
-          child: const Text('Proceed to Checkout'),
-        ),
-      ),
-    );
-  }
-}
-
-class CartItemWidget extends StatelessWidget {
-  final CartItem cartItem;
-
-  const CartItemWidget({Key? key, required this.cartItem}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    final cartProvider = Provider.of<CartProvider>(context, listen: false);
-
-    return Card(
-      margin: const EdgeInsets.symmetric(
-        horizontal: 15,
-        vertical: 4,
-      ),
-      child: Padding(
-        padding: const EdgeInsets.all(8),
-        child: ListTile(
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(cartItem.product.profileImage),
-          ),
-          title: Text(cartItem.product.name),
-          subtitle: Text(
-            'Total: \$${(cartItem.product.isSale ? cartItem.product.salePrice! * cartItem.quantity : cartItem.product.price * cartItem.quantity).toStringAsFixed(2)}',
-          ),
-          trailing: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: const Icon(Icons.remove),
+        child: cartItems.isEmpty
+            ? ElevatedButton(
                 onPressed: () {
-                  cartProvider.decrementItem(cartItem.product.id);
+                  Navigator.pushReplacement(
+                    context,
+                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                  );
                 },
-                color: Theme.of(context).primaryColor,
-              ),
-              Text('${cartItem.quantity}'),
-              IconButton(
-                icon: const Icon(Icons.add),
+                child: const Text('Continue Shopping'),
+              )
+            : ElevatedButton(
                 onPressed: () {
-                  cartProvider.incrementItem(cartItem.product.id);
+                  // Proceed to checkout action
                 },
-                color: Theme.of(context).primaryColor,
+                child: const Text('Proceed to Checkout'),
               ),
-              IconButton(
-                icon: const Icon(Icons.delete_forever_outlined),
-                onPressed: () {
-                  cartProvider.removeFromCart(cartItem.product.id);
-                },
-                color: Theme.of(context).colorScheme.error,
-              ),
-            ],
-          ),
-        ),
       ),
     );
   }
