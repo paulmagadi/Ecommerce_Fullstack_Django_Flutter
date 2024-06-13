@@ -64,6 +64,9 @@ class CartScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: cartItems.isEmpty
             ? ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.orange),
+                    foregroundColor: MaterialStatePropertyAll(Colors.black)),
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
@@ -73,6 +76,9 @@ class CartScreen extends StatelessWidget {
                 child: const Text('Continue Shopping'),
               )
             : ElevatedButton(
+                style: const ButtonStyle(
+                    backgroundColor: MaterialStatePropertyAll(Colors.orange),
+                    foregroundColor: MaterialStatePropertyAll(Colors.black)),
                 onPressed: () {
                   // Proceed to checkout action
                 },

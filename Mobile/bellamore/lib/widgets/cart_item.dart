@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
@@ -20,12 +19,22 @@ class CartItemWidget extends StatelessWidget {
         vertical: 4,
       ),
       child: Padding(
-        padding: const EdgeInsets.all(8),
+        padding: const EdgeInsets.all(2),
         child: ListTile(
-          leading: CircleAvatar(
-            backgroundImage: NetworkImage(cartItem.product.profileImage),
+          leading: Image.network(
+            cartItem.product.profileImage,
+            width: 50,
+            // height: 50,
+            fit: BoxFit.cover,
           ),
-          title: Text(cartItem.product.name),
+          // leading: CircleAvatar(
+          //   backgroundImage: NetworkImage(cartItem.product.profileImage),
+          // ),
+          title: Text(
+            cartItem.product.name,
+            style: TextStyle(overflow: TextOverflow.ellipsis),
+            maxLines: 2,
+          ),
           subtitle: Text(
             'Total: \$${(cartItem.product.isSale ? cartItem.product.salePrice! * cartItem.quantity : cartItem.product.price * cartItem.quantity).toStringAsFixed(2)}',
           ),

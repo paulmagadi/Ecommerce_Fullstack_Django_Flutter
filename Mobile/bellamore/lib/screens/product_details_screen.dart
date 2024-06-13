@@ -132,34 +132,24 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                 widget.product, _selectedQuantity);
                             ScaffoldMessenger.of(context).showSnackBar(
                               const SnackBar(
-                                content: Text('Added to cart!'),
+                                content: Text(
+                                  'Added to cart!',
+                                  style: TextStyle(color: Colors.black),
+                                ),
                                 duration: Duration(seconds: 2),
+                                backgroundColor: Colors.orange,
                               ),
                             );
                           }
                         : null, // Disable button if quantity exceeds stock
                     style: ElevatedButton.styleFrom(
                       minimumSize: const Size(double.infinity, 50),
+                      backgroundColor: Colors.orange,
+                      foregroundColor: Colors.black,
                     ),
                     child: const Text('Add to Cart'),
                   ),
                   const SizedBox(height: 10),
-                  ElevatedButton(
-                    onPressed: () {
-                      // Add to wish list action
-                      ScaffoldMessenger.of(context).showSnackBar(
-                        const SnackBar(
-                          content: Text('Added to wish list!'),
-                          duration: Duration(seconds: 2),
-                        ),
-                      );
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.grey,
-                      minimumSize: const Size(double.infinity, 50),
-                    ),
-                    child: const Text('Add to Wish List'),
-                  ),
                 ],
               ),
             ),
