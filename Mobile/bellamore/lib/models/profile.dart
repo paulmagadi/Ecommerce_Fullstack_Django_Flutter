@@ -1,24 +1,24 @@
 class Profile {
   final String user;
-  final String image;
-  final String phone;
-  final String address1;
-  final String address2;
-  final String city;
-  final String state;
-  final String zipcode;
-  final String country;
+  final String? image;
+  final String? phone;
+  final String? address1;
+  final String? address2;
+  final String? city;
+  final String? state;
+  final String? zipcode;
+  final String? country;
 
   Profile({
     required this.user,
-    required this.image,
-    required this.phone,
-    required this.address1,
-    required this.address2,
-    required this.city,
-    required this.state,
-    required this.zipcode,
-    required this.country,
+     this.image,
+     this.phone,
+     this.address1,
+     this.address2,
+     this.city,
+     this.state,
+     this.zipcode,
+     this.country,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {

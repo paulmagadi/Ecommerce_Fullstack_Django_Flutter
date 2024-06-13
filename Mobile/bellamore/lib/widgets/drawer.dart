@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
-// import '../providers/profile_provider.dart';
+import '../providers/profile_provider.dart';
 
 Drawer appDrawer(BuildContext context) {
   final authProvider = Provider.of<AuthProvider>(context);
@@ -11,18 +11,24 @@ Drawer appDrawer(BuildContext context) {
     child: ListView(
       padding: EdgeInsets.zero,
       children: [
-        if (authProvider.isAuthenticated) 
-          UserAccountsDrawerHeader(
-            decoration: const BoxDecoration(
-              color: Colors.blue,
-            ),
-            accountName: Text(authProvider.userName ?? 'User Name'),
-            accountEmail: Text(authProvider.userEmail ?? 'user@example.com'),
-          //   currentAccountPicture: CircleAvatar(
-          //     backgroundImage: profileProvider.profile != null
-          //         ? NetworkImage(profileProvider.image!)
-          //         : const AssetImage('assets/default_user.png') as ImageProvider, // Provide a default image if none is set
-          //   ),
+        if (authProvider.isAuthenticated)
+          Consumer<ProfileProvider>(
+            builder: (context, profileProvider, child) {
+              return UserAccountsDrawerHeader(
+                decoration: const BoxDecoration(
+                  color: Colors.blue,
+                ),
+                accountName: Text(authProvider.userName ?? 'User Name'),
+                accountEmail:
+                    Text(authProvider.userEmail ?? 'user@example.com'),
+                currentAccountPicture: CircleAvatar(
+                  backgroundImage: profileProvider.profile?.image != null
+                      ? NetworkImage(profileProvider.profile!.image!)
+                      : const AssetImage('assets/default_user.png')
+                          as ImageProvider,
+                ),
+              );
+            },
           )
         else
           const DrawerHeader(
@@ -39,13 +45,13 @@ Drawer appDrawer(BuildContext context) {
           },
         ),
         ListTile(
-          leading: const Icon(Icons.home),
+          leading: const Icon(Icons.shopping_basket),
           title: const Text('Products'),
           onTap: () {
             Navigator.pushNamed(context, '/product_list');
           },
         ),
-        if (authProvider.isAuthenticated) 
+        if (authProvider.isAuthenticated)
           ListTile(
             leading: const Icon(Icons.person),
             title: const Text('Profile'),
@@ -67,7 +73,7 @@ Drawer appDrawer(BuildContext context) {
             Navigator.pushNamed(context, '/help');
           },
         ),
-        if (authProvider.isAuthenticated) 
+        if (authProvider.isAuthenticated)
           ListTile(
             leading: const Icon(Icons.logout),
             title: const Text('Logout'),

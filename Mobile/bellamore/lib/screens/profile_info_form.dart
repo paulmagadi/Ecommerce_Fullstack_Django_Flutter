@@ -23,38 +23,65 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   @override
   void initState() {
     super.initState();
-    final profile = Provider.of<ProfileProvider>(context, listen: false).profile;
-    _phoneController = TextEditingController(text: profile?.phone ?? '');
-    _address1Controller = TextEditingController(text: profile?.address1 ?? '');
-    _address2Controller = TextEditingController(text: profile?.address2 ?? '');
-    _cityController = TextEditingController(text: profile?.city ?? '');
-    _stateController = TextEditingController(text: profile?.state ?? '');
-    _zipcodeController = TextEditingController(text: profile?.zipcode ?? '');
-    _countryController = TextEditingController(text: profile?.country ?? '');
+    _initializeControllers();
+    _loadProfileData();
+  }
+
+  void _initializeControllers() {
+    _phoneController = TextEditingController();
+    _address1Controller = TextEditingController();
+    _address2Controller = TextEditingController();
+    _cityController = TextEditingController();
+    _stateController = TextEditingController();
+    _zipcodeController = TextEditingController();
+    _countryController = TextEditingController();
+  }
+
+  Future<void> _loadProfileData() async {
+    final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    try {
+      await profileProvider.fetchProfile();
+      final profile = profileProvider.profile;
+
+      if (profile != null) {
+        _phoneController.text = profile.phone ?? '';
+        _address1Controller.text = profile.address1 ?? '';
+        _address2Controller.text = profile.address2 ?? '';
+        _cityController.text = profile.city ?? '';
+        _stateController.text = profile.state ?? '';
+        _zipcodeController.text = profile.zipcode ?? '';
+        _countryController.text = profile.country ?? '';
+      }
+    } catch (error) {
+      // Handle error
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to load profile')),
+      );
+    }
   }
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    setState(() {
-      if (pickedFile != null) {
+    if (pickedFile != null) {
+      setState(() {
         _imageFile = File(pickedFile.path);
-      }
-    });
+      });
+    }
   }
 
   void _submitProfile() async {
     if (_formKey.currentState!.validate()) {
       try {
         await Provider.of<ProfileProvider>(context, listen: false).updateProfile(
-          image: _imageFile, // Pass the File object
+          image: _imageFile,
           phone: _phoneController.text,
           address1: _address1Controller.text,
           address2: _address2Controller.text,
           city: _cityController.text,
           state: _stateController.text,
           zipcode: _zipcodeController.text,
-          country: _countryController.text, token: '',
+          country: _countryController.text,
         );
         Navigator.pushReplacementNamed(context, '/home');
       } catch (error) {
@@ -63,6 +90,18 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
         );
       }
     }
+  }
+
+  @override
+  void dispose() {
+    _phoneController.dispose();
+    _address1Controller.dispose();
+    _address2Controller.dispose();
+    _cityController.dispose();
+    _stateController.dispose();
+    _zipcodeController.dispose();
+    _countryController.dispose();
+    super.dispose();
   }
 
   @override
@@ -76,47 +115,25 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
             key: _formKey,
             child: Column(
               children: <Widget>[
-                if (_imageFile != null)
-                  Image.file(
-                    _imageFile!,
-                    height: 150,
-                    width: 150,
-                    fit: BoxFit.cover,
-                  )
-                else
-                  Icon(Icons.image, size: 150),
+                _imageFile != null
+                    ? Image.file(
+                        _imageFile!,
+                        height: 150,
+                        width: 150,
+                        fit: BoxFit.cover,
+                      )
+                    : Icon(Icons.image, size: 150),
                 ElevatedButton(
                   onPressed: _pickImage,
                   child: Text('Choose Image'),
                 ),
-                TextFormField(
-                  controller: _phoneController,
-                  decoration: InputDecoration(labelText: 'Phone'),
-                ),
-                TextFormField(
-                  controller: _address1Controller,
-                  decoration: InputDecoration(labelText: 'Address 1'),
-                ),
-                TextFormField(
-                  controller: _address2Controller,
-                  decoration: InputDecoration(labelText: 'Address 2'),
-                ),
-                TextFormField(
-                  controller: _cityController,
-                  decoration: InputDecoration(labelText: 'City'),
-                ),
-                TextFormField(
-                  controller: _stateController,
-                  decoration: InputDecoration(labelText: 'State'),
-                ),
-                TextFormField(
-                  controller: _zipcodeController,
-                  decoration: InputDecoration(labelText: 'Zip Code'),
-                ),
-                TextFormField(
-                  controller: _countryController,
-                  decoration: InputDecoration(labelText: 'Country'),
-                ),
+                _buildTextField(_phoneController, 'Phone', TextInputType.phone),
+                _buildTextField(_address1Controller, 'Address 1'),
+                _buildTextField(_address2Controller, 'Address 2'),
+                _buildTextField(_cityController, 'City'),
+                _buildTextField(_stateController, 'State'),
+                _buildTextField(_zipcodeController, 'Zip Code', TextInputType.number),
+                _buildTextField(_countryController, 'Country'),
                 SizedBox(height: 20),
                 ElevatedButton(
                   onPressed: _submitProfile,
@@ -133,6 +150,20 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildTextField(TextEditingController controller, String labelText, [TextInputType? keyboardType]) {
+    return TextFormField(
+      controller: controller,
+      decoration: InputDecoration(labelText: labelText),
+      keyboardType: keyboardType,
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'Please enter $labelText';
+        }
+        return null;
+      },
     );
   }
 }
