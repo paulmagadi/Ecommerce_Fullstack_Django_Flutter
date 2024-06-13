@@ -3,7 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/cart.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/cart_item.dart';
-import '../screens/home_screen.dart'; // Import HomeScreen
+import 'home_page.dart';
 
 class CartScreen extends StatelessWidget {
   @override
@@ -67,7 +67,7 @@ class CartScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
-                    MaterialPageRoute(builder: (context) => HomeScreen()),
+                    MaterialPageRoute(builder: (context) => HomePage()),
                   );
                 },
                 child: const Text('Continue Shopping'),
