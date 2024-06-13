@@ -19,16 +19,16 @@ class CategoryAdmin(admin.ModelAdmin):
 
 
 
-class WebBannerAdmin(admin.ModelAdmin):
-    list_display = ('caption', 'created_at', 'in_use')
+# class WebBannerAdmin(admin.ModelAdmin):
+#     list_display = ('caption', 'created_at', 'in_use')
     
-class MobileBannerAdmin(admin.ModelAdmin):
-    list_display = ('caption', 'created_at', 'in_use')
+# class MobileBannerAdmin(admin.ModelAdmin):
+#     list_display = ('caption', 'created_at', 'in_use')
 
 admin.site.register(Category, CategoryAdmin)
 admin.site.register(Product, ProductAdmin)
 admin.site.register(ProductImage)
-admin.site.register(WebBanner, WebBannerAdmin)
+admin.site.register(WebBanner)
 admin.site.register(MobileBanner)
 
 

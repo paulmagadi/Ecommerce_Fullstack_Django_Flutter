@@ -147,17 +147,38 @@ class ProductImage(models.Model):
         return url
 
 
-class Banner(models.Model):
+class WebBanner(models.Model):
     image = models.ImageField(upload_to='uploads/banners/', verbose_name="Image")
     caption = models.CharField(max_length=255, blank=True, null=True, verbose_name="Caption")
     created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
     in_use = models.BooleanField(default=False)
 
-    class Meta:
-        abstract = True
 
-    def __str__(self):
-        return self.caption
+    def save(self, *args, **kwargs):
+        super().save(*args, **kwargs)
+        self.resize_image()
+
+    def resize_image(self):
+        if self.image:
+            img = Image.open(self.image.path)
+            if img.height > 1125 or img.width > 1125:
+                img.thumbnail((1125, 1125))
+                img.save(self.image.path, quality=70, optimize=True)
+
+    @property
+    def imageURL(self):
+        try:
+            url = self.image.url
+        except:
+            url = ''
+        return url
+    
+    
+class MobileBanner(models.Model):
+    image = models.ImageField(upload_to='uploads/banners/', verbose_name="Image")
+    caption = models.CharField(max_length=255, blank=True, null=True, verbose_name="Caption")
+    created_at = models.DateTimeField(auto_now_add=True, verbose_name="Created At")
+    in_use = models.BooleanField(default=False)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -179,12 +200,17 @@ class Banner(models.Model):
         return url
 
 
-class WebBanner(Banner):
-    class Meta:
-        verbose_name_plural = 'Web Banners'
+# class WebBanner(Banner):
+#     class Meta:
+#         verbose_name_plural = 'Web Banners'
+    
 
 
-class MobileBanner(Banner):
-    class Meta:
-        verbose_name_plural = 'Mobile Banners'
+
+# class MobileBanner(Banner):
+#     class Meta:
+#         verbose_name_plural = 'Mobile Banners'
+        
+#     def __str__(self):
+#         return self.id
 
