@@ -3,7 +3,6 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/product.dart';
 
-
 class ProductProvider with ChangeNotifier {
   List<Product> _products = [];
 
@@ -16,7 +15,6 @@ class ProductProvider with ChangeNotifier {
       if (response.statusCode == 200) {
         final List<dynamic> productData = json.decode(response.body);
         _products = productData.map((data) => Product.fromJson(data)).toList();
-        print('Fetched products: $_products'); // Debug
         notifyListeners();
       } else {
         throw Exception('Failed to load products');
@@ -28,7 +26,8 @@ class ProductProvider with ChangeNotifier {
   }
 
   Future<void> fetchProductsByCategory(int categoryId) async {
-    final url = Uri.parse('http://10.0.2.2:8000/api/products/?category=$categoryId');
+    final url =
+        Uri.parse('http://10.0.2.2:8000/api/products/?category=$categoryId');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -40,6 +39,22 @@ class ProductProvider with ChangeNotifier {
       }
     } catch (error) {
       print('Error fetching products by category: $error');
+      throw error;
+    }
+  }
+
+   Future<List<Product>> searchProducts(String query) async {
+    final url = Uri.parse('http://10.0.2.2:8000/api/products/?search=$query');
+    try {
+      final response = await http.get(url);
+      if (response.statusCode == 200) {
+        final List<dynamic> productData = json.decode(response.body);
+        return productData.map((data) => Product.fromJson(data)).toList();
+      } else {
+        throw Exception('Failed to load search results');
+      }
+    } catch (error) {
+      print('Error searching products: $error');
       throw error;
     }
   }

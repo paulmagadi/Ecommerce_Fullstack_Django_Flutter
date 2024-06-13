@@ -4,17 +4,22 @@ import '../models/product.dart';
 import '../providers/cart_provider.dart';
 import '../screens/product_details_screen.dart';
 
-class ProductItem extends StatelessWidget {
+class ProductItem extends StatefulWidget {
   final Product product;
 
   const ProductItem({Key? key, required this.product}) : super(key: key);
 
   @override
+  State<ProductItem> createState() => _ProductItemState();
+}
+
+class _ProductItemState extends State<ProductItem> {
+  @override
   Widget build(BuildContext context) {
-    bool isOnSale = product.isSale;
-    bool isNew = product.isNew;
-    double salePrice = product.salePrice ?? product.price;
-    double? discountPercentage = product.percentageDiscount;
+    bool isOnSale = widget.product.isSale;
+    bool isNew = widget.product.isNew;
+    double salePrice = widget.product.salePrice ?? widget.product.price;
+    double? discountPercentage = widget.product.percentageDiscount;
 
    
 
@@ -23,7 +28,7 @@ class ProductItem extends StatelessWidget {
         Navigator.push(
           context,
           MaterialPageRoute(
-            builder: (context) => ProductDetailsScreen(product: product),
+            builder: (context) => ProductDetailsScreen(product: widget.product),
           ),
         );
       },
@@ -41,7 +46,7 @@ class ProductItem extends StatelessWidget {
                   borderRadius:
                       const BorderRadius.vertical(top: Radius.circular(5)),
                   child: Image.network(
-                    product.profileImage,
+                    widget.product.profileImage,
                     height: 150,
                     width: double.infinity,
                     fit: BoxFit.cover,
@@ -66,7 +71,7 @@ class ProductItem extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          product.name,
+                          widget.product.name,
                           style: const TextStyle(
                             fontSize: 14,
                             fontWeight: FontWeight.bold,
@@ -92,7 +97,7 @@ class ProductItem extends StatelessWidget {
                                     ),
                                   ),
                                   Text(
-                                    '\$${product.price.toStringAsFixed(2)}',
+                                    '\$${widget.product.price.toStringAsFixed(2)}',
                                     style: const TextStyle(
                                       fontSize: 12,
                                       color: Colors.grey,
@@ -103,7 +108,7 @@ class ProductItem extends StatelessWidget {
                               )
                             else
                               Text(
-                                '\$${product.price.toStringAsFixed(2)}',
+                                '\$${widget.product.price.toStringAsFixed(2)}',
                                 style: const TextStyle(
                                   fontSize: 12,
                                   color: Colors.green,
@@ -119,7 +124,7 @@ class ProductItem extends StatelessWidget {
                                 Provider.of<CartProvider>(context,
                                         listen: false)
                                     .addToCart(
-                                        product, 1); // Add 1 quantity for own
+                                        widget.product, 1); // Add 1 quantity for own
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Item Added to Cart!'),

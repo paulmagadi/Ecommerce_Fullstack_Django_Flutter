@@ -1,19 +1,11 @@
-from django.shortcuts import render
-from rest_framework import status
 from rest_framework.response import Response
 from rest_framework import viewsets
-from rest_framework import generics
-from rest_framework.decorators import api_view
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
-
-from rest_framework import status
-from rest_framework.decorators import api_view
+from django.db.models import Q
 from rest_framework.response import Response
 from users.models import Profile
 from .serializers import ProfileSerializer
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.views import APIView
 from rest_framework import viewsets, mixins
 
 
@@ -42,27 +34,63 @@ class ProductViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
 
     def get_queryset(self):
         queryset = self.queryset
-        # Filter products based on query parameters
-        name = self.request.query_params.get('name')
-        category_id = self.request.query_params.get('category')
-        brand = self.request.query_params.get('brand')
-        # Add more filters based on other properties as needed
+        query = Q()
 
+        # Retrieve query parameters
+        name = self.request.query_params.get('name', None)
+        category_id = self.request.query_params.get('category', None)
+        brand = self.request.query_params.get('brand', None)
+        key_words = self.request.query_params.get('key_words', None)
+        color = self.request.query_params.get('color', None)
+        material = self.request.query_params.get('material', None)
+
+        # Add filters dynamically based on the presence of query parameters
         if name:
-            queryset = queryset.filter(name__icontains=name)
+            query &= Q(name__icontains=name)
         if category_id:
-            queryset = queryset.filter(category_id=category_id)
+            try:
+                category_id = int(category_id)
+                query &= Q(category_id=category_id)
+            except ValueError:
+                # Handle invalid category_id gracefully
+                queryset = queryset.none()
+                return queryset
         if brand:
-            queryset = queryset.filter(brand__icontains=brand)
-        # Add more filters for other properties as needed
+            query &= Q(brand__icontains=brand)
+        if key_words:
+            query &= Q(key_words__icontains=key_words)
+        if color:
+            query &= Q(color__icontains=color)
+        if material:
+            query &= Q(material__icontains=material)
+
+        # Apply the dynamic query filters to the queryset
+        queryset = queryset.filter(query)
+
+        # Debug: Log the constructed query (for development purposes only)
+        print(queryset.query)
 
         return queryset
 
-    # Implement the retrieve method to get a single product by its ID
+    def list(self, request, *args, **kwargs):
+        queryset = self.get_queryset()
+        page = self.paginate_queryset(queryset)
+        if page is not None:
+            serializer = self.get_serializer(page, many=True)
+            return self.get_paginated_response(serializer.data)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data)
+
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
         serializer = self.get_serializer(instance)
         return Response(serializer.data)
+    
+    
+    
+
+    
 
 class WebBannerViewSet(viewsets.ModelViewSet):
     queryset = WebBanner.objects.all()

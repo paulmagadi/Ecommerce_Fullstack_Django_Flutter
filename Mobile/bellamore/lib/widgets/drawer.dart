@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart';
+// import '../providers/profile_provider.dart';
 
 Drawer appDrawer(BuildContext context) {
   final authProvider = Provider.of<AuthProvider>(context);
+  // final profileProvider = Provider.of<ProfileProvider>(context);
 
   return Drawer(
     child: ListView(
@@ -16,11 +18,11 @@ Drawer appDrawer(BuildContext context) {
             ),
             accountName: Text(authProvider.userName ?? 'User Name'),
             accountEmail: Text(authProvider.userEmail ?? 'user@example.com'),
-            currentAccountPicture: CircleAvatar(
-              // backgroundImage: authProvider.userImage != null
-                  // ? NetworkImage(authProvider.userImage!)
-                  //  const AssetImage('assets/default_user.png') as ImageProvider, // Provide a default image if none is set
-            ),
+          //   currentAccountPicture: CircleAvatar(
+          //     backgroundImage: profileProvider.profile != null
+          //         ? NetworkImage(profileProvider.image!)
+          //         : const AssetImage('assets/default_user.png') as ImageProvider, // Provide a default image if none is set
+          //   ),
           )
         else
           const DrawerHeader(

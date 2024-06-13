@@ -7,6 +7,7 @@ import 'categories_screen.dart';
 import 'deals_screen.dart';
 import 'home_screen.dart';
 import 'profile_screen.dart';
+import 'search_screen.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -40,6 +41,17 @@ class _HomePageState extends State<HomePage> {
       backgroundColor: const Color.fromARGB(255, 249, 243, 243),
       appBar: AppBar(
         title: const Center(child: Text('Bellamore Apparels')),
+        actions: [
+          IconButton(
+            icon: Icon(Icons.search),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => SearchScreen()),
+              );
+            },
+          ),
+        ],
       ),
       drawer: appDrawer(context),
       body: _pages[_selectedIndex],
