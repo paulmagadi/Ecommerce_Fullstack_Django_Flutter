@@ -5,7 +5,7 @@ import 'package:http/http.dart' as http;
 import '../models/banner.dart';
 
 class ApiService {
-  static const String apiUrl = 'https://10.0.2.2:8000/api/banners/';
+  static const String apiUrl = 'http://10.0.2.2:8000/api/banners/';
 
   Future<List<MobileBanner>> fetchBanners() async {
     final response = await http.get(Uri.parse(apiUrl));
