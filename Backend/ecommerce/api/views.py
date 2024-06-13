@@ -69,8 +69,12 @@ class WebBannerViewSet(viewsets.ModelViewSet):
     queryset = WebBanner.objects.all()
     serializer_class = WebBannerSerializer
 
-class MobileBannerViewSet(viewsets.ModelViewSet):
-    queryset = MobileBanner.objects.all()
+# class MobileBannerViewSet(viewsets.ModelViewSet):
+#     queryset = MobileBanner.objects.all()
+#     serializer_class = MobileBannerSerializer
+
+class MobileBannerViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = MobileBanner.objects.filter(in_use=True)  # Filter by in_use=True
     serializer_class = MobileBannerSerializer
 
 

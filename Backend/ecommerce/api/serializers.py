@@ -46,3 +46,5 @@ class MobileBannerSerializer(serializers.ModelSerializer):
     class Meta:
         model = MobileBanner
         fields = '__all__'
+        
+        
