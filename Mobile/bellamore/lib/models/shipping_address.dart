@@ -1,7 +1,8 @@
-class Profile {
+class ShippingAddress {
   final String user;
-  final String image;
   final String phone;
+  final String fullName;
+  final String email;
   final String address1;
   final String address2;
   final String city;
@@ -9,10 +10,11 @@ class Profile {
   final String zipcode;
   final String country;
 
-  Profile({
+  ShippingAddress({
     required this.user,
-    required this.image,
     required this.phone,
+    required this.fullName,
+    required this.email,
     required this.address1,
     required this.address2,
     required this.city,
@@ -21,17 +23,18 @@ class Profile {
     required this.country,
   });
 
-  factory Profile.fromJson(Map<String, dynamic> json) {
-    return Profile(
+  factory ShippingAddress.fromJson(Map<String, dynamic> json) {
+    return ShippingAddress(
       user: json['user'],
-      image: json['image'] ?? 'default/pic.png',
       phone: json['phone'] ?? '',
-      address1: json['address1'] ?? '',
+      fullName: json['full_name'],
+      email: json['email'],
+      address1: json['address1'],
       address2: json['address2'] ?? '',
-      city: json['city'] ?? '',
+      city: json['city'],
       state: json['state'] ?? '',
       zipcode: json['zipcode'] ?? '',
-      country: json['country'] ?? '',
+      country: json['country'],
     );
   }
 }

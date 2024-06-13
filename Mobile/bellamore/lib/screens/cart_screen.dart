@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 import '../models/cart.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/cart_item.dart';
+import 'checkout_screen.dart';
 import 'home_page.dart';
 
 class CartScreen extends StatelessWidget {
@@ -80,7 +81,10 @@ class CartScreen extends StatelessWidget {
                     backgroundColor: MaterialStatePropertyAll(Colors.orange),
                     foregroundColor: MaterialStatePropertyAll(Colors.black)),
                 onPressed: () {
-                  // Proceed to checkout action
+                   Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CheckoutScreen()),
+                  );
                 },
                 child: const Text('Proceed to Checkout'),
               ),

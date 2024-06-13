@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../models/profile.dart';
 
@@ -11,14 +10,7 @@ class ProfileProvider with ChangeNotifier {
 
   Profile? get profile => _profile;
 
-  Future<void> fetchProfile() async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-
-    if (token == null) {
-      throw Exception('No token found');
-    }
-
+  Future<void> fetchProfile(String token) async {
     final url = Uri.parse('http://10.0.2.2:8000/api/profile/');
     final response = await http.get(
       url,
@@ -37,6 +29,7 @@ class ProfileProvider with ChangeNotifier {
   }
 
   Future<void> updateProfile({
+    required String token,
     required File? image,
     required String phone,
     required String address1,
@@ -46,13 +39,6 @@ class ProfileProvider with ChangeNotifier {
     required String zipcode,
     required String country,
   }) async {
-    final prefs = await SharedPreferences.getInstance();
-    final token = prefs.getString('token');
-
-    if (token == null) {
-      throw Exception('No token found');
-    }
-
     final url = Uri.parse('http://10.0.2.2:8000/api/profile/');
     final response = await http.post(
       url,
@@ -63,7 +49,7 @@ class ProfileProvider with ChangeNotifier {
       body: json.encode({
         'image': image != null
             ? base64Encode(image.readAsBytesSync())
-            : null, // Convert image to base64
+            : null,
         'phone': phone,
         'address1': address1,
         'address2': address2 ?? '',
@@ -76,10 +62,9 @@ class ProfileProvider with ChangeNotifier {
 
     if (response.statusCode != 200) {
       final errorData = json.decode(response.body);
-      throw Exception(
-          'Failed to update profile: ${errorData['message'] ?? 'Unknown error'}');
+      throw Exception('Failed to update profile: ${errorData['message'] ?? 'Unknown error'}');
     }
 
-    await fetchProfile();
+    await fetchProfile(token);
   }
 }

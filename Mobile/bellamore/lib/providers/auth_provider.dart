@@ -74,7 +74,7 @@ class AuthProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       _user = User.fromJson(data);
-      _userName = '${_user?.firstName} ${_user!.lastName}';
+      _userName = '${_user?.firstName} ${_user?.lastName}';
       _userEmail = _user?.email;
       _saveUserInfoToPrefs();
     } else {
@@ -122,7 +122,4 @@ class AuthProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
-}
-
-mixin profileImage {
 }

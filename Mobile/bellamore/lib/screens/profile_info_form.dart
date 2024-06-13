@@ -54,7 +54,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
           city: _cityController.text,
           state: _stateController.text,
           zipcode: _zipcodeController.text,
-          country: _countryController.text,
+          country: _countryController.text, token: '',
         );
         Navigator.pushReplacementNamed(context, '/home');
       } catch (error) {
