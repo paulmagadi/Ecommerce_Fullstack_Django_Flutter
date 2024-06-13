@@ -58,7 +58,6 @@ class ProductViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
 
         return queryset
 
-
     # Implement the retrieve method to get a single product by its ID
     def retrieve(self, request, *args, **kwargs):
         instance = self.get_object()
