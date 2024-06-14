@@ -7,7 +7,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 // import '../models/profile.dart';
 
 class Profile {
-  final String user;
+  final int user;
   final String? image;
   final String? phone;
   final String? address1;

@@ -24,7 +24,7 @@ Drawer appDrawer(BuildContext context) {
                 currentAccountPicture: CircleAvatar(
                   backgroundImage: profileProvider.profile?.image != null
                       ? NetworkImage(profileProvider.profile!.image!)
-                      : const AssetImage('assets/default_user.png')
+                      : const AssetImage('assets/images/pic.png')
                           as ImageProvider,
                 ),
               );
