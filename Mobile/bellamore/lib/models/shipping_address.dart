@@ -1,10 +1,7 @@
-
 class ShippingAddress {
   final int id;
   final int user;
   final String? phone;
-  final String? fullName;
-  final String? email;
   final String? address1;
   final String? address2;
   final String? city;
@@ -16,8 +13,6 @@ class ShippingAddress {
     required this.id,
     required this.user,
     this.phone,
-    this.fullName,
-    this.email,
     this.address1,
     this.address2,
     this.city,
@@ -31,8 +26,6 @@ class ShippingAddress {
       id: json['id'],
       user: json['user'],
       phone: json['phone'] ?? '',
-      fullName: json['full_name'] ?? '',
-      email: json['email'] ?? '',
       address1: json['address1'] ?? '',
       address2: json['address2'] ?? '',
       city: json['city'] ?? '',
@@ -47,8 +40,6 @@ class ShippingAddress {
       'id': id,
       'user': user,
       'phone': phone,
-      'full_name': fullName,
-      'email': email,
       'address1': address1,
       'address2': address2,
       'city': city,
