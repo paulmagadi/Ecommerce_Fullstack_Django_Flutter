@@ -111,6 +111,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
       ),
       bottomNavigationBar: Container(
+        decoration: BoxDecoration(color: Colors.orange),
         padding: const EdgeInsets.all(20),
         child: Column(
           mainAxisSize: MainAxisSize.min,
@@ -118,20 +119,19 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const Text('Total', style: TextStyle(fontSize: 18)),
-                Text('\$${cartProvider.totalAmount.toStringAsFixed(2)}',
+                Text('Total: \$${cartProvider.totalAmount.toStringAsFixed(2)}',
                     style: const TextStyle(fontSize: 18)),
+                ElevatedButton(
+                  // style: ButtonStyle(),
+                  onPressed: () {
+                    // Navigator.push(
+                    // context,
+                    // MaterialPageRoute(builder: (context) => PaymentScreen()),
+                    // );
+                  },
+                  child: const Text('Continue to Payment'),
+                ),
               ],
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                // Navigator.push(
-                // context,
-                // MaterialPageRoute(builder: (context) => PaymentScreen()),
-                // );
-              },
-              child: const Text('Continue to Payment'),
             ),
           ],
         ),
