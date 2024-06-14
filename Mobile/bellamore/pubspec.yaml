@@ -42,7 +42,8 @@ dependencies:
   form_validator: ^2.1.1
   shared_preferences: ^2.2.3
   image_picker: ^1.1.2
-  webview_flutter: ^4.8.0
+  webview_flutter: ^4.0.7
+  flutter_paypal_payment: ^1.0.6
 
 dev_dependencies:
   flutter_test:

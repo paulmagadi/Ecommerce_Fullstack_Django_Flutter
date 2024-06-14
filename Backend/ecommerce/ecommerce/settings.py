@@ -256,3 +256,36 @@ PAYPAL_MODE = 'sandbox'  # or 'live' for production
 
 
 CART_SESSION_ID = 'cart'
+
+
+
+
+
+
+# async function createOrder() {
+#     // Create accessToken using your clientID and clientSecret
+#     // For the full stack example, please see the Standard Integration guide at
+#     // https://developer.paypal.com/docs/checkout/standard/integrate/
+#     const accessToken = "REPLACE_WITH_YOUR_ACCESS_TOKEN"
+#     return fetch("https://api-m.sandbox.paypal.com/v2/checkout/orders", {
+#             method: "POST",
+#             headers: {
+#                 "Content-Type": "application/json",
+#                 Authorization: `Bearer ${accessToken}`,
+#             },
+#             body: JSON.stringify({
+#                 intent: "CAPTURE",
+#                 purchase_units: [{
+#                     amount: {
+#                         value: "15.00",
+#                         currency_code: "USD",
+#                     },
+#                     payee: {
+#                         email_address: "payee@exmple.com",
+#                     },
+#                 }, ],
+#             }),
+#         })
+#         .then((response) => response.json())
+#         .then((data) => console.log(data));
+# }
