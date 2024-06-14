@@ -10,6 +10,8 @@ class ShippingAddressForm extends StatefulWidget {
 class _ShippingAddressFormState extends State<ShippingAddressForm> {
   final _formKey = GlobalKey<FormState>();
   final _phoneController = TextEditingController();
+  final _fullNameController = TextEditingController();
+  final _emailController = TextEditingController();
   final _address1Controller = TextEditingController();
   final _address2Controller = TextEditingController();
   final _cityController = TextEditingController();
@@ -31,6 +33,8 @@ class _ShippingAddressFormState extends State<ShippingAddressForm> {
     final shippingAddress = provider.shippingAddress;
     if (shippingAddress != null) {
       _phoneController.text = shippingAddress.phone ?? '';
+      _fullNameController.text = shippingAddress.fullName ?? '';
+      _emailController.text = shippingAddress.email ?? '';
       _address1Controller.text = shippingAddress.address1 ?? '';
       _address2Controller.text = shippingAddress.address2 ?? '';
       _cityController.text = shippingAddress.city ?? '';
@@ -43,6 +47,8 @@ class _ShippingAddressFormState extends State<ShippingAddressForm> {
   @override
   void dispose() {
     _phoneController.dispose();
+    _fullNameController.dispose();
+    _emailController.dispose();
     _address1Controller.dispose();
     _address2Controller.dispose();
     _cityController.dispose();
@@ -66,6 +72,27 @@ class _ShippingAddressFormState extends State<ShippingAddressForm> {
           key: _formKey,
           child: ListView(
             children: [
+              TextFormField(
+                controller: _fullNameController,
+                decoration: InputDecoration(labelText: 'Full Name'),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Please enter your full name';
+                  }
+                  return null;
+                },
+              ),
+              TextFormField(
+                controller: _emailController,
+                decoration: InputDecoration(labelText: 'Email'),
+                keyboardType: TextInputType.emailAddress,
+                validator: (value) {
+                  if (value == null || value.isEmpty || !value.contains('@')) {
+                    return 'Please enter a valid email';
+                  }
+                  return null;
+                },
+              ),
               TextFormField(
                 controller: _phoneController,
                 decoration: InputDecoration(labelText: 'Phone'),
@@ -139,6 +166,8 @@ class _ShippingAddressFormState extends State<ShippingAddressForm> {
                     provider.updateShippingAddress(
                       id: provider.shippingAddress?.id ?? 0,
                       phone: _phoneController.text,
+                      fullName: _fullNameController.text,
+                      email: _emailController.text,
                       address1: _address1Controller.text,
                       address2: _address2Controller.text,
                       city: _cityController.text,
@@ -147,7 +176,6 @@ class _ShippingAddressFormState extends State<ShippingAddressForm> {
                       country: _countryController.text,
                     );
                   }
-                  Navigator.pushReplacementNamed(context, '/');
                 },
                 child: Text('Save'),
               ),
