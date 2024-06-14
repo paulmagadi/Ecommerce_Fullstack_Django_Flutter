@@ -1,5 +1,5 @@
 class Profile {
-  final String user;
+  final int user;
   final String? image;
   final String? phone;
   final String? address1;
@@ -11,14 +11,14 @@ class Profile {
 
   Profile({
     required this.user,
-     this.image,
-     this.phone,
-     this.address1,
-     this.address2,
-     this.city,
-     this.state,
-     this.zipcode,
-     this.country,
+    this.image,
+    this.phone,
+    this.address1,
+    this.address2,
+    this.city,
+    this.state,
+    this.zipcode,
+    this.country,
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) {

@@ -19,6 +19,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   late TextEditingController _zipcodeController;
   late TextEditingController _countryController;
   File? _imageFile;
+  String? _initialImageUrl;
 
   @override
   void initState() {
@@ -38,7 +39,8 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   }
 
   Future<void> _loadProfileData() async {
-    final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+    final profileProvider =
+        Provider.of<ProfileProvider>(context, listen: false);
     try {
       await profileProvider.fetchProfile();
       final profile = profileProvider.profile;
@@ -51,11 +53,11 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
         _stateController.text = profile.state ?? '';
         _zipcodeController.text = profile.zipcode ?? '';
         _countryController.text = profile.country ?? '';
+        _initialImageUrl = profile.image;
       }
     } catch (error) {
-      // Handle error
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Failed to load profile')),
+        SnackBar(content: Text('Failed to load profile: ${error.toString()}')),
       );
     }
   }
@@ -73,7 +75,8 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
   void _submitProfile() async {
     if (_formKey.currentState!.validate()) {
       try {
-        await Provider.of<ProfileProvider>(context, listen: false).updateProfile(
+        await Provider.of<ProfileProvider>(context, listen: false)
+            .updateProfile(
           image: _imageFile,
           phone: _phoneController.text,
           address1: _address1Controller.text,
@@ -86,7 +89,8 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
         Navigator.pushReplacementNamed(context, '/home');
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(error.toString())),
+          SnackBar(
+              content: Text('Failed to update profile: ${error.toString()}')),
         );
       }
     }
@@ -122,7 +126,14 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                         width: 150,
                         fit: BoxFit.cover,
                       )
-                    : Icon(Icons.image, size: 150),
+                    : _initialImageUrl != null
+                        ? Image.network(
+                            _initialImageUrl!,
+                            height: 150,
+                            width: 150,
+                            fit: BoxFit.cover,
+                          )
+                        : Icon(Icons.image, size: 150),
                 ElevatedButton(
                   onPressed: _pickImage,
                   child: Text('Choose Image'),
@@ -132,7 +143,8 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
                 _buildTextField(_address2Controller, 'Address 2'),
                 _buildTextField(_cityController, 'City'),
                 _buildTextField(_stateController, 'State'),
-                _buildTextField(_zipcodeController, 'Zip Code', TextInputType.number),
+                _buildTextField(
+                    _zipcodeController, 'Zip Code', TextInputType.number),
                 _buildTextField(_countryController, 'Country'),
                 SizedBox(height: 20),
                 ElevatedButton(
@@ -153,7 +165,8 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
     );
   }
 
-  Widget _buildTextField(TextEditingController controller, String labelText, [TextInputType? keyboardType]) {
+  Widget _buildTextField(TextEditingController controller, String labelText,
+      [TextInputType? keyboardType]) {
     return TextFormField(
       controller: controller,
       decoration: InputDecoration(labelText: labelText),

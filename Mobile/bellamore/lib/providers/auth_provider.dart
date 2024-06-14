@@ -8,11 +8,13 @@ class AuthProvider with ChangeNotifier {
   User? _user;
   bool _isAuthenticated = false;
   String? _token;
+  int? _userId; // Add this line
   String? _userName;
   String? _userEmail;
 
   bool get isAuthenticated => _isAuthenticated;
   User? get user => _user;
+  int? get userId => _userId; // Add this line
   String? get userName => _userName;
   String? get userEmail => _userEmail;
 
@@ -74,6 +76,7 @@ class AuthProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       _user = User.fromJson(data);
+      _userId = _user?.id; // Add this line
       _userName = '${_user?.firstName} ${_user?.lastName}';
       _userEmail = _user?.email;
       _saveUserInfoToPrefs();
@@ -86,18 +89,21 @@ class AuthProvider with ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('userName', _userName ?? '');
     prefs.setString('userEmail', _userEmail ?? '');
+    prefs.setInt('userId', _userId ?? 0); // Add this line
   }
 
   Future<void> _loadUserInfoFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     _userName = prefs.getString('userName');
     _userEmail = prefs.getString('userEmail');
+    _userId = prefs.getInt('userId'); // Add this line
   }
 
   Future<void> logout() async {
     _user = null;
     _isAuthenticated = false;
     _token = null;
+    _userId = null; // Add this line
     _userName = null;
     _userEmail = null;
 
@@ -105,13 +111,15 @@ class AuthProvider with ChangeNotifier {
     prefs.remove('token');
     prefs.remove('userName');
     prefs.remove('userEmail');
+    prefs.remove('userId'); // Add this line
     notifyListeners();
   }
 
   Future<void> checkAuthStatus() async {
     final prefs = await SharedPreferences.getInstance();
     _token = prefs.getString('token');
-    if (_token != null) {
+    _userId = prefs.getInt('userId'); // Add this line
+    if (_token != null && _userId != null) { // Update this line
       _isAuthenticated = true;
       await _loadUserInfoFromPrefs();
       notifyListeners();
@@ -121,5 +129,10 @@ class AuthProvider with ChangeNotifier {
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
+  }
+
+  Future<int?> getUserId() async { // Add this function
+    final prefs = await SharedPreferences.getInstance();
+    return prefs.getInt('userId');
   }
 }

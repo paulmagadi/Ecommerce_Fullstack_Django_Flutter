@@ -42,7 +42,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       const SizedBox(height: 20),
                       Text(
-                        'Logged in as: ${authProvider.user?.firstName ?? 'First Name'} ${authProvider.user?.lastName ?? 'Last Name'}',
+                        authProvider.userName ?? 'Name',
                         style: const TextStyle(fontSize: 18),
                       ),
                       const SizedBox(height: 10),
