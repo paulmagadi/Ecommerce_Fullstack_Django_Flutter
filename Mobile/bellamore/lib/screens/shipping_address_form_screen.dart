@@ -176,6 +176,7 @@ class _ShippingAddressFormState extends State<ShippingAddressForm> {
                       country: _countryController.text,
                     );
                   }
+                  Navigator.pop(context);
                 },
                 child: Text('Save'),
               ),

@@ -86,7 +86,7 @@ class _ProfileFormScreenState extends State<ProfileFormScreen> {
           zipcode: _zipcodeController.text,
           country: _countryController.text,
         );
-        Navigator.pushReplacementNamed(context, '/home');
+        Navigator.pop(context);
       } catch (error) {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(
