@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
 import '../providers/shipping_address_provider.dart';
+import '../widgets/cart_item.dart';
 // import 'edit_shipping_address_screen.dart';
 // import 'payment_screen.dart';
 
@@ -80,7 +81,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         ),
                       ),
                       IconButton(
-                        icon: const Icon(Icons.edit, color: Colors.blue),
+                        icon: const Icon(Icons.edit, color: Colors.orange),
                         onPressed: () {
                           Navigator.push(
                             context,
@@ -100,13 +101,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 itemCount: cartItems.length,
                 itemBuilder: (ctx, index) {
                   final cartItem = cartItems[index];
-                  return ListTile(
-                    title: Text(cartItem.product.name),
-                    subtitle: Text(
-                        '${cartItem.quantity} x \$${cartItem.product.isSale ? cartItem.product.salePrice : cartItem.product.price}'),
-                    trailing: Text(
-                      '\$${(cartItem.product.isSale ? cartItem.product.salePrice! * cartItem.quantity : cartItem.product.price * cartItem.quantity).toStringAsFixed(2)}',
-                    ),
+                  return CartItemWidget(
+                    cartItem: cartItem,
                   );
                 },
               ),
