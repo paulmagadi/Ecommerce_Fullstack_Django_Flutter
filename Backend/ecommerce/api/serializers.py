@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from store.models import Category, Product , ProductImage, WebBanner, MobileBanner
-from users.models import Profile
+from users.models import Profile, ShippingAddress
 
 
 class ProfileSerializer(serializers.ModelSerializer):
@@ -18,6 +18,24 @@ class ProfileSerializer(serializers.ModelSerializer):
             setattr(instance, attr, value)
         instance.save()
         return instance
+    
+    
+class ShippingAddressSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ShippingAddress
+        fields = '__all__'       
+        
+    def create(self, validated_data):
+        user = self.context['request'].user
+        shipping, created = ShippingAddress.objects.update_or_create(user=user, defaults=validated_data)
+        return shipping
+
+    def update(self, instance, validated_data):
+        for attr, value in validated_data.items():
+            setattr(instance, attr, value)
+        instance.save()
+        return instance
+    
 
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:

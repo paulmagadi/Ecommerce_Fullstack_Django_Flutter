@@ -10,8 +10,8 @@ from rest_framework import viewsets, mixins
 
 
 from store.models import Category, Product, ProductImage, WebBanner, MobileBanner
-from users.models import Profile
-from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer, ProfileSerializer
+from users.models import Profile, ShippingAddress
+from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer, ProfileSerializer, ShippingAddressSerializer
 
 
     
@@ -24,9 +24,6 @@ class ProductImageViewSet(viewsets.ModelViewSet):
     queryset = ProductImage.objects.all()
     serializer_class = ProductImageSerializer
 
-# class ProductViewSet(viewsets.ModelViewSet):
-#     queryset = Product.objects.all()
-#     serializer_class = ProductSerializer
 
 class ProductViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
     queryset = Product.objects.all()
@@ -96,12 +93,8 @@ class WebBannerViewSet(viewsets.ModelViewSet):
     queryset = WebBanner.objects.all()
     serializer_class = WebBannerSerializer
 
-# class MobileBannerViewSet(viewsets.ModelViewSet):
-#     queryset = MobileBanner.objects.all()
-#     serializer_class = MobileBannerSerializer
-
 class MobileBannerViewSet(viewsets.ReadOnlyModelViewSet):
-    queryset = MobileBanner.objects.filter(in_use=True)  # Filter by in_use=True
+    queryset = MobileBanner.objects.filter(in_use=True) 
     serializer_class = MobileBannerSerializer
 
 
@@ -110,6 +103,23 @@ class ProfileViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewset
     permission_classes = [IsAuthenticated]
     queryset = Profile.objects.all()
     serializer_class = ProfileSerializer
+
+    def get_object(self):
+        return self.queryset.get(user=self.request.user)
+
+    def update(self, request, *args, **kwargs):
+        instance = self.get_object()
+        serializer = self.get_serializer(instance, data=request.data, partial=True)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        return Response(serializer.data)
+    
+    
+
+class ShippingAddressViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+    permission_classes = [IsAuthenticated]
+    queryset = ShippingAddress.objects.all()
+    serializer_class = ShippingAddressSerializer
 
     def get_object(self):
         return self.queryset.get(user=self.request.user)
