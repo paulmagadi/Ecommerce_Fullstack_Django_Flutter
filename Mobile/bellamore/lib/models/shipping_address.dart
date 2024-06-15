@@ -1,8 +1,8 @@
 
 
 class ShippingAddress {
-  // final int id;
-  // final int user;
+  final int id;
+  final int user;
   final String? phone;
   final String? fullName;
   final String? email;
@@ -14,8 +14,8 @@ class ShippingAddress {
   final String? country;
 
   ShippingAddress({
-    // required this.id,
-    // required this.user,
+    required this.id,
+    required this.user,
     this.phone,
     this.fullName,
     this.email,
@@ -29,8 +29,8 @@ class ShippingAddress {
 
   factory ShippingAddress.fromJson(Map<String, dynamic> json) {
     return ShippingAddress(
-      // id: json['id'],
-      // user: json['user'],
+      id: json['id'],
+      user: json['user'],
       phone: json['phone'] ?? '',
       fullName: json['full_name'] ?? '',
       email: json['email'] ?? '',
@@ -45,8 +45,8 @@ class ShippingAddress {
 
   Map<String, dynamic> toJson() {
     return {
-      // 'id': id,
-      // 'user': user,
+      'id': id,
+      'user': user,
       'phone': phone,
       'full_name': fullName,
       'email': email,
