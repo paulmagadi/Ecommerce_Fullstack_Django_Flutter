@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import '../config.dart';
 import '../models/user.dart';
 
 class AuthProvider with ChangeNotifier {
@@ -20,7 +21,7 @@ class AuthProvider with ChangeNotifier {
 
   Future<void> login(String email, String password) async {
     // final url = Uri.parse('http://10.0.2.2:8000/api/auth/jwt/create/');
-    final url = Uri.parse('http://127.0.0.1:8000/api/auth/jwt/create/');
+    final url = Uri.parse('${Config.baseUrl}/api/auth/jwt/create/');
     final response = await http.post(
       url,
       body: json.encode({'email': email, 'password': password}),
@@ -44,7 +45,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> register(String email, String password1, String password2, String firstName, String lastName) async {
-    final url = Uri.parse('http://127.0.0.1:8000/api/auth/users/');
+    final url = Uri.parse('${Config.baseUrl}/api/auth/users/');
     final response = await http.post(
       url,
       body: json.encode({
@@ -65,7 +66,7 @@ class AuthProvider with ChangeNotifier {
   }
 
   Future<void> _fetchUserDetails() async {
-    final url = Uri.parse('http://127.0.0.1:8000/api/auth/users/me/');
+    final url = Uri.parse('${Config.baseUrl}/api/auth/users/me/');
     final response = await http.get(
       url,
       headers: {

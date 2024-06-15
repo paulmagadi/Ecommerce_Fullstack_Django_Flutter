@@ -1,12 +1,10 @@
-import 'package:bellamore/screens/payment_screen.dart';
-import 'package:bellamore/screens/shipping_address_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/cart_provider.dart';
 import '../providers/shipping_address_provider.dart';
 import '../widgets/cart_item.dart';
-// import 'edit_shipping_address_screen.dart';
-// import 'payment_screen.dart';
+import 'payment_screen.dart';
+import 'shipping_address_form_screen.dart';
 
 class CheckoutScreen extends StatefulWidget {
   @override
@@ -102,9 +100,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 itemCount: cartItems.length,
                 itemBuilder: (ctx, index) {
                   final cartItem = cartItems[index];
-                  return CartItemWidget(
-                    cartItem: cartItem,
-                  );
+                  return CartItemWidget(cartItem: cartItem);
                 },
               ),
             ),
@@ -123,11 +119,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 Text('Total: \$${cartProvider.totalAmount.toStringAsFixed(2)}',
                     style: const TextStyle(fontSize: 18)),
                 ElevatedButton(
-                  // style: ButtonStyle(),
                   onPressed: () {
                     Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => PaymentScreen(totalAmount: 100,)),
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => PaymentScreen(
+                              totalAmount: cartProvider.totalAmount)),
                     );
                   },
                   child: const Text('Continue to Payment'),

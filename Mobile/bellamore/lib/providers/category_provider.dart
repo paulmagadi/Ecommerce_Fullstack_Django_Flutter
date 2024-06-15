@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import '../config.dart';
 import '../models/product.dart';
 import '../models/category.dart';
 
@@ -10,7 +11,7 @@ class CategoryProvider with ChangeNotifier {
   List<Category> get categories => _categories;
 
   Future<void> fetchCategories() async {
-    final url = Uri.parse('http://127.0.0.1:8000/api/categories/');
+    final url = Uri.parse('${Config.baseUrl}/api/categories/');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {
@@ -27,7 +28,7 @@ class CategoryProvider with ChangeNotifier {
   }
 
   Future<List<Product>> fetchProductsByCategory(int categoryId) async {
-    final url = Uri.parse('http://127.0.0.1:8000/api/products/?category=$categoryId');
+    final url = Uri.parse('${Config.baseUrl}/api/products/?category=$categoryId');
     try {
       final response = await http.get(url);
       if (response.statusCode == 200) {

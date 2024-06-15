@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config.dart';
+
 class ShippingAddress {
   final int id;
   final int user;
@@ -61,7 +63,7 @@ class ShippingAddressProvider with ChangeNotifier {
       throw Exception('No token or user ID found');
     }
 
-    final url = Uri.parse('http://127.0.0.1:8000/api/shipping-address/$userId/');
+    final url = Uri.parse('${Config.baseUrl}/api/shipping-address/$userId/');
     final response = await http.get(
       url,
       headers: {
@@ -97,7 +99,7 @@ class ShippingAddressProvider with ChangeNotifier {
       throw Exception('No token found');
     }
 
-    final url = Uri.parse('http://127.0.0.1:8000/api/shipping-address/$id/');
+    final url = Uri.parse('${Config.baseUrl}/api/shipping-address/$id/');
     final response = await http.put(
       url,
       headers: {

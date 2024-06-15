@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
-
 import '../config.dart';
 
 class PaymentScreen extends StatefulWidget {
@@ -15,10 +14,9 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
+  // ignore: unused_field
   late InAppWebViewController _webViewController;
   String? _checkoutUrl;
-  // final String _baseUrl =
-  // 'http://127.0.0.1:8000'; // Replace with your Django server URL
 
   @override
   void initState() {
@@ -32,14 +30,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       // Step 1: Make a GET request to get the CSRF token.
       final getResponse = await client.get(
-        Uri.parse(
-            '${Config.baseUrl}/api/get_csrf_token/'), // Replace with your Django endpoint.
+        Uri.parse('${Config.baseUrl}/api/get_csrf_token/'), // Django endpoint.
       );
 
       // Extract the CSRF token from cookies.
       final cookies = getResponse.headers['set-cookie'];
-      final csrfToken =
-          RegExp(r'csrftoken=([^;]+)').firstMatch(cookies!)?.group(1);
+      final csrfToken = RegExp(r'csrftoken=([^;]+)').firstMatch(cookies!)?.group(1);
 
       if (csrfToken == null) {
         print('Failed to retrieve CSRF token.');
@@ -48,13 +44,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
       // Step 2: Make a POST request with the CSRF token.
       final postResponse = await client.post(
-        Uri.parse(
-            '${Config.baseUrl}/payment/process/'), // Update with your Django payment process URL.
+        Uri.parse('${Config.baseUrl}/payment/process/'), // Django payment process URL.
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'X-CSRFToken': csrfToken, // Include the CSRF token in the headers.
-          'Cookie':
-              cookies, // Include the session cookie to maintain the session.
+          'Cookie': cookies, // Include the session cookie to maintain the session.
         },
         body: jsonEncode(<String, dynamic>{
           'totalAmount': widget.totalAmount,
@@ -111,8 +105,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
   void _handlePaymentSuccess(String url) async {
     try {
       final response = await http.post(
-        Uri.parse(
-            '$url?paymentId=payment_id&PayerID=payer_id'), // Update with actual parameters
+        Uri.parse('$url?paymentId=payment_id&PayerID=payer_id'), // Update with actual parameters
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -126,8 +119,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Payment Successful!')),
         );
-        Navigator.pop(
-            context); // Navigate back to the previous screen after success
+        Navigator.pop(context); // Navigate back to the previous screen after success
       } else {
         throw Exception('Failed to execute payment');
       }

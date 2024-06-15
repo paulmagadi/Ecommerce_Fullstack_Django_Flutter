@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../config.dart';
+
 class Profile {
   final int user;
   final String? image;
@@ -56,7 +58,7 @@ class ProfileProvider with ChangeNotifier {
       throw Exception('No token or user ID found');
     }
 
-    final url = Uri.parse('http://127.0.0.1:8000/api/profile/$userId/');
+    final url = Uri.parse('${Config.baseUrl}/api/profile/$userId/');
     final response = await http.get(
       url,
       headers: {
@@ -91,7 +93,7 @@ class ProfileProvider with ChangeNotifier {
       throw Exception('No token or user ID found');
     }
 
-    final url = Uri.parse('http://127.0.0.1:8000/api/profile/$userId/');
+    final url = Uri.parse('${Config.baseUrl}/api/profile/$userId/');
     final request = http.MultipartRequest('PUT', url);
     request.headers['Authorization'] = 'Bearer $token';
 
