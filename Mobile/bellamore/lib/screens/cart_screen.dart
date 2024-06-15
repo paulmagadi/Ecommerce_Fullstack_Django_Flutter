@@ -1,4 +1,8 @@
+import 'package:bellamore/screens/home_view/product_view.dart';
+import 'package:flutter/cupertino.dart';
+// import 'package:bellamore/widgets/product_item.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../models/cart.dart';
 import '../providers/cart_provider.dart';
@@ -17,8 +21,34 @@ class CartScreen extends StatelessWidget {
         title: const Text('Cart Summary'),
       ),
       body: cartItems.isEmpty
-          ? const Center(
-              child: Text('Your cart is empty.'),
+          ? const SingleChildScrollView(
+              child: Column(
+                children: [
+                  Center(
+                    child: Text(
+                      'Your cart is empty',
+                      style: TextStyle(fontSize: 30),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 50,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: Text(
+                          'You may also like',
+                          style: TextStyle(
+                              fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                      )
+                    ],
+                  ),
+                  ProductsView(), // list the products
+                ],
+              ),
             )
           : Column(
               children: [
@@ -81,7 +111,7 @@ class CartScreen extends StatelessWidget {
                     backgroundColor: MaterialStatePropertyAll(Colors.orange),
                     foregroundColor: MaterialStatePropertyAll(Colors.black)),
                 onPressed: () {
-                   Navigator.push(
+                  Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CheckoutScreen()),
                   );
