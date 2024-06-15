@@ -33,9 +33,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final cartItems = cartProvider.cartItems.values.toList();
     final shippingAddress = shippingProvider.shippingAddress;
 
-    // final totalAmount = cartProvider.totalAmount;
-    // final cartProvider = Provider.of<CartProvider>(context);
-    // final cartItems = cartProvider.cartItems.values.toList();
     List<Map<String, dynamic>> convertCartItems(List<CartItem> cartItems) {
       return cartItems.map((item) => item.toMap()).toList();
     }
