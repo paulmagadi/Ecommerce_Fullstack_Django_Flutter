@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
+// import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'providers/auth_provider.dart';
 import 'providers/cart_provider.dart';
 import 'providers/product_provider.dart';
@@ -17,7 +17,11 @@ import 'screens/static/about.dart';
 import 'screens/static/contact.dart';
 import 'screens/static/help.dart';
 
-void main() {
+
+// child: Text('Base URL: ${dotenv.env['BASE_URL']}'),
+
+void main() async {
+  // await dotenv.load(fileName: ".env");
   runApp(
     MultiProvider(
       providers: [

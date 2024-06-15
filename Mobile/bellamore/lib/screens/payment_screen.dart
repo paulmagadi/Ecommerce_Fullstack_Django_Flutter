@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 
+import '../config.dart';
+
 class PaymentScreen extends StatefulWidget {
   final double totalAmount;
 
@@ -15,8 +17,8 @@ class PaymentScreen extends StatefulWidget {
 class _PaymentScreenState extends State<PaymentScreen> {
   late InAppWebViewController _webViewController;
   String? _checkoutUrl;
-  final String _baseUrl =
-      'http://127.0.0.1:8000'; // Replace with your Django server URL
+  // final String _baseUrl =
+  // 'http://127.0.0.1:8000'; // Replace with your Django server URL
 
   @override
   void initState() {
@@ -31,7 +33,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       // Step 1: Make a GET request to get the CSRF token.
       final getResponse = await client.get(
         Uri.parse(
-            '$_baseUrl/api/get_csrf_token/'), // Replace with your Django endpoint.
+            '${Config.baseUrl}/api/get_csrf_token/'), // Replace with your Django endpoint.
       );
 
       // Extract the CSRF token from cookies.
@@ -47,7 +49,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
       // Step 2: Make a POST request with the CSRF token.
       final postResponse = await client.post(
         Uri.parse(
-            '$_baseUrl/payment/process/'), // Update with your Django payment process URL.
+            '${Config.baseUrl}/payment/process/'), // Update with your Django payment process URL.
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'X-CSRFToken': csrfToken, // Include the CSRF token in the headers.
@@ -90,8 +92,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 _webViewController = controller;
               },
               onLoadStop: (controller, url) async {
-                final returnUrl = '$_baseUrl/payment/execute/';
-                final cancelUrl = '$_baseUrl/payment/cancel/';
+                final returnUrl = '${Config.baseUrl}/payment/execute/';
+                final cancelUrl = '${Config.baseUrl}/payment/cancel/';
 
                 if (url.toString().startsWith(returnUrl)) {
                   _handlePaymentSuccess(url.toString());
