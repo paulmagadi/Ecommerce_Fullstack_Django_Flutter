@@ -75,12 +75,15 @@ class CartProvider with ChangeNotifier {
 //   });
 //   return total;
 // }
-
-
 double get totalAmount {
-    return _cartItems.values
-        .fold(0.0, (sum, item) => sum + item.product.price * item.quantity);
-  }
+  return _cartItems.values
+      .fold(0.0, (sum, item) => sum + (item.product.isSale ? item.product.salePrice : item.product.price)! * item.quantity);
+}
+
+// double get totalAmount {
+//     return _cartItems.values
+//         .fold(0.0, (sum, item) => sum + item.product.price * item.quantity);
+//   }
 
   List<Map<String, dynamic>> get cartItemsMap {
     return _cartItems.values.map((item) => item.toMap()).toList();
