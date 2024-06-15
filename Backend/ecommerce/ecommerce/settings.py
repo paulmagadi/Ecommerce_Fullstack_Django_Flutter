@@ -173,35 +173,6 @@ REST_FRAMEWORK = {
 }
 
 
-# SIMPLE_JWT = {
-#     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=5),
-#     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
-#     'ROTATE_REFRESH_TOKENS': True,
-#     'BLACKLIST_AFTER_ROTATION': True,
-#     'ALGORITHM': 'HS256',
-#     'SIGNING_KEY': SECRET_KEY,
-#     'VERIFYING_KEY': None,
-#     'AUDIENCE': None,
-#     'ISSUER': None,
-#     'JWK_URL': None,
-#     'LEEWAY': 0,
-#     'AUTH_HEADER_TYPES': ('Bearer',),
-#     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
-#     'USER_ID_FIELD': 'id',
-#     'USER_ID_CLAIM': 'user_id',
-#     'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
-#     'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
-#     'TOKEN_TYPE_CLAIM': 'token_type',
-#     'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
-#     'JTI_CLAIM': 'jti',
-#     'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
-#     'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
-#     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
-#     'AUTH_HEADER_TYPES': ('JWT',),
-# }
-
-
-
 SIMPLE_JWT = {
     'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
@@ -230,19 +201,10 @@ DJOSER = {
     'SEND_CONFIRMATION_EMAIL': False,  # Set to True if you want email confirmation on user registration
 }
 
-# DJOSER = {
-#     'USER_ID_FIELD': 'id',
-#     'LOGIN_FIELD': 'email',
-#     'USER_CREATE_PASSWORD_RETYPE': True,
-#     'SEND_ACTIVATION_EMAIL': False,
-#     'SEND_CONFIRMATION_EMAIL': False,
-#     'SERIALIZERS': {
-#         'user_create': 'users.serializers.CustomUserCreateSerializer',
-#         'user': 'users.serializers.CustomUserSerializer',
-#         'current_user': 'users.serializers.CustomUserSerializer',
-#     },
-# }
 
+# CORS_ALLOWED_ORIGINS = [
+#     'http://127.0.0.1:8080',  
+# ]
 
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -254,6 +216,10 @@ CORS_ALLOW_METHODS = [
     'PATCH',
     'POST',
     'PUT',
+]
+
+CSRF_TRUSTED_ORIGINS = [
+    'http://127.0.0.1:8080',
 ]
 
 
@@ -269,7 +235,7 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
-CSRF_TRUSTED_ORIGINS = ['http://localhost:56896'] 
+
 
 
 # PAYPAL
@@ -283,33 +249,3 @@ CART_SESSION_ID = 'cart'
 
 
 
-
-
-
-# async function createOrder() {
-#     // Create accessToken using your clientID and clientSecret
-#     // For the full stack example, please see the Standard Integration guide at
-#     // https://developer.paypal.com/docs/checkout/standard/integrate/
-#     const accessToken = "REPLACE_WITH_YOUR_ACCESS_TOKEN"
-#     return fetch("https://api-m.sandbox.paypal.com/v2/checkout/orders", {
-#             method: "POST",
-#             headers: {
-#                 "Content-Type": "application/json",
-#                 Authorization: `Bearer ${accessToken}`,
-#             },
-#             body: JSON.stringify({
-#                 intent: "CAPTURE",
-#                 purchase_units: [{
-#                     amount: {
-#                         value: "15.00",
-#                         currency_code: "USD",
-#                     },
-#                     payee: {
-#                         email_address: "payee@exmple.com",
-#                     },
-#                 }, ],
-#             }),
-#         })
-#         .then((response) => response.json())
-#         .then((data) => console.log(data));
-# }

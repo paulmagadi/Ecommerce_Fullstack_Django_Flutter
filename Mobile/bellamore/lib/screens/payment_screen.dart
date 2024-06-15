@@ -26,19 +26,41 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
   Future<void> _initializePayment() async {
     try {
-      final response = await http.post(
+      final client = http.Client();
+
+      // Step 1: Make a GET request to get the CSRF token.
+      final getResponse = await client.get(
         Uri.parse(
-            '$_baseUrl/payment/process/'), // Update with your Django endpoint
-        headers: <String, String>{
+            '$_baseUrl/api/get_csrf_token/'), // Replace with your Django endpoint.
+      );
+
+      // Extract the CSRF token from cookies.
+      final cookies = getResponse.headers['set-cookie'];
+      final csrfToken =
+          RegExp(r'csrftoken=([^;]+)').firstMatch(cookies!)?.group(1);
+
+      if (csrfToken == null) {
+        print('Failed to retrieve CSRF token.');
+        return;
+      }
+
+      // Step 2: Make a POST request with the CSRF token.
+      final postResponse = await client.post(
+        Uri.parse(
+            '$_baseUrl/payment/process/'), // Update with your Django payment process URL.
+        headers: {
           'Content-Type': 'application/json; charset=UTF-8',
+          'X-CSRFToken': csrfToken, // Include the CSRF token in the headers.
+          'Cookie':
+              cookies, // Include the session cookie to maintain the session.
         },
         body: jsonEncode(<String, dynamic>{
           'totalAmount': widget.totalAmount,
         }),
       );
 
-      if (response.statusCode == 200) {
-        final Map<String, dynamic> responseData = jsonDecode(response.body);
+      if (postResponse.statusCode == 200) {
+        final Map<String, dynamic> responseData = jsonDecode(postResponse.body);
         setState(() {
           _checkoutUrl = responseData['approvalUrl'];
         });
@@ -103,7 +125,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
           const SnackBar(content: Text('Payment Successful!')),
         );
         Navigator.pop(
-            context); // Navigate back to previous screen after success
+            context); // Navigate back to the previous screen after success
       } else {
         throw Exception('Failed to execute payment');
       }
