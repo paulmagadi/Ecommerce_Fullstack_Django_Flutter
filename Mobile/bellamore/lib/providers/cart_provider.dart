@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../models/cart.dart';
 import '../models/product.dart';
 
+
 class CartProvider with ChangeNotifier {
   final Map<int, CartItem> _cartItems = {};  // Stores cart items with product IDs as keys
 
@@ -65,13 +66,23 @@ class CartProvider with ChangeNotifier {
 
   // Calculates the total amount for all items in the cart
 
+// double get totalAmount {
+//   double total = 0.0;
+//   _cartItems.forEach((key, cartItem) {
+//     total += cartItem.product.isSale
+//         ? cartItem.product.salePrice! * cartItem.quantity
+//         : cartItem.product.price * cartItem.quantity;
+//   });
+//   return total;
+// }
+
+
 double get totalAmount {
-  double total = 0.0;
-  _cartItems.forEach((key, cartItem) {
-    total += cartItem.product.isSale
-        ? cartItem.product.salePrice! * cartItem.quantity
-        : cartItem.product.price * cartItem.quantity;
-  });
-  return total;
-}
+    return _cartItems.values
+        .fold(0.0, (sum, item) => sum + item.product.price * item.quantity);
+  }
+
+  List<Map<String, dynamic>> get cartItemsMap {
+    return _cartItems.values.map((item) => item.toMap()).toList();
+  }
 }
