@@ -14,7 +14,15 @@ from users.models import Profile, ShippingAddress
 from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer, ProfileSerializer, ShippingAddressSerializer
 
 from django.http import JsonResponse
-from django.views.decorators.csrf import ensure_csrf_cookie
+from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
+
+from django.http import JsonResponse
+from django.utils.decorators import method_decorator
+from django.views import View
+from users.models import CustomUser
+from store.models import Product
+from cart.models import Order, OrderItem
+import json
 
 
 @ensure_csrf_cookie
@@ -91,10 +99,6 @@ class ProductViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         return Response(serializer.data)
     
     
-    
-
-    
-
 class WebBannerViewSet(viewsets.ModelViewSet):
     queryset = WebBanner.objects.all()
     serializer_class = WebBannerSerializer
@@ -102,7 +106,6 @@ class WebBannerViewSet(viewsets.ModelViewSet):
 class MobileBannerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = MobileBanner.objects.filter(in_use=True) 
     serializer_class = MobileBannerSerializer
-
 
 
 class ProfileViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
@@ -121,7 +124,6 @@ class ProfileViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewset
         return Response(serializer.data)
     
     
-
 class ShippingAddressViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     permission_classes = [IsAuthenticated]
     queryset = ShippingAddress.objects.all()
@@ -136,6 +138,50 @@ class ShippingAddressViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return Response(serializer.data)
+    
+
+@method_decorator(csrf_exempt, name='dispatch')
+class CreateOrderView(View):
+    def post(self, request):
+        data = json.loads(request.body)
+        user_id = data.get('user_id')
+        full_name = data.get('full_name')
+        email = data.get('email')
+        amount_paid = data.get('amount_paid')
+        shipping_address = data.get('shipping_address')
+        items = data.get('items')
+
+        try:
+            user = CustomUser.objects.get(id=user_id)
+            order = Order.objects.create(
+                user=user,
+                full_name=full_name,
+                email=email,
+                amount_paid=amount_paid,
+                shipping_address=json.dumps(shipping_address)
+            )
+
+            for item in items:
+                product = Product.objects.get(id=item['product_id'])
+                order_item = OrderItem.objects.create(
+                    order=order,
+                    product=product,
+                    user=user,
+                    quantity=item['quantity'],
+                    price=item['price']
+                )
+                product.stock_quantity -= item['quantity']
+                product.save()
+
+            return JsonResponse({'status': 'success', 'order_id': order.id}, status=201)
+
+        except CustomUser.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'User not found'}, status=400)
+        except Product.DoesNotExist:
+            return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=400)
+        except Exception as e:
+            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
     
     
     

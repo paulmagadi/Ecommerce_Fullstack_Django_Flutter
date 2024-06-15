@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../models/cart.dart';
 import '../providers/cart_provider.dart';
 import '../providers/shipping_address_provider.dart';
 import '../widgets/cart_item.dart';
 import 'payment_screen.dart';
 import 'shipping_address_form_screen.dart';
+// import '../models/cart.dart';
 
 class CheckoutScreen extends StatefulWidget {
   @override
@@ -31,7 +33,12 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final cartItems = cartProvider.cartItems.values.toList();
     final shippingAddress = shippingProvider.shippingAddress;
 
-    final totalAmount = cartProvider.totalAmount;
+    // final totalAmount = cartProvider.totalAmount;
+    // final cartProvider = Provider.of<CartProvider>(context);
+    // final cartItems = cartProvider.cartItems.values.toList();
+    List<Map<String, dynamic>> convertCartItems(List<CartItem> cartItems) {
+      return cartItems.map((item) => item.toMap()).toList();
+    }
 
     return Scaffold(
       appBar: AppBar(
@@ -69,6 +76,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               ),
                             ),
                             Text(shippingAddress.email ?? ''),
+                            Text(shippingAddress.phone ?? ''),
                             Text(
                               '${shippingAddress.address1 ?? ''}, '
                               '${shippingAddress.address2 ?? ''}, '
@@ -122,14 +130,33 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     style: const TextStyle(fontSize: 18)),
                 ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => PaymentScreen(totalAmount:totalAmount)),
-                    );
+                    final totalAmount = cartProvider.totalAmount;
+                    final cartItemsList =
+                        cartProvider.cartItems.values.toList();
+
+                    if (totalAmount > 0) {
+                      final convertedCartItems =
+                          convertCartItems(cartItemsList);
+
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PaymentScreen(
+                            totalAmount: totalAmount,
+                            cartItems: convertedCartItems,
+                          ),
+                        ),
+                      );
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                            content: Text(
+                                'Your cart is empty or the total amount is zero.')),
+                      );
+                    }
                   },
                   child: const Text('Continue to Payment'),
-                ),
+                )
               ],
             ),
           ],
