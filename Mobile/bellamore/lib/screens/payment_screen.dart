@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:http/http.dart' as http;
 import '../config.dart';
+// import 'package:cookie_jar/cookie_jar.dart';
 
 class PaymentScreen extends StatefulWidget {
   final double totalAmount;
@@ -34,15 +35,11 @@ class _PaymentScreenState extends State<PaymentScreen> {
     );
 
     if (getResponse.statusCode == 200) {
-      final cookies = getResponse.headers['set-cookie'];
-      if (cookies == null) {
-        print('Cookies header not found in the response.');
-        return;
-      }
+      final Map<String, dynamic> responseBody = jsonDecode(getResponse.body);
+      final csrfToken = responseBody['csrfToken'];
 
-      final csrfToken = RegExp(r'csrftoken=([^;]+)').firstMatch(cookies)?.group(1);
       if (csrfToken == null) {
-        print('Failed to extract CSRF token.');
+        print('Failed to retrieve CSRF token.');
         return;
       }
 
@@ -52,7 +49,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
           'X-CSRFToken': csrfToken,
-          'Cookie': cookies,
         },
         body: jsonEncode(<String, dynamic>{
           'totalAmount': widget.totalAmount,
@@ -74,6 +70,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     print('Error initializing payment: $e');
   }
 }
+
 
 
   @override

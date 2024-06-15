@@ -47,6 +47,7 @@ dependencies:
   flutter_paypal_payment: ^1.0.6
   flutter_inappwebview: ^5.8.0
   flutter_dotenv: ^5.1.0
+  cookie_jar: ^4.0.8
   
 
 dev_dependencies:
