@@ -11,6 +11,7 @@ from store.models import Product
 from users.models import ShippingAddress, Profile
 from . import paypal
 import json
+from django.views.decorators.csrf import csrf_exempt
 
 paypalrestsdk.configure({
     "mode": settings.PAYPAL_MODE,
@@ -18,8 +19,8 @@ paypalrestsdk.configure({
     "client_secret": settings.PAYPAL_CLIENT_SECRET,
 })
 
-
-@login_required
+@csrf_exempt
+# @login_required
 def payment(request):
     cart_instance = Cart(request)
     cart_items = cart_instance.get_prods()
@@ -48,8 +49,7 @@ def payment(request):
     }
     return render(request, 'payment/payment.html', context)
 
-
-@login_required
+@csrf_exempt
 def process_payment(request):
     cart_instance = Cart(request)
     cart_items = cart_instance.get_prods()
@@ -92,8 +92,8 @@ def process_payment(request):
         messages.error(request, 'An error occurred while creating the PayPal payment.')
         return redirect('payment')
 
-
-@login_required
+@csrf_exempt
+# @login_required
 def payment_execute(request):
     cart_instance = Cart(request)
     cart_items = cart_instance.get_prods() 
@@ -140,7 +140,7 @@ def payment_execute(request):
                 order=order,
                 product=product,
                 user=user,
-                quantity=cart_quantities[str(item.id)],  # Get quantity from cart_quantities
+                quantity=cart_quantities[str(item.id)],  
                 price=item.sale_price if item.is_sale else item.price
             )
             order_item.save()
@@ -153,9 +153,6 @@ def payment_execute(request):
             if key == "session_key":
                 del request.session[key]
 
-        # Delete Cart from Database 
-        # current_user = Profile.objects.filter(user__id=request.user.id)
-        # current_user.update(old_cart="")
         Profile.objects.filter(user__id=request.user.id).update(old_cart="")
 
 

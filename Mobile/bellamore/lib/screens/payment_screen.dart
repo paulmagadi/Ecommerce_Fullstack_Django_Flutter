@@ -26,52 +26,53 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Future<void> _initializePayment() async {
-  try {
-    final client = http.Client();
+    try {
+      final client = http.Client();
 
-    // Step 1: Make a GET request to get the CSRF token.
-    final getResponse = await client.get(
-      Uri.parse('${Config.baseUrl}/api/get_csrf_token/'),
-    );
-
-    if (getResponse.statusCode == 200) {
-      final Map<String, dynamic> responseBody = jsonDecode(getResponse.body);
-      final csrfToken = responseBody['csrfToken'];
-
-      if (csrfToken == null) {
-        print('Failed to retrieve CSRF token.');
-        return;
-      }
-
-      // Step 2: Make a POST request with the CSRF token.
-      final postResponse = await client.post(
-        Uri.parse('${Config.baseUrl}/payment/process/'),
-        headers: {
-          'Content-Type': 'application/json; charset=UTF-8',
-          'X-CSRFToken': csrfToken,
-        },
-        body: jsonEncode(<String, dynamic>{
-          'totalAmount': widget.totalAmount,
-        }),
+      // Step 1: Make a GET request to get the CSRF token.
+      final getResponse = await client.get(
+        Uri.parse('${Config.baseUrl}/api/get_csrf_token/'),
       );
 
-      if (postResponse.statusCode == 200) {
-        final Map<String, dynamic> responseData = jsonDecode(postResponse.body);
-        setState(() {
-          _checkoutUrl = responseData['approvalUrl'];
-        });
+      if (getResponse.statusCode == 200) {
+        final Map<String, dynamic> responseBody = jsonDecode(getResponse.body);
+        final csrfToken = responseBody['csrfToken'];
+
+        if (csrfToken == null) {
+          print('Failed to retrieve CSRF token.');
+          return;
+        }
+
+        // Step 2: Make a POST request with the CSRF token.
+        final postResponse = await client.post(
+          Uri.parse('${Config.baseUrl}/payment/process/'),
+          headers: {
+            'Content-Type': 'application/json; charset=UTF-8',
+            'X-CSRFToken': csrfToken,
+          },
+          body: jsonEncode(<String, dynamic>{
+            'totalAmount': widget.totalAmount,
+          }),
+        );
+
+        if (postResponse.statusCode == 200) {
+          final Map<String, dynamic> responseData =
+              jsonDecode(postResponse.body);
+          setState(() {
+            _checkoutUrl = responseData['approvalUrl'];
+          });
+        } else {
+          throw Exception(
+              'Failed to initialize payment: ${postResponse.statusCode}');
+        }
       } else {
-        throw Exception('Failed to initialize payment: ${postResponse.statusCode}');
+        throw Exception(
+            'Failed to fetch CSRF token. Status code: ${getResponse.statusCode}');
       }
-    } else {
-      throw Exception('Failed to fetch CSRF token. Status code: ${getResponse.statusCode}');
+    } catch (e) {
+      print('Error initializing payment: $e');
     }
-  } catch (e) {
-    print('Error initializing payment: $e');
   }
-}
-
-
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +111,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
   void _handlePaymentSuccess(String url) async {
     try {
       final response = await http.post(
-        Uri.parse('$url?paymentId=payment_id&PayerID=payer_id'), // Update with actual parameters
+        Uri.parse(
+            '$url?paymentId=payment_id&PayerID=payer_id'), // Update with actual parameters
         headers: <String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
         },
@@ -124,7 +126,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Payment Successful!')),
         );
-        Navigator.pop(context); // Navigate back to the previous screen after success
+        Navigator.pop(
+            context); // Navigate back to the previous screen after success
       } else {
         throw Exception('Failed to execute payment');
       }
