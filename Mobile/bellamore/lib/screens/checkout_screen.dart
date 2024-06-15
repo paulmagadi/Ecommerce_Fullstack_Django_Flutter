@@ -31,6 +31,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final cartItems = cartProvider.cartItems.values.toList();
     final shippingAddress = shippingProvider.shippingAddress;
 
+    final totalAmount = cartProvider.totalAmount;
+
     return Scaffold(
       appBar: AppBar(
         title: const Text('Checkout'),
@@ -123,8 +125,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                          builder: (context) => PaymentScreen(
-                              totalAmount: cartProvider.totalAmount)),
+                          builder: (context) => PaymentScreen(totalAmount:totalAmount)),
                     );
                   },
                   child: const Text('Continue to Payment'),

@@ -25,30 +25,34 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Future<void> _initializePayment() async {
-    try {
-      final client = http.Client();
+  try {
+    final client = http.Client();
 
-      // Step 1: Make a GET request to get the CSRF token.
-      final getResponse = await client.get(
-        Uri.parse('${Config.baseUrl}/api/get_csrf_token/'), // Django endpoint.
-      );
+    // Step 1: Make a GET request to get the CSRF token.
+    final getResponse = await client.get(
+      Uri.parse('${Config.baseUrl}/api/get_csrf_token/'),
+    );
 
-      // Extract the CSRF token from cookies.
+    if (getResponse.statusCode == 200) {
       final cookies = getResponse.headers['set-cookie'];
-      final csrfToken = RegExp(r'csrftoken=([^;]+)').firstMatch(cookies!)?.group(1);
+      if (cookies == null) {
+        print('Cookies header not found in the response.');
+        return;
+      }
 
+      final csrfToken = RegExp(r'csrftoken=([^;]+)').firstMatch(cookies)?.group(1);
       if (csrfToken == null) {
-        print('Failed to retrieve CSRF token.');
+        print('Failed to extract CSRF token.');
         return;
       }
 
       // Step 2: Make a POST request with the CSRF token.
       final postResponse = await client.post(
-        Uri.parse('${Config.baseUrl}/payment/process/'), // Django payment process URL.
+        Uri.parse('${Config.baseUrl}/payment/process/'),
         headers: {
           'Content-Type': 'application/json; charset=UTF-8',
-          'X-CSRFToken': csrfToken, // Include the CSRF token in the headers.
-          'Cookie': cookies, // Include the session cookie to maintain the session.
+          'X-CSRFToken': csrfToken,
+          'Cookie': cookies,
         },
         body: jsonEncode(<String, dynamic>{
           'totalAmount': widget.totalAmount,
@@ -61,12 +65,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
           _checkoutUrl = responseData['approvalUrl'];
         });
       } else {
-        throw Exception('Failed to initialize payment');
+        throw Exception('Failed to initialize payment: ${postResponse.statusCode}');
       }
-    } catch (e) {
-      print('Error initializing payment: $e');
+    } else {
+      throw Exception('Failed to fetch CSRF token. Status code: ${getResponse.statusCode}');
     }
+  } catch (e) {
+    print('Error initializing payment: $e');
   }
+}
+
 
   @override
   Widget build(BuildContext context) {
