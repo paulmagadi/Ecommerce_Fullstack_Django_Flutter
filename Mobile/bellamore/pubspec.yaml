@@ -45,6 +45,8 @@ dependencies:
   image_picker: ^1.1.2
   webview_flutter: ^4.0.7
   flutter_paypal_payment: ^1.0.6
+  flutter_inappwebview: ^5.8.0
+  
 
 dev_dependencies:
   flutter_test:

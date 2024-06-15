@@ -13,8 +13,14 @@ from store.models import Category, Product, ProductImage, WebBanner, MobileBanne
 from users.models import Profile, ShippingAddress
 from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer, ProfileSerializer, ShippingAddressSerializer
 
+from django.http import JsonResponse
+from django.views.decorators.csrf import ensure_csrf_cookie
 
-    
+
+@ensure_csrf_cookie
+def get_csrf_token(request):
+    return JsonResponse({'csrfToken': 'set'}) 
+
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
     serializer_class = CategorySerializer

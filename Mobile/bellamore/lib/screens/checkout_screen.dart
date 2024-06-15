@@ -1,3 +1,4 @@
+import 'package:bellamore/screens/payment_screen.dart';
 import 'package:bellamore/screens/shipping_address_form_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -124,10 +125,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ElevatedButton(
                   // style: ButtonStyle(),
                   onPressed: () {
-                    // Navigator.push(
-                    // context,
-                    // MaterialPageRoute(builder: (context) => PaymentScreen()),
-                    // );
+                    Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => PaymentScreen(totalAmount: 100,)),
+                    );
                   },
                   child: const Text('Continue to Payment'),
                 ),
