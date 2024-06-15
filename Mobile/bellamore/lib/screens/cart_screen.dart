@@ -1,8 +1,6 @@
 import 'package:bellamore/screens/home_view/product_view.dart';
-import 'package:flutter/cupertino.dart';
 // import 'package:bellamore/widgets/product_item.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:provider/provider.dart';
 import '../models/cart.dart';
 import '../providers/cart_provider.dart';
@@ -70,7 +68,7 @@ class CartScreen extends StatelessWidget {
                             style: TextStyle(
                               color: Theme.of(context)
                                   .primaryTextTheme
-                                  .headline6
+                                  .headlineLarge
                                   ?.color,
                             ),
                           ),
