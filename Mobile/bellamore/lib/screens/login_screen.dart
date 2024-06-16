@@ -20,7 +20,7 @@ class _LoginScreenState extends State<LoginScreen> {
         _emailController.text,
         _passwordController.text,
       );
-      Navigator.pushReplacementNamed(context, '/');
+      Navigator.pop(context, '/');
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(content: Text('Failed to login')),

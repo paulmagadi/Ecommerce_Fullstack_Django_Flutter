@@ -111,9 +111,9 @@ class CartScreen extends StatelessWidget {
                 style: const ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.orange),
                     foregroundColor: WidgetStatePropertyAll(Colors.black)),
-                onPressed: cartItems.isEmpty ? null : () async {
+                onPressed: cartItems.isEmpty ? null : ()  {
                   // Check if user is authenticated via AuthProvider
-                  if (await authProvider.isAuthenticated) {
+                  if ( authProvider.isAuthenticated) {
                     // If authenticated, navigate to the checkout screen
                     Navigator.push(
                       context,
