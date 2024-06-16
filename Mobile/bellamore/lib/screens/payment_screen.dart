@@ -17,7 +17,6 @@ class PaymentScreen extends StatefulWidget {
 }
 
 class _PaymentScreenState extends State<PaymentScreen> {
-  late InAppWebViewController _webViewController;
   String? _checkoutUrl;
 
   @override
@@ -78,7 +77,6 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 ),
               ),
               onWebViewCreated: (controller) {
-                _webViewController = controller;
               },
               onLoadStop: (controller, url) async {
                 if (url?.host == 'success-url.com') {
