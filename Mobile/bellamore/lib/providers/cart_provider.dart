@@ -8,8 +8,9 @@ class CartProvider with ChangeNotifier {
 
   Map<int, CartItem> get cartItems => _cartItems;  // Getter for the cart items
 
-  // Adds a product to the cart or updates its quantity
+  
   void addToCart(Product product, int quantity) {
+  if (product.stockQuantity == 0) {}
     if (_cartItems.containsKey(product.id)) {
       // If the item is already in the cart, update the quantity without exceeding stock
       if (_cartItems[product.id]!.quantity + quantity <= product.stockQuantity) {
@@ -66,24 +67,11 @@ class CartProvider with ChangeNotifier {
 
   // Calculates the total amount for all items in the cart
 
-// double get totalAmount {
-//   double total = 0.0;
-//   _cartItems.forEach((key, cartItem) {
-//     total += cartItem.product.isSale
-//         ? cartItem.product.salePrice! * cartItem.quantity
-//         : cartItem.product.price * cartItem.quantity;
-//   });
-//   return total;
-// }
 double get totalAmount {
   return _cartItems.values
       .fold(0.0, (sum, item) => sum + (item.product.isSale ? item.product.salePrice : item.product.price)! * item.quantity);
 }
 
-// double get totalAmount {
-//     return _cartItems.values
-//         .fold(0.0, (sum, item) => sum + item.product.price * item.quantity);
-//   }
 
   List<Map<String, dynamic>> get cartItemsMap {
     return _cartItems.values.map((item) => item.toMap()).toList();

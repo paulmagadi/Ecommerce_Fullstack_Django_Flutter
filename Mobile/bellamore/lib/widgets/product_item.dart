@@ -21,8 +21,6 @@ class _ProductItemState extends State<ProductItem> {
     double salePrice = widget.product.salePrice ?? widget.product.price;
     double? discountPercentage = widget.product.percentageDiscount;
 
-   
-
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -120,11 +118,12 @@ class _ProductItemState extends State<ProductItem> {
                                 Icons.add_shopping_cart_outlined,
                                 color: Colors.orange,
                               ),
+                              tooltip: 'Add Item cart',
                               onPressed: () {
                                 Provider.of<CartProvider>(context,
                                         listen: false)
-                                    .addToCart(
-                                        widget.product, 1); // Add 1 quantity for own
+                                    .addToCart(widget.product,
+                                        1); // Add 1 quantity for own
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   const SnackBar(
                                     content: Text('Item Added to Cart!'),

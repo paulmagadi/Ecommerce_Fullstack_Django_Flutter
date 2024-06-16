@@ -47,6 +47,7 @@ class CartItemWidget extends StatelessWidget {
                   cartProvider.decrementItem(cartItem.product.id);
                 },
                 color: Theme.of(context).primaryColor,
+                tooltip: 'Decrease Quantity',
               ),
               Text('${cartItem.quantity}'),
               IconButton(
@@ -55,6 +56,7 @@ class CartItemWidget extends StatelessWidget {
                   cartProvider.incrementItem(cartItem.product.id);
                 },
                 color: Theme.of(context).primaryColor,
+                tooltip: 'Add Quantity',
               ),
               IconButton(
                 icon: const Icon(Icons.delete_forever_outlined),
@@ -62,6 +64,7 @@ class CartItemWidget extends StatelessWidget {
                   cartProvider.removeFromCart(cartItem.product.id);
                 },
                 color: Theme.of(context).colorScheme.error,
+                tooltip: 'Remove Item from cart',
               ),
             ],
           ),

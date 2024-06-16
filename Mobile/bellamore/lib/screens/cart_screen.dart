@@ -108,7 +108,7 @@ class CartScreen extends StatelessWidget {
                 style: const ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.orange),
                     foregroundColor: WidgetStatePropertyAll(Colors.black)),
-                onPressed: () {
+                onPressed: cartItems.isEmpty ? null : () {
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => CheckoutScreen()),
@@ -120,3 +120,6 @@ class CartScreen extends StatelessWidget {
     );
   }
 }
+
+
+
