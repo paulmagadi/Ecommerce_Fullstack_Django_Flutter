@@ -1,5 +1,3 @@
-// screens/payment_screen.dart
-
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
@@ -18,6 +16,8 @@ class PaymentScreen extends StatefulWidget {
 
 class _PaymentScreenState extends State<PaymentScreen> {
   String? _checkoutUrl;
+  bool _isLoading = true;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -54,12 +54,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
         final responseData = jsonDecode(postResponse.body);
         setState(() {
           _checkoutUrl = responseData['approvalUrl'];
+          _isLoading = false;
         });
       } else {
         throw Exception('Failed to initialize payment: ${postResponse.statusCode}');
       }
     } catch (e) {
-      print('Error initializing payment: $e');
+      setState(() {
+        _isLoading = false;
+        _errorMessage = 'Error initializing payment: $e';
+      });
     }
   }
 
@@ -67,34 +71,55 @@ class _PaymentScreenState extends State<PaymentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(title: Text('Pay with PayPal')),
-      body: _checkoutUrl != null
-          ? InAppWebView(
-              initialUrlRequest: URLRequest(url: Uri.parse(_checkoutUrl!)),
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform: InAppWebViewOptions(
-                  useOnLoadResource: true,
-                  javaScriptEnabled: true,
-                ),
-              ),
-              onWebViewCreated: (controller) {
-              },
-              onLoadStop: (controller, url) async {
-                if (url?.host == 'success-url.com') {
-                  // Handle payment success
-                  Navigator.of(context).pop();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Payment successful!')),
-                  );
-                } else if (url?.host == 'cancel-url.com') {
-                  // Handle payment cancellation
-                  Navigator.of(context).pop();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('Payment cancelled!')),
-                  );
-                }
-              },
-            )
-          : Center(child: CircularProgressIndicator()),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : _errorMessage != null
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        _errorMessage!,
+                        style: TextStyle(color: Colors.red, fontSize: 18),
+                        textAlign: TextAlign.center,
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: _initializePayment,
+                        child: Text('Retry'),
+                      ),
+                    ],
+                  ),
+                )
+              : _checkoutUrl != null
+                  ? InAppWebView(
+                      initialUrlRequest: URLRequest(url: Uri.parse(_checkoutUrl!)),
+                      initialOptions: InAppWebViewGroupOptions(
+                        crossPlatform: InAppWebViewOptions(
+                          useOnLoadResource: true,
+                          javaScriptEnabled: true,
+                        ),
+                      ),
+                      onWebViewCreated: (controller) {},
+                      onLoadStop: (controller, url) async {
+                        if (url?.host == 'success-url.com') {
+                          // Handle payment success
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Payment successful!')),
+                          );
+                        } else if (url?.host == 'cancel-url.com') {
+                          // Handle payment cancellation
+                          Navigator.of(context).pop();
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(content: Text('Payment cancelled!')),
+                          );
+                        }
+                      },
+                    )
+                  : Center(
+                      child: Text('Unable to load payment page.'),
+                    ),
     );
   }
 }
