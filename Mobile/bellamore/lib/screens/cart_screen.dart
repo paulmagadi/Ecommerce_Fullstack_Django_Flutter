@@ -3,16 +3,19 @@ import 'package:bellamore/screens/home_view/product_view.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/cart.dart';
+import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/cart_item.dart';
 import 'checkout_screen.dart';
 import 'home_page.dart';
+import 'login_screen.dart';
 
 class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
     final cartItems = cartProvider.cartItems.values.toList();
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -108,14 +111,25 @@ class CartScreen extends StatelessWidget {
                 style: const ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.orange),
                     foregroundColor: WidgetStatePropertyAll(Colors.black)),
-                onPressed: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(builder: (context) => CheckoutScreen()),
-                  );
+                onPressed: cartItems.isEmpty ? null : () async {
+                  // Check if user is authenticated via AuthProvider
+                  if (await authProvider.isAuthenticated) {
+                    // If authenticated, navigate to the checkout screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => CheckoutScreen()),
+                    );
+                  } else {
+                    // If not authenticated, navigate to the login screen
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => LoginScreen()),
+                    );
+                  }
                 },
                 child: const Text('Proceed to Checkout'),
               ),
+      
       ),
     );
   }
