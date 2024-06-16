@@ -1,27 +1,18 @@
 import 'package:bellamore/screens/home_view/product_view.dart';
+// import 'package:bellamore/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../models/cart.dart';
-import '../providers/auth_provider.dart';
 import '../providers/cart_provider.dart';
 import '../widgets/cart_item.dart';
 import 'checkout_screen.dart';
 import 'home_page.dart';
-import 'login_screen.dart'; // Import the login screen
 
 class CartScreen extends StatelessWidget {
-  // Check if user is authenticated
-  Future<bool> _isAuthenticated(BuildContext context) async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.containsKey('token'); // Check if a token is stored
-  }
-
   @override
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
     final cartItems = cartProvider.cartItems.values.toList();
-    final authProvider = Provider.of<AuthProvider>(context, listen: false); // Get AuthProvide
 
     return Scaffold(
       appBar: AppBar(
@@ -37,7 +28,9 @@ class CartScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 30),
                     ),
                   ),
-                  SizedBox(height: 50),
+                  SizedBox(
+                    height: 50,
+                  ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,20 +108,11 @@ class CartScreen extends StatelessWidget {
                 style: const ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(Colors.orange),
                     foregroundColor: WidgetStatePropertyAll(Colors.black)),
-                onPressed: cartItems.isEmpty ? null : () {
-                  if (authProvider.isAuthenticated) {
-                    // If authenticated, navigate to the checkout screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => CheckoutScreen()),
-                    );
-                  } else {
-                    // If not authenticated, navigate to the login screen
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(builder: (context) => LoginScreen()),
-                    );
-                  }
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => CheckoutScreen()),
+                  );
                 },
                 child: const Text('Proceed to Checkout'),
               ),

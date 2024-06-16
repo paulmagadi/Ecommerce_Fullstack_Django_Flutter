@@ -22,7 +22,6 @@ import 'screens/static/help.dart';
 
 void main() async {
   // await dotenv.load(fileName: ".env");
-
   runApp(
     MultiProvider(
       providers: [

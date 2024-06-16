@@ -9,18 +9,18 @@ class AuthProvider with ChangeNotifier {
   User? _user;
   bool _isAuthenticated = false;
   String? _token;
-  int? _userId;
+  int? _userId; // Add this line
   String? _userName;
   String? _userEmail;
 
   bool get isAuthenticated => _isAuthenticated;
   User? get user => _user;
-  int? get userId => _userId;
+  int? get userId => _userId; // Add this line
   String? get userName => _userName;
   String? get userEmail => _userEmail;
 
-  // Handles user login
   Future<void> login(String email, String password) async {
+    // final url = Uri.parse('http://10.0.2.2:8000/api/auth/jwt/create/');
     final url = Uri.parse('${Config.baseUrl}/api/auth/jwt/create/');
     final response = await http.post(
       url,
@@ -44,9 +44,7 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  // Handles user registration and auto login
-  Future<void> register(String email, String password1, String password2,
-      String firstName, String lastName) async {
+  Future<void> register(String email, String password1, String password2, String firstName, String lastName) async {
     final url = Uri.parse('${Config.baseUrl}/api/auth/users/');
     final response = await http.post(
       url,
@@ -67,7 +65,6 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  // Fetches user details
   Future<void> _fetchUserDetails() async {
     final url = Uri.parse('${Config.baseUrl}/api/auth/users/me/');
     final response = await http.get(
@@ -81,7 +78,7 @@ class AuthProvider with ChangeNotifier {
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
       _user = User.fromJson(data);
-      _userId = _user?.id;
+      _userId = _user?.id; // Add this line
       _userName = '${_user?.firstName} ${_user?.lastName}';
       _userEmail = _user?.email;
       _saveUserInfoToPrefs();
@@ -90,28 +87,25 @@ class AuthProvider with ChangeNotifier {
     }
   }
 
-  // Saves user info to SharedPreferences
   Future<void> _saveUserInfoToPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     prefs.setString('userName', _userName ?? '');
     prefs.setString('userEmail', _userEmail ?? '');
-    prefs.setInt('userId', _userId ?? 0);
+    prefs.setInt('userId', _userId ?? 0); // Add this line
   }
 
-  // Loads user info from SharedPreferences
   Future<void> _loadUserInfoFromPrefs() async {
     final prefs = await SharedPreferences.getInstance();
     _userName = prefs.getString('userName');
     _userEmail = prefs.getString('userEmail');
-    _userId = prefs.getInt('userId');
+    _userId = prefs.getInt('userId'); // Add this line
   }
 
-  // Handles user logout
   Future<void> logout() async {
     _user = null;
     _isAuthenticated = false;
     _token = null;
-    _userId = null;
+    _userId = null; // Add this line
     _userName = null;
     _userEmail = null;
 
@@ -119,30 +113,27 @@ class AuthProvider with ChangeNotifier {
     prefs.remove('token');
     prefs.remove('userName');
     prefs.remove('userEmail');
-    prefs.remove('userId');
+    prefs.remove('userId'); // Add this line
     notifyListeners();
   }
 
-  // Checks if user is authenticated
   Future<void> checkAuthStatus() async {
     final prefs = await SharedPreferences.getInstance();
     _token = prefs.getString('token');
-    _userId = prefs.getInt('userId');
-    if (_token != null && _userId != null) {
+    _userId = prefs.getInt('userId'); // Add this line
+    if (_token != null && _userId != null) { // Update this line
       _isAuthenticated = true;
       await _loadUserInfoFromPrefs();
       notifyListeners();
     }
   }
 
-  // Gets the stored token
   Future<String?> getToken() async {
     final prefs = await SharedPreferences.getInstance();
     return prefs.getString('token');
   }
 
-  // Gets the stored user ID
-  Future<int?> getUserId() async {
+  Future<int?> getUserId() async { // Add this function
     final prefs = await SharedPreferences.getInstance();
     return prefs.getInt('userId');
   }
