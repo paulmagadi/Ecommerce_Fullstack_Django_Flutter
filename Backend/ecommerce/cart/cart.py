@@ -117,6 +117,20 @@ class Cart():
             cart_dict = str(self.cart)
             cart_dict = cart_dict.replace("\'", "\"")
             current_user.update(old_cart=str(cart_dict))
+            
+            
+    # def delete(self, product):
+    #     product_id = str(product)
+    #     if product_id in self.cart:
+    #         del self.cart[product_id]
+            
+    #     self.session.modified = True
+
+    #     if self.request.user.is_authenticated:
+    #         current_user = Profile.objects.get(user=self.request.user)
+    #         cart_dict = str(self.cart).replace("\'", "\"")
+    #         current_user.old_cart = cart_dict
+    #         current_user.save()
     
     
     def order_total(self):

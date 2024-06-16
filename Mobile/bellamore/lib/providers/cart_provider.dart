@@ -136,3 +136,12 @@ class CartProvider with ChangeNotifier {
     notifyListeners(); // Notify listeners to update the UI
   }
 }
+
+
+
+
+
+
+
+
+
