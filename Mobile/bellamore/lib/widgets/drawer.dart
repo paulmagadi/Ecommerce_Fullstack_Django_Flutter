@@ -5,7 +5,14 @@ import '../providers/profile_provider.dart';
 
 Drawer appDrawer(BuildContext context) {
   final authProvider = Provider.of<AuthProvider>(context);
-  // final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
+  final profileProvider = Provider.of<ProfileProvider>(context);
+
+  // Fetch profile if not already fetched
+  if (authProvider.isAuthenticated && profileProvider.profile == null) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      profileProvider.fetchProfile();
+    });
+  }
 
   return Drawer(
     child: ListView(
@@ -35,7 +42,10 @@ Drawer appDrawer(BuildContext context) {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-            child: Text('Welcome Guest', style: TextStyle(color: Colors.white)),
+            child: Text(
+              'Welcome Guest',
+              style: TextStyle(color: Colors.white),
+            ),
           ),
         _createDrawerItem(
           icon: Icons.home,

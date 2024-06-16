@@ -70,7 +70,8 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(height: 10),
                       ElevatedButton(
                         onPressed: () {
-                          Navigator.pushNamed(context, '/shipping_address_form');
+                          Navigator.pushNamed(
+                              context, '/shipping_address_form');
                         },
                         child: const Text('Edit Shipping Address'),
                       ),
