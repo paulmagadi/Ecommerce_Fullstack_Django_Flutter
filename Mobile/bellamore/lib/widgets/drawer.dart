@@ -5,7 +5,7 @@ import '../providers/profile_provider.dart';
 
 Drawer appDrawer(BuildContext context) {
   final authProvider = Provider.of<AuthProvider>(context);
-  // final profileProvider = Provider.of<ProfileProvider>(context);
+  // final profileProvider = Provider.of<ProfileProvider>(context, listen: false);
 
   return Drawer(
     child: ListView(
@@ -35,70 +35,68 @@ Drawer appDrawer(BuildContext context) {
             decoration: BoxDecoration(
               color: Colors.blue,
             ),
-            child: Text('Welcome Guest'),
+            child: Text('Welcome Guest', style: TextStyle(color: Colors.white)),
           ),
-        ListTile(
-          leading: const Icon(Icons.home),
-          title: const Text('Home'),
-          onTap: () {
-            Navigator.pushReplacementNamed(context, '/');
-          },
+        _createDrawerItem(
+          icon: Icons.home,
+          text: 'Home',
+          onTap: () => Navigator.pushReplacementNamed(context, '/'),
         ),
-        ListTile(
-          leading: const Icon(Icons.shopping_basket),
-          title: const Text('Products'),
-          onTap: () {
-            Navigator.pushNamed(context, '/product_list');
-          },
+        _createDrawerItem(
+          icon: Icons.shopping_basket,
+          text: 'Products',
+          onTap: () => Navigator.pushNamed(context, '/product_list'),
         ),
         if (authProvider.isAuthenticated)
-          ListTile(
-            leading: const Icon(Icons.person),
-            title: const Text('Profile'),
-            onTap: () {
-              Navigator.pushNamed(context, '/profile');
-            },
+          _createDrawerItem(
+            icon: Icons.person,
+            text: 'Profile',
+            onTap: () => Navigator.pushNamed(context, '/profile'),
           ),
-        ListTile(
-          leading: const Icon(Icons.info),
-          title: const Text('About'),
-          onTap: () {
-            Navigator.pushNamed(context, '/about');
-          },
+        _createDrawerItem(
+          icon: Icons.info,
+          text: 'About',
+          onTap: () => Navigator.pushNamed(context, '/about'),
         ),
-        ListTile(
-          leading: const Icon(Icons.help),
-          title: const Text('Help'),
-          onTap: () {
-            Navigator.pushNamed(context, '/help');
-          },
+        _createDrawerItem(
+          icon: Icons.help,
+          text: 'Help',
+          onTap: () => Navigator.pushNamed(context, '/help'),
         ),
         if (authProvider.isAuthenticated)
-          ListTile(
-            leading: const Icon(Icons.logout),
-            title: const Text('Logout'),
+          _createDrawerItem(
+            icon: Icons.logout,
+            text: 'Logout',
             onTap: () {
               authProvider.logout();
               Navigator.pushReplacementNamed(context, '/');
             },
           )
         else
-          ListTile(
-            leading: const Icon(Icons.login),
-            title: const Text('Login'),
-            onTap: () {
-              Navigator.pushNamed(context, '/login');
-            },
+          _createDrawerItem(
+            icon: Icons.login,
+            text: 'Login',
+            onTap: () => Navigator.pushNamed(context, '/login'),
           ),
         if (!authProvider.isAuthenticated)
-          ListTile(
-            leading: const Icon(Icons.person_add),
-            title: const Text('Register'),
-            onTap: () {
-              Navigator.pushNamed(context, '/register');
-            },
+          _createDrawerItem(
+            icon: Icons.person_add,
+            text: 'Register',
+            onTap: () => Navigator.pushNamed(context, '/register'),
           ),
       ],
     ),
+  );
+}
+
+Widget _createDrawerItem({
+  required IconData icon,
+  required String text,
+  required GestureTapCallback onTap,
+}) {
+  return ListTile(
+    leading: Icon(icon),
+    title: Text(text),
+    onTap: onTap,
   );
 }
