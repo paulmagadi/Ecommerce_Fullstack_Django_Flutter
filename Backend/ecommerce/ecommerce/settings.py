@@ -54,6 +54,7 @@ INSTALLED_APPS = [
     'admin_portal',
     'payment',
     'api',
+    'drf_yasg',
 ]
 
 MIDDLEWARE = [
