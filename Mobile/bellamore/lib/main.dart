@@ -17,7 +17,6 @@ import 'screens/static/about.dart';
 import 'screens/static/contact.dart';
 import 'screens/static/help.dart';
 
-
 // child: Text('Base URL: ${dotenv.env['BASE_URL']}'),
 
 void main() async {

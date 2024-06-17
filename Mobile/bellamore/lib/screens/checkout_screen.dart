@@ -6,7 +6,6 @@ import '../providers/shipping_address_provider.dart';
 import '../widgets/cart_item.dart';
 import 'payment_screen.dart';
 import 'shipping_address_form_screen.dart';
-// import '../models/cart.dart';
 
 class CheckoutScreen extends StatefulWidget {
   @override
@@ -33,9 +32,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final cartItems = cartProvider.cartItems.values.toList();
     final shippingAddress = shippingProvider.shippingAddress;
 
-    List<Map<String, dynamic>> convertCartItems(List<CartItem> cartItems) {
-      return cartItems.map((item) => item.toMap()).toList();
-    }
+    double totalAmount = cartProvider.totalAmount;
+    List<Map<String, dynamic>> convertedCartItems =
+        convertCartItems(cartItems); // Assuming this method is defined
 
     return Scaffold(
       appBar: AppBar(
@@ -123,32 +122,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('Total: \$${cartProvider.totalAmount.toStringAsFixed(2)}',
+                Text('Total: \$${totalAmount.toStringAsFixed(2)}',
                     style: const TextStyle(fontSize: 18)),
                 ElevatedButton(
                   onPressed: () {
-                    final totalAmount = cartProvider.totalAmount;
-                    final cartItemsList =
-                        cartProvider.cartItems.values.toList();
-
-                    if (totalAmount > 0) {
-                      final convertedCartItems =
-                          convertCartItems(cartItemsList);
-
+                    if (cartItems.isNotEmpty && totalAmount > 0) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
                           builder: (context) => PaymentScreen(
-                            totalAmount: totalAmount,
-                            cartItems: convertedCartItems,
+                            // totalAmount: totalAmount,
+                            // cartItems: convertedCartItems,
                           ),
                         ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                            content: Text(
-                                'Your cart is empty or the total amount is zero.')),
+                          content: Text(
+                              'Your cart is empty or the total amount is zero.'),
+                        ),
                       );
                     }
                   },
@@ -160,5 +153,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         ),
       ),
     );
+  }
+
+  List<Map<String, dynamic>> convertCartItems(List<CartItem> cartItems) {
+    return cartItems.map((item) => item.toMap()).toList();
   }
 }
