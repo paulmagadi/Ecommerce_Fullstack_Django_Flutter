@@ -22,6 +22,8 @@ from django.views import View
 from users.models import CustomUser
 from store.models import Product
 from cart.models import Order, OrderItem
+from rest_framework.decorators import api_view
+from rest_framework import status
 import json
 
 
@@ -140,48 +142,79 @@ class ShippingAddressViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
         return Response(serializer.data)
     
 
-@method_decorator(csrf_exempt, name='dispatch')
-class CreateOrderView(View):
-    def post(self, request):
-        data = json.loads(request.body)
-        user_id = data.get('user_id')
-        full_name = data.get('full_name')
-        email = data.get('email')
-        amount_paid = data.get('amount_paid')
-        shipping_address = data.get('shipping_address')
-        items = data.get('items')
+# @method_decorator(csrf_exempt, name='dispatch')
+# class CreateOrderView(View):
+#     def post(self, request):
+#         data = json.loads(request.body)
+#         user_id = data.get('user_id')
+#         full_name = data.get('full_name')
+#         email = data.get('email')
+#         amount_paid = data.get('amount_paid')
+#         shipping_address = data.get('shipping_address')
+#         items = data.get('items')
 
-        try:
-            user = CustomUser.objects.get(id=user_id)
-            order = Order.objects.create(
+#         try:
+#             user = CustomUser.objects.get(id=user_id)
+#             order = Order.objects.create(
+#                 user=user,
+#                 full_name=full_name,
+#                 email=email,
+#                 amount_paid=amount_paid,
+#                 shipping_address=json.dumps(shipping_address)
+#             )
+
+#             for item in items:
+#                 product = Product.objects.get(id=item['product_id'])
+#                 order_item = OrderItem.objects.create(
+#                     order=order,
+#                     product=product,
+#                     user=user,
+#                     quantity=item['quantity'],
+#                     price=item['price']
+#                 )
+#                 product.stock_quantity -= item['quantity']
+#                 product.save()
+
+#             return JsonResponse({'status': 'success', 'order_id': order.id}, status=201)
+
+#         except CustomUser.DoesNotExist:
+#             return JsonResponse({'status': 'error', 'message': 'User not found'}, status=400)
+#         except Product.DoesNotExist:
+#             return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=400)
+#         except Exception as e:
+#             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
+
+    
+
+
+@api_view(['POST'])
+def create_order(request):
+    try:
+        data = request.data
+        user_id = data.get('user_id')
+        user = CustomUser.objects.get(id=user_id)
+
+        order = Order.objects.create(
+            user=user,
+            full_name=data.get('full_name'),
+            email=data.get('email'),
+            amount_paid=data.get('amount_paid'),
+            shipping_address=data.get('shipping_address')
+        )
+
+        items = data.get('items', [])
+        for item in items:
+            product = Product.objects.get(id=item['product_id'])
+            OrderItem.objects.create(
+                order=order,
+                product=product,
                 user=user,
-                full_name=full_name,
-                email=email,
-                amount_paid=amount_paid,
-                shipping_address=json.dumps(shipping_address)
+                quantity=item['quantity'],
+                price=item['price']
             )
 
-            for item in items:
-                product = Product.objects.get(id=item['product_id'])
-                order_item = OrderItem.objects.create(
-                    order=order,
-                    product=product,
-                    user=user,
-                    quantity=item['quantity'],
-                    price=item['price']
-                )
-                product.stock_quantity -= item['quantity']
-                product.save()
+        return Response({'message': 'Order created successfully'}, status=status.HTTP_201_CREATED)
 
-            return JsonResponse({'status': 'success', 'order_id': order.id}, status=201)
-
-        except CustomUser.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'User not found'}, status=400)
-        except Product.DoesNotExist:
-            return JsonResponse({'status': 'error', 'message': 'Product not found'}, status=400)
-        except Exception as e:
-            return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
-
-    
-    
+    except Exception as e:
+        return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
     

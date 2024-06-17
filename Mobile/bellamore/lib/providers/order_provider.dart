@@ -4,7 +4,6 @@ import 'dart:convert';
 import '../config.dart';
 
 class OrderProvider {
-  // static const String baseUrl = 'http://127.0.0.1:8000'; // Replace with your backend URL
 
   Future<void> createOrder({
     required int userId,
