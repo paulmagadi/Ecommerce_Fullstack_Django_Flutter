@@ -29,7 +29,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
     final shippingProvider = Provider.of<ShippingAddressProvider>(context);
-    final authProvider = Provider.of<AuthProvider>(context); // Access AuthProvider
+    final authProvider = Provider.of<AuthProvider>(context); 
     final cartItems = cartProvider.cartItems.values.toList();
     final shippingAddress = shippingProvider.shippingAddress;
 

@@ -18,9 +18,6 @@ class PaymentScreen extends StatelessWidget {
     required this.userId,
   });
 
-
-
-
   Future<void> createOrder(Map<String, dynamic> paymentDetails) async {
     const url = '${Config.baseUrl}/api/create-order/';
 
@@ -98,7 +95,7 @@ class PaymentScreen extends StatelessWidget {
                           //   "line1": shippingAddress['address1'] ?? '',
                           //   "line2": shippingAddress['address2'] ?? '',
                           //   "city": shippingAddress['city'] ?? '',
-                          //   // "country_code": shippingAddress['country'] ?? '',
+                          //   "country_code": shippingAddress['country'] ?? '',
                           //   "postal_code": shippingAddress['zipcode'] ?? '',
                           //   "phone": shippingAddress['phone'] ?? '',
                           //   "state": shippingAddress['state'] ?? ''
