@@ -1,3 +1,4 @@
+import 'package:bellamore/providers/auth_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/cart.dart';
@@ -28,11 +29,15 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
     final shippingProvider = Provider.of<ShippingAddressProvider>(context);
+    final authProvider = Provider.of<AuthProvider>(context); // Access AuthProvider
     final cartItems = cartProvider.cartItems.values.toList();
     final shippingAddress = shippingProvider.shippingAddress;
 
     double totalAmount = cartProvider.totalAmount;
     List<Map<String, dynamic>> convertedCartItems = convertCartItems(cartItems);
+
+    // Obtain userId if authenticated
+    final userId = authProvider.isAuthenticated ? authProvider.userId : null;
 
     return Scaffold(
       appBar: AppBar(
@@ -131,7 +136,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           builder: (context) => PaymentScreen(
                             totalAmount: totalAmount,
                             cartItems: convertedCartItems,
-                            // shippingAddress: shippingAddress,
+                            shippingAddress: shippingAddress?.toMap() ?? {}, // Ensure toMap is called
+                            userId: userId!, // Pass userId here
                           ),
                         ),
                       );
@@ -152,6 +158,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       ),
     );
   }
+
 
   List<Map<String, dynamic>> convertCartItems(List<CartItem> cartItems) {
     return cartItems.map((item) => item.toMap()).toList();

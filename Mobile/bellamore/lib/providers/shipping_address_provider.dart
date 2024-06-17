@@ -47,6 +47,8 @@ class ShippingAddress {
       country: json['country'] ?? '',
     );
   }
+
+  toMap() {}
 }
 
 class ShippingAddressProvider with ChangeNotifier {
