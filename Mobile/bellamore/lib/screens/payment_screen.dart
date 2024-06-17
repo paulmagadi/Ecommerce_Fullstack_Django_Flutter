@@ -2,6 +2,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter_paypal/flutter_paypal.dart';
 
 class PaymentScreen extends StatelessWidget {
+  final double totalAmount;
+  final List<Map<String, dynamic>> cartItems;
+  // final Map<String, String> shippingAddress;
+
+  PaymentScreen({
+    required this.totalAmount,
+    required this.cartItems,
+    // required this.shippingAddress,
+  });
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -16,43 +26,41 @@ class PaymentScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (BuildContext context) => UsePaypal(
                     sandboxMode: true,
-                    clientId:
-                        "AaxWzEr1TgVI5DKpnRE_AC_TlNS5phi-2eBMpTE4paGto3_iSxFjTymtidazv1HhoTkQUOAZK9Bh5m3p", // Replace with your PayPal client ID
-                    secretKey:
-                        "EIztDWw-t_luY_QoSNLLCfPUgGWjHWq9K8lw4LSzhj71Z31wlUF0K_gulzU-2r0nacLPvaao5-n0fx44", // Replace with your PayPal secret key
+                    clientId: "AaxWzEr1TgVI5DKpnRE_AC_TlNS5phi-2eBMpTE4paGto3_iSxFjTymtidazv1HhoTkQUOAZK9Bh5m3p", // Replace with your PayPal client ID
+                    secretKey: "EIztDWw-t_luY_QoSNLLCfPUgGWjHWq9K8lw4LSzhj71Z31wlUF0K_gulzU-2r0nacLPvaao5-n0fx44", // Replace with your PayPal secret key
                     returnURL: "https://samplesite.com/return",
                     cancelURL: "https://samplesite.com/cancel",
-                    transactions: const [
+                    transactions: [
                       {
                         "amount": {
-                          "total": '10.12',
+                          "total": totalAmount.toStringAsFixed(2),
                           "currency": "USD",
                           "details": {
-                            "subtotal": '10.12',
-                            "shipping": '0',
+                            "subtotal": totalAmount.toStringAsFixed(2),
+                            "shipping": '0', // Optionally set actual shipping cost
                             "shipping_discount": 0
                           }
                         },
-                        "description": "The payment transaction description.",
+                        "description": "Order payment",
                         "item_list": {
-                          "items": [
-                            {
-                              "name": "A demo product",
-                              "quantity": 1,
-                              "price": '10.12',
+                          "items": cartItems.map((item) {
+                            return {
+                              "name": item['name'],
+                              "quantity": item['quantity'],
+                              "price": item['price'].toStringAsFixed(2),
                               "currency": "USD"
-                            }
-                          ],
-                          "shipping_address": {
-                            "recipient_name": "Jane Foster",
-                            "line1": "Travis County",
-                            "line2": "",
-                            "city": "Austin",
-                            "country_code": "US",
-                            "postal_code": "73301",
-                            "phone": "+00000000",
-                            "state": "Texas"
-                          },
+                            };
+                          }).toList(),
+                          // "shipping_address": {
+                          //   "recipient_name": shippingAddress['fullName'] ?? '',
+                          //   "line1": shippingAddress['address1'] ?? '',
+                          //   "line2": shippingAddress['address2'] ?? '',
+                          //   "city": shippingAddress['city'] ?? '',
+                          //   "country_code": shippingAddress['country'] ?? '',
+                          //   "postal_code": shippingAddress['zipcode'] ?? '',
+                          //   "phone": shippingAddress['phone'] ?? '',
+                          //   "state": shippingAddress['state'] ?? ''
+                          // },
                         }
                       }
                     ],

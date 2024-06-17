@@ -20,8 +20,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future<void> _loadShippingAddress() async {
-    final shippingProvider =
-        Provider.of<ShippingAddressProvider>(context, listen: false);
+    final shippingProvider = Provider.of<ShippingAddressProvider>(context, listen: false);
     await shippingProvider.fetchShippingAddress();
   }
 
@@ -33,8 +32,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     final shippingAddress = shippingProvider.shippingAddress;
 
     double totalAmount = cartProvider.totalAmount;
-    List<Map<String, dynamic>> convertedCartItems =
-        convertCartItems(cartItems); // Assuming this method is defined
+    List<Map<String, dynamic>> convertedCartItems = convertCartItems(cartItems);
 
     return Scaffold(
       appBar: AppBar(
@@ -131,16 +129,16 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => PaymentScreen(
-                            // totalAmount: totalAmount,
-                            // cartItems: convertedCartItems,
+                            totalAmount: totalAmount,
+                            cartItems: convertedCartItems,
+                            // shippingAddress: shippingAddress,
                           ),
                         ),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text(
-                              'Your cart is empty or the total amount is zero.'),
+                          content: Text('Your cart is empty or the total amount is zero.'),
                         ),
                       );
                     }
