@@ -56,6 +56,7 @@ class ProductViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         key_words = self.request.query_params.get('key_words', None)
         color = self.request.query_params.get('color', None)
         material = self.request.query_params.get('material', None)
+        
 
         # Add filters dynamically based on the presence of query parameters
         if name:
