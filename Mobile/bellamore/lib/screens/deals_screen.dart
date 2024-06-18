@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/product_provider.dart';
 import '../widgets/product_item.dart';
-import '../models/product.dart';
 
 class DealsScreen extends StatefulWidget {
   @override
@@ -12,20 +11,18 @@ class DealsScreen extends StatefulWidget {
 class _DealsScreenState extends State<DealsScreen> {
   @override
   Widget build(BuildContext context) {
-
-    
     final productProvider = Provider.of<ProductProvider>(context);
-    final List<Product> dealsProducts = productProvider.products.where((product) => product.isSale).toList();
-    
+    final dealsProducts = productProvider.products.where((product) => product.isSale).toList();
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Deals'),
+        title: const Text('Deals'),
       ),
       body: dealsProducts.isEmpty
-          ? Center(child: Text('No deals available.'))
+          ? const Center(child: Text('No deals available.'))
           : GridView.builder(
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+              padding: const EdgeInsets.all(10),
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                 maxCrossAxisExtent: 200,
                 childAspectRatio: 2.3 / 3,
                 crossAxisSpacing: 5,
@@ -39,4 +36,3 @@ class _DealsScreenState extends State<DealsScreen> {
     );
   }
 }
-
