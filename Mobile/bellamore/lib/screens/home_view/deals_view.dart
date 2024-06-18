@@ -1,28 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/product_provider.dart';
-import '../widgets/product_item.dart';
-
-class DealsScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Deals'),
-      ),
-      body: SingleChildScrollView(
-        child: ProductsView(),
-      ),
-    );
-  }
-}
+import '../../providers/product_provider.dart';
+import '../../widgets/product_item.dart';
 
 
-
-
-class ProductsView extends StatelessWidget {
-  const ProductsView({Key? key}) : super(key: key);
+class DealsView extends StatelessWidget {
+  const DealsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

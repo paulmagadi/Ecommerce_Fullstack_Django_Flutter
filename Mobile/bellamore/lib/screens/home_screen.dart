@@ -4,6 +4,7 @@ import '../../providers/product_provider.dart';
 import '../../providers/category_provider.dart'; // Import the CategoryProvider
 import '../widgets/banner_carousel.dart';
 import 'home_view/category_view.dart';
+import 'home_view/deals_view.dart';
 import 'home_view/product_view.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -42,18 +43,29 @@ class HomeScreen extends StatelessWidget {
                   ), 
 
                   const SizedBox(height: 10),
-                  BannerCarousel(),
+                  const BannerCarousel(),
 
-                  Row(
+                  const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: const [
+                    children:  [
+                      Text(
+                        'Deals',
+                        style: TextStyle(fontSize: 34),
+                      ),
+                    ],
+                  ),
+                  const DealsView(),
+
+                  const Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children:  [
                       Text(
                         'Products',
                         style: TextStyle(fontSize: 34),
                       ),
                     ],
                   ),
-                  ProductsView(),
+                  const ProductsView(),
                 ],
               );
             },
