@@ -186,7 +186,7 @@ class ShippingAddressViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin,
 
     
 
-
+@method_decorator(csrf_exempt, name='dispatch')
 @api_view(['POST'])
 def create_order(request):
     try:
