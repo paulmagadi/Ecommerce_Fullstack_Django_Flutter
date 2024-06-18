@@ -50,6 +50,7 @@ dependencies:
   flutter_dotenv: ^5.1.0
   cookie_jar: ^4.0.8
   url_launcher: ^6.0.20
+  flutter_hooks: ^0.20.5
   
 
 dev_dependencies:
