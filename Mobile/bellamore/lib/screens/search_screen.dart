@@ -1,9 +1,8 @@
-// search_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../models/product.dart';
 import '../providers/product_provider.dart';
 import '../widgets/product_item.dart';
+import '../models/product.dart';
 
 class SearchScreen extends StatefulWidget {
   @override
@@ -13,21 +12,43 @@ class SearchScreen extends StatefulWidget {
 class _SearchScreenState extends State<SearchScreen> {
   TextEditingController _searchController = TextEditingController();
   List<Product> _searchResults = [];
+  bool _isLoading = false;
+  String _errorMessage = '';
 
-  void _searchProducts() {
-    final productProvider = Provider.of<ProductProvider>(context, listen: false);
-    final query = _searchController.text.toLowerCase();
+  void _searchProducts() async {
+    if (_searchController.text.isEmpty) {
+      setState(() {
+        _searchResults = [];
+      });
+      return;
+    }
 
     setState(() {
-      _searchResults = productProvider.products.where((product) {
-        return product.name.toLowerCase().contains(query) ||
-            product.keyWords!.toLowerCase().contains(query) ||
-            product.material!.toLowerCase().contains(query) ||
-            product.color!.toLowerCase().contains(query) ||
-            product.brand!.toLowerCase().contains(query) ||
-            product.category.name.toLowerCase().contains(query);
-      }).toList();
+      _isLoading = true;
+      _errorMessage = '';
     });
+
+    try {
+      final productProvider = Provider.of<ProductProvider>(context, listen: false);
+      final results = await productProvider.searchProducts(_searchController.text);
+      setState(() {
+        _searchResults = results;
+      });
+    } catch (error) {
+      setState(() {
+        _errorMessage = 'Error searching products: $error';
+      });
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
+
+  @override
+  void dispose() {
+    _searchController.dispose();
+    super.dispose();
   }
 
   @override
@@ -46,21 +67,25 @@ class _SearchScreenState extends State<SearchScreen> {
           onSubmitted: (value) => _searchProducts(),
         ),
       ),
-      body: _searchResults.isEmpty
-          ? Center(child: Text('No products found.'))
-          : GridView.builder(
-              gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
-                childAspectRatio: 2.3 / 3,
-                crossAxisSpacing: 5,
-                mainAxisSpacing: 5,
-              ),
-              itemCount: _searchResults.length,
-              itemBuilder: (ctx, index) {
-                final product = _searchResults[index];
-                return ProductItem(product: product);
-              },
-            ),
+      body: _isLoading
+          ? Center(child: CircularProgressIndicator())
+          : _searchResults.isEmpty && _errorMessage.isEmpty
+              ? Center(child: Text('No products found.'))
+              : _errorMessage.isNotEmpty
+                  ? Center(child: Text(_errorMessage))
+                  : GridView.builder(
+                      gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                        maxCrossAxisExtent: 200,
+                        childAspectRatio: 2.3 / 3,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
+                      ),
+                      itemCount: _searchResults.length,
+                      itemBuilder: (ctx, index) {
+                        final product = _searchResults[index];
+                        return ProductItem(product: product);
+                      },
+                    ),
     );
   }
 }

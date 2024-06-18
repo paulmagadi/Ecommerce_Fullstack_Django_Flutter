@@ -39,7 +39,7 @@ class HomeScreen extends StatelessWidget {
                   CategoryView(
                     categories:
                         Provider.of<CategoryProvider>(context).categories,
-                  ), // Consume categories from CategoryProvider
+                  ), 
 
                   const SizedBox(height: 10),
                   BannerCarousel(),
