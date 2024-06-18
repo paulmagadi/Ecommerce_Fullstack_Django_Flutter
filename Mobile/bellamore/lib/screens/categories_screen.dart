@@ -1,21 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-
 import '../providers/category_provider.dart';
 import '../widgets/category_item.dart';
 
-class CategoriesScreen extends StatelessWidget {
+class CategoriesScreen extends StatefulWidget {
+  @override
+  _CategoriesScreenState createState() => _CategoriesScreenState();
+}
+
+class _CategoriesScreenState extends State<CategoriesScreen> {
+  late Future<void> _categoriesFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _categoriesFuture = _fetchCategories();
+  }
+
+  Future<void> _fetchCategories() async {
+    await Provider.of<CategoryProvider>(context, listen: false).fetchCategories();
+  }
+
   @override
   Widget build(BuildContext context) {
     final categoryProvider = Provider.of<CategoryProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
-        title: Text('Categoriesss'),
+        title: Text('Categories'),
       ),
-      body: categoryProvider.isLoading
-          ? Center(child: CircularProgressIndicator())
-          : Padding(
+      body: FutureBuilder(
+        future: _categoriesFuture,
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return Center(child: CircularProgressIndicator());
+          } else if (snapshot.hasError) {
+            return Center(child: Text('Error fetching categories.'));
+          } else {
+            return Padding(
               padding: const EdgeInsets.all(4.0),
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -30,7 +52,10 @@ class CategoriesScreen extends StatelessWidget {
                   return CategoryItem(category: category);
                 },
               ),
-            ),
+            );
+          }
+        },
+      ),
     );
   }
 }
