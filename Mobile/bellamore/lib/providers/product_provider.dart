@@ -6,8 +6,10 @@ import '../models/product.dart';
 
 class ProductProvider with ChangeNotifier {
   List<Product> _products = [];
+  bool _isLoading = false;
 
   List<Product> get products => _products;
+   bool get isLoading => _isLoading;
 
   Future<void> fetchProducts() async {
     final url = Uri.parse('${Config.baseUrl}/api/products/');
@@ -25,6 +27,8 @@ class ProductProvider with ChangeNotifier {
       throw error;
     }
   }
+
+
 
   Future<void> fetchProductsByCategory(int categoryId) async {
     final url =
