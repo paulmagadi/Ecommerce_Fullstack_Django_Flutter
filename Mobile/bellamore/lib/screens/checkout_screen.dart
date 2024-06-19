@@ -48,13 +48,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (shippingAddress != null)
+            // if (shippingAddress != null)
               Card(
                 elevation: 3,
                 margin: const EdgeInsets.only(bottom: 20),
                 child: Padding(
                   padding: const EdgeInsets.all(12.0),
-                  child: Row(
+                  child: shippingAddress != null
+                  ?Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const Icon(
@@ -100,7 +101,31 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         },
                       ),
                     ],
-                  ),
+                  )
+                  : Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text(
+                                      'Add Shipping Address',
+                                      style: TextStyle(
+                                        fontSize: 16,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.red,
+                                      ),
+                                    ),
+                                    IconButton(
+                                      icon: const Icon(Icons.add_location_alt, color: Colors.orange),
+                                      onPressed: () {
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => ShippingAddressForm(),
+                                          ),
+                                        ).then((_) => _loadShippingAddress());
+                                      },
+                                    ),
+                                  ],
+                                ),
                 ),
               ),
             const Text('Order Summary', style: TextStyle(fontSize: 18)),
