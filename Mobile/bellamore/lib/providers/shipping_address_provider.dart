@@ -83,7 +83,7 @@ class ShippingAddressProvider with ChangeNotifier {
   }
 
   Future<void> updateShippingAddress({
-    required int id,
+    required int user,
     String? phone,
     String? fullName,
     String? email,
@@ -101,7 +101,7 @@ class ShippingAddressProvider with ChangeNotifier {
       throw Exception('No token found');
     }
 
-    final url = Uri.parse('${Config.baseUrl}/api/shipping-address/$id/');
+    final url = Uri.parse('${Config.baseUrl}/api/shipping-address/$user/');
     final response = await http.put(
       url,
       headers: {

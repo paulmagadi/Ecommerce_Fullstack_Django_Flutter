@@ -164,7 +164,7 @@ class _ShippingAddressFormState extends State<ShippingAddressForm> {
                 onPressed: () {
                   if (_formKey.currentState?.validate() ?? false) {
                     provider.updateShippingAddress(
-                      id: provider.shippingAddress?.id ?? 0,
+                      user: provider.shippingAddress.userid,
                       phone: _phoneController.text,
                       fullName: _fullNameController.text,
                       email: _emailController.text,
