@@ -9,9 +9,9 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets, mixins
 
 
-from store.models import Category, Product, ProductImage, WebBanner, MobileBanner
+from store.models import Category, Product, ProductImage, MobileBanner
 from users.models import Profile, ShippingAddress
-from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, WebBannerSerializer, MobileBannerSerializer, ProfileSerializer, ShippingAddressSerializer
+from .serializers import CategorySerializer, ProductSerializer, ProductImageSerializer, MobileBannerSerializer, ProfileSerializer, ShippingAddressSerializer
 
 from django.http import JsonResponse
 from django.views.decorators.csrf import ensure_csrf_cookie, csrf_exempt
@@ -103,9 +103,7 @@ class ProductViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
         return Response(serializer.data)
     
     
-class WebBannerViewSet(viewsets.ModelViewSet):
-    queryset = WebBanner.objects.all()
-    serializer_class = WebBannerSerializer
+
 
 class MobileBannerViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = MobileBanner.objects.filter(in_use=True) 

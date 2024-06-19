@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from store.models import Category, Product , ProductImage, WebBanner, MobileBanner
+from store.models import Category, Product , ProductImage, MobileBanner
 from users.models import Profile, ShippingAddress
 from cart.models import Order, OrderItem
 
@@ -56,10 +56,7 @@ class ProductSerializer(serializers.ModelSerializer):
         model = Product
         fields = '__all__'
 
-class WebBannerSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = WebBanner
-        fields = '__all__'
+
 
 class MobileBannerSerializer(serializers.ModelSerializer):
     class Meta:
