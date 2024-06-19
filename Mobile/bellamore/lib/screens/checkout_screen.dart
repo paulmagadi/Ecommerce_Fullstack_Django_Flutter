@@ -154,22 +154,30 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     style: const TextStyle(fontSize: 18)),
                 ElevatedButton(
                   onPressed: () {
-                    if (cartItems.isNotEmpty && totalAmount > 0) {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => PaymentScreen(
-                            totalAmount: totalAmount,
-                            cartItems: convertedCartItems,
-                            shippingAddress: shippingAddress?.toMap() ?? {}, // Ensure toMap is called
-                            userId: userId!, // Pass userId here
+                    if (shippingProvider.shippingAddress != null) {
+                      if (cartItems.isNotEmpty && totalAmount > 0) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => PaymentScreen(
+                              totalAmount: totalAmount,
+                              cartItems: convertedCartItems,
+                              shippingAddress: shippingProvider.shippingAddress!.toMap(), // Ensure it's not null
+                              userId: userId!,
+                            ),
                           ),
-                        ),
-                      );
+                        );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            content: Text('Your cart is empty or the total amount is zero.'),
+                          ),
+                        );
+                      }
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                          content: Text('Your cart is empty or the total amount is zero.'),
+                          content: Text('Shipping address required to proceed.'),
                         ),
                       );
                     }
