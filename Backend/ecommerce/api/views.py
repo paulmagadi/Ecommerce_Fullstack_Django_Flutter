@@ -42,7 +42,8 @@ class ProductImageViewSet(viewsets.ModelViewSet):
 
 
 class ProductViewSet(viewsets.GenericViewSet, mixins.ListModelMixin):
-    queryset = Product.objects.all()
+    products = Product.objects.all()
+    queryset = products.filter(is_listed=True)
     serializer_class = ProductSerializer
 
     def get_queryset(self):
