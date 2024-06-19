@@ -28,8 +28,8 @@ class ShippingAddressSerializer(serializers.ModelSerializer):
         
     def create(self, validated_data):
         user = self.context['request'].user
-        shipping, created = ShippingAddress.objects.update_or_create(user=user, defaults=validated_data)
-        return shipping
+        shipping_address, created = ShippingAddress.objects.update_or_create(user=user, defaults=validated_data)
+        return shipping_address
 
     def update(self, instance, validated_data):
         for attr, value in validated_data.items():

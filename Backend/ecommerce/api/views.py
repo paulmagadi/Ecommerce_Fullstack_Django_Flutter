@@ -126,21 +126,94 @@ class ProfileViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewset
         return Response(serializer.data)
     
     
-class ShippingAddressViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+# class ShippingAddressViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+#     permission_classes = [IsAuthenticated]
+#     queryset = ShippingAddress.objects.all()
+#     serializer_class = ShippingAddressSerializer
+
+#     def get_object(self):
+#         return self.queryset.get(user=self.request.user)
+
+#     def update(self, request, *args, **kwargs):
+#         instance = self.get_object()
+#         serializer = self.get_serializer(instance, data=request.data, partial=True)
+#         serializer.is_valid(raise_exception=True)
+#         self.perform_update(serializer)
+#         return Response(serializer.data)
+
+
+# class ShippingAddressViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+#     permission_classes = [IsAuthenticated]
+#     queryset = ShippingAddress.objects.all()
+#     serializer_class = ShippingAddressSerializer
+
+#     def get_object(self):
+#         try:
+#             return self.queryset.get(user=self.request.user)
+#         except ShippingAddress.DoesNotExist:
+#             # Handle the case where the shipping address does not exist
+#             raise NotFound('Shipping address does not exist for this user')
+
+#     def update(self, request, *args, **kwargs):
+#         instance = self.get_object()
+#         serializer = self.get_serializer(instance, data=request.data, partial=True)
+#         serializer.is_valid(raise_exception=True)
+#         self.perform_update(serializer)
+#         return Response(serializer.data)
+
+
+
+class ShippingAddressViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin):
     permission_classes = [IsAuthenticated]
     queryset = ShippingAddress.objects.all()
     serializer_class = ShippingAddressSerializer
 
     def get_object(self):
-        return self.queryset.get(user=self.request.user)
+        # Try to get the shipping address for the current user
+        try:
+            return self.queryset.get(user=self.request.user)
+        except ShippingAddress.DoesNotExist:
+            # Return None if no address is found
+            return None
+
+    def retrieve(self, request, *args, **kwargs):
+        instance = self.get_object()
+        if instance is not None:
+            serializer = self.get_serializer(instance)
+            return Response(serializer.data)
+        else:
+            return Response(
+                {"detail": "Shipping address does not exist."},
+                status=status.HTTP_404_NOT_FOUND
+            )
+
+    def create_or_update(self, request, *args, **kwargs):
+        # Check if the user already has a shipping address
+        instance = self.get_object()
+        if instance:
+            # Update existing shipping address
+            serializer = self.get_serializer(instance, data=request.data, partial=True)
+        else:
+            # Create a new shipping address
+            data = request.data.copy()
+            data['user'] = request.user.id
+            serializer = self.get_serializer(data=data)
+
+        serializer.is_valid(raise_exception=True)
+        self.perform_create_or_update(serializer)
+        return Response(serializer.data)
+
+    def perform_create_or_update(self, serializer):
+        serializer.save()
 
     def update(self, request, *args, **kwargs):
-        instance = self.get_object()
-        serializer = self.get_serializer(instance, data=request.data, partial=True)
-        serializer.is_valid(raise_exception=True)
-        self.perform_update(serializer)
-        return Response(serializer.data)
-    
+        return self.create_or_update(request, *args, **kwargs)
+
+    def create(self, request, *args, **kwargs):
+        return self.create_or_update(request, *args, **kwargs)
+
+
+
 
 # @method_decorator(csrf_exempt, name='dispatch')
 # class CreateOrderView(View):

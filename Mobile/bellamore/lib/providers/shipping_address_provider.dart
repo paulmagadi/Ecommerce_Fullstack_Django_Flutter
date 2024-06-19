@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../config.dart';
 
 class ShippingAddress {
@@ -47,8 +46,6 @@ class ShippingAddress {
       country: json['country'] ?? '',
     );
   }
-
-  toMap() {}
 }
 
 class ShippingAddressProvider with ChangeNotifier {
@@ -75,7 +72,11 @@ class ShippingAddressProvider with ChangeNotifier {
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);
-      _shippingAddress = ShippingAddress.fromJson(data);
+      if (data != null && data.isNotEmpty) {
+        _shippingAddress = ShippingAddress.fromJson(data);
+      } else {
+        _shippingAddress = null; // Address does not exist
+      }
       notifyListeners();
     } else {
       throw Exception('Failed to fetch shipping address');
@@ -83,7 +84,6 @@ class ShippingAddressProvider with ChangeNotifier {
   }
 
   Future<void> updateShippingAddress({
-    required int user,
     String? phone,
     String? fullName,
     String? email,
@@ -96,12 +96,13 @@ class ShippingAddressProvider with ChangeNotifier {
   }) async {
     final prefs = await SharedPreferences.getInstance();
     final token = prefs.getString('token');
+    final userId = prefs.getInt('userId');
 
-    if (token == null) {
-      throw Exception('No token found');
+    if (token == null || userId == null) {
+      throw Exception('No token or user ID found');
     }
 
-    final url = Uri.parse('${Config.baseUrl}/api/shipping-address/$user/');
+    final url = Uri.parse('${Config.baseUrl}/api/shipping-address/$userId/');
     final response = await http.put(
       url,
       headers: {
