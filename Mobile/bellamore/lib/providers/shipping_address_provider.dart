@@ -45,7 +45,7 @@ class ShippingAddress {
       zipcode: json['zipcode'] ?? '',
       country: json['country'] ?? '',
     );
-  }
+  } toMap(){}
 }
 
 class ShippingAddressProvider with ChangeNotifier {
@@ -83,7 +83,7 @@ class ShippingAddressProvider with ChangeNotifier {
     }
   }
 
-  Future<void> updateShippingAddress({
+  Future<void> createOrUpdateShippingAddress({
     String? phone,
     String? fullName,
     String? email,
@@ -122,11 +122,11 @@ class ShippingAddressProvider with ChangeNotifier {
       }),
     );
 
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 || response.statusCode == 201) {
       await fetchShippingAddress(); // Refresh shipping address data
     } else {
       final errorData = json.decode(response.body);
-      throw Exception('Failed to update shipping address: $errorData');
+      throw Exception('Failed to update or create shipping address: $errorData');
     }
   }
 }
