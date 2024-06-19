@@ -1,5 +1,4 @@
 import 'package:bellamore/screens/home_view/product_view.dart';
-// import 'package:bellamore/widgets/product_item.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/cart.dart';
@@ -31,12 +30,9 @@ class CartScreen extends StatelessWidget {
                       style: TextStyle(fontSize: 30),
                     ),
                   ),
-                  SizedBox(
-                    height: 50,
-                  ),
+                  SizedBox(height: 50),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Center(
                         child: Text(
@@ -44,7 +40,7 @@ class CartScreen extends StatelessWidget {
                           style: TextStyle(
                               fontWeight: FontWeight.bold, fontSize: 20),
                         ),
-                      )
+                      ),
                     ],
                   ),
                   ProductsView(), // list the products
@@ -96,9 +92,9 @@ class CartScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         child: cartItems.isEmpty
             ? ElevatedButton(
-                style: const ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(Colors.orange),
-                    foregroundColor: WidgetStatePropertyAll(Colors.black)),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black, backgroundColor: Colors.orange, // Text color
+                ),
                 onPressed: () {
                   Navigator.pushReplacement(
                     context,
@@ -108,12 +104,12 @@ class CartScreen extends StatelessWidget {
                 child: const Text('Continue Shopping'),
               )
             : ElevatedButton(
-                style: const ButtonStyle(
-                    backgroundColor: WidgetStatePropertyAll(Colors.orange),
-                    foregroundColor: WidgetStatePropertyAll(Colors.black)),
-                onPressed: cartItems.isEmpty ? null : ()  {
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.black, backgroundColor: Colors.orange, // Text color
+                ),
+                onPressed: () {
                   // Check if user is authenticated via AuthProvider
-                  if ( authProvider.isAuthenticated) {
+                  if (authProvider.isAuthenticated) {
                     // If authenticated, navigate to the checkout screen
                     Navigator.push(
                       context,
@@ -129,7 +125,6 @@ class CartScreen extends StatelessWidget {
                 },
                 child: const Text('Proceed to Checkout'),
               ),
-      
       ),
     );
   }

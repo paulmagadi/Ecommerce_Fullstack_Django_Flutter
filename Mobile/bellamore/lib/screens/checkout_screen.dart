@@ -166,7 +166,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               cartItems: convertedCartItems,
                               shippingAddress: shippingProvider.shippingAddress!
                                   .toMap(), // Ensure it's not null
-                              userId: userId!,
+                              userId: userId!, // Handle null userId
                             ),
                           ),
                         );
