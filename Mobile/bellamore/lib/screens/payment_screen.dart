@@ -1,10 +1,8 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_paypal/flutter_paypal.dart';
-import 'package:bellamore/providers/auth_provider.dart';
-import 'package:provider/provider.dart';
+// import 'package:bellamore/providers/auth_provider.dart';
+// import 'package:provider/provider.dart';
 import 'dart:convert';
 import '../config.dart';
 
@@ -23,19 +21,21 @@ class PaymentScreen extends StatelessWidget {
 
   Future<void> createOrder(BuildContext context, Map<String, dynamic> paymentDetails) async {
     final url = Uri.parse('${Config.baseUrl}/api/create-order/');
-    final authProvider = Provider.of<AuthProvider>(context, listen: false); 
+    // final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     final orderData = {
-      'user': authProvider.user,
+      'user': userId, // use userId directly
       'full_name': shippingAddress['fullName'],
       'email': shippingAddress['email'],
       'amount_paid': totalAmount,
       'shipping_address': shippingAddress,
       'items': cartItems.map((item) => {
-        'product_id': item['product_id'],
+        'product_id': item['productId'],
         'quantity': item['quantity'],
-        'price': item['price']
+        'price': item['price'],
+        'name': item['productName'], // Ensure 'productName' exists in item
       }).toList(),
+      'payment_details': paymentDetails,
     };
 
     try {
@@ -47,18 +47,25 @@ class PaymentScreen extends StatelessWidget {
 
       if (response.statusCode == 201) {
         print('Order created successfully');
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text('Order created successfully')),
+        );
       } else {
         print('Failed to create order: ${response.body}');
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Failed to create order: ${response.body}')),
+        );
       }
     } catch (error) {
       print('Error creating order: $error');
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Error creating order: $error')),
+      );
     }
   }
 
   @override
   Widget build(BuildContext context) {
-    // final authProvider = Provider.of<AuthProvider>(context);
-    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Pay with PayPal'),
@@ -71,11 +78,8 @@ class PaymentScreen extends StatelessWidget {
                 MaterialPageRoute(
                   builder: (BuildContext context) => UsePaypal(
                     sandboxMode: true,
-                    clientId:
-                            "AaxWzEr1TgVI5DKpnRE_AC_TlNS5phi-2eBMpTE4paGto3_iSxFjTymtidazv1HhoTkQUOAZK9Bh5m3p",
-                        secretKey:
-                            "EIztDWw-t_luY_QoSNLLCfPUgGWjHWq9K8lw4LSzhj71Z31wlUF0K_gulzU-2r0nacLPvaao5-n0fx44",
-                        
+                    clientId: "AaxWzEr1TgVI5DKpnRE_AC_TlNS5phi-2eBMpTE4paGto3_iSxFjTymtidazv1HhoTkQUOAZK9Bh5m3p",
+                    secretKey: "EIztDWw-t_luY_QoSNLLCfPUgGWjHWq9K8lw4LSzhj71Z31wlUF0K_gulzU-2r0nacLPvaao5-n0fx44",
                     returnURL: "https://samplesite.com/return",
                     cancelURL: "https://samplesite.com/cancel",
                     transactions: [
@@ -93,21 +97,20 @@ class PaymentScreen extends StatelessWidget {
                         "item_list": {
                           "items": cartItems.map((item) {
                             return {
-                              "name": item['name'],
+                              "name": item['productName'], // Ensure 'productName' exists in item
                               "quantity": item['quantity'],
                               "price": item['price'].toStringAsFixed(2),
                               "currency": "USD"
                             };
                           }).toList(),
-                          
                         }
                       }
                     ],
                     note: "Contact us for any questions on your order.",
-                    onSuccess: (Map params)  {
+                    onSuccess: (Map params) {
                       print("onSuccess: $params");
                       Map<String, dynamic> stringParams = params.cast<String, dynamic>();
-                       createOrder(context, stringParams);
+                      createOrder(context, stringParams);
                     },
                     onError: (error) {
                       print("onError: $error");
