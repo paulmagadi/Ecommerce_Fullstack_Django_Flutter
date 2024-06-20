@@ -80,12 +80,10 @@ double get totalAmount {
       .fold(0.0, (sum, item) => sum + (item.product.isSale ? item.product.salePrice : item.product.price)! * item.quantity);
 }
 
-// double get totalAmount {
-//     return _cartItems.values
-//         .fold(0.0, (sum, item) => sum + item.product.price * item.quantity);
-//   }
 
+ // Returns a list of cart items as maps
   List<Map<String, dynamic>> get cartItemsMap {
     return _cartItems.values.map((item) => item.toMap()).toList();
   }
+
 }

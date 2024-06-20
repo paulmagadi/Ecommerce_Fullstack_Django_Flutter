@@ -28,15 +28,6 @@ class HomeScreen extends StatelessWidget {
             builder: (context, productProvider, _) {
               return Column(
                 children: [
-                  // Row(
-                  //   mainAxisAlignment: MainAxisAlignment.center,
-                  //   children: const [
-                  //     Text(
-                  //       'Categories',
-                  //       style: TextStyle(fontSize: 34),
-                  //     ),
-                  //   ],
-                  // ),
                   CategoryView(
                     categories:
                         Provider.of<CategoryProvider>(context).categories,

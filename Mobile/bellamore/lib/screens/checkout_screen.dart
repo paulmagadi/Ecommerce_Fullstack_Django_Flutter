@@ -161,7 +161,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         builder: (context) => PaymentScreen(
                           totalAmount: totalAmount,
                           cartItems: convertedCartItems,
-                          shippingAddress: shippingProvider.shippingAddress!.toMap(),
+                          // shippingAddress: shippingProvider.shippingAddress!.toMap(),
+                          shippingAddress: shippingAddress?.toMap() ?? {}, 
                           userId: userId!, // Ensure userId is not null
                         ),
                       ),
