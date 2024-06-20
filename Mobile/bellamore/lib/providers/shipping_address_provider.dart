@@ -4,6 +4,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import '../config.dart';
 
+
 class ShippingAddress {
   final int id;
   final int user;
@@ -45,8 +46,25 @@ class ShippingAddress {
       zipcode: json['zipcode'] ?? '',
       country: json['country'] ?? '',
     );
-  } toMap(){}
+  }
+
+  Map<String, dynamic> toMap() {
+    return {
+      'id': id,
+      'user': user,
+      'phone': phone,
+      'full_name': fullName,
+      'email': email,
+      'address1': address1,
+      'address2': address2,
+      'city': city,
+      'state': state,
+      'zipcode': zipcode,
+      'country': country,
+    };
+  }
 }
+
 
 class ShippingAddressProvider with ChangeNotifier {
   ShippingAddress? _shippingAddress;

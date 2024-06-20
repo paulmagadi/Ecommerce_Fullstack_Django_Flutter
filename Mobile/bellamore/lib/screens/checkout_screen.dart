@@ -162,7 +162,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           totalAmount: totalAmount,
                           cartItems: convertedCartItems,
                           // shippingAddress: shippingProvider.shippingAddress!.toMap(),
-                          shippingAddress: shippingAddress?.toMap() ?? {}, 
+                          // shippingAddress: shippingAddress?.toMap() ?? {}, 
                           userId: userId!, // Ensure userId is not null
                         ),
                       ),
