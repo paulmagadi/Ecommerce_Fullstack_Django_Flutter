@@ -342,6 +342,15 @@ def create_order(request):
                 continue  # or handle the error appropriately
 
             product = Product.objects.get(id=product_id)
+            
+            # Check if enough quantity is available
+            if product.stock_quantity < item.get('quantity', 1):
+                return Response({'error': f'Insufficient stock for product {product.name}'}, status=status.HTTP_400_BAD_REQUEST)
+
+            # Reduce the quantity
+            product.stock_quantity -= item.get('quantity', 1)
+            product.save()
+            
             OrderItem.objects.create(
                 order=order,
                 product=product,

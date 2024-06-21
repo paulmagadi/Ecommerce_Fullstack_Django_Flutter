@@ -57,6 +57,7 @@ class PaymentScreen extends StatelessWidget {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(content: Text('Order created successfully')),
         );
+        
       } else {
         ScaffoldMessenger.of(context).showSnackBar(
           SnackBar(content: Text('Failed to create order: ${response.body}')),
@@ -69,6 +70,7 @@ class PaymentScreen extends StatelessWidget {
     }
   }
 
+ 
   @override
   Widget build(BuildContext context) {
     final formattedShippingAddress =
