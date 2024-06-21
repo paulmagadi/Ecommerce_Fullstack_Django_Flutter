@@ -66,15 +66,6 @@ class CartProvider with ChangeNotifier {
 
   // Calculates the total amount for all items in the cart
 
-// double get totalAmount {
-//   double total = 0.0;
-//   _cartItems.forEach((key, cartItem) {
-//     total += cartItem.product.isSale
-//         ? cartItem.product.salePrice! * cartItem.quantity
-//         : cartItem.product.price * cartItem.quantity;
-//   });
-//   return total;
-// }
 double get totalAmount {
   return _cartItems.values
       .fold(0.0, (sum, item) => sum + (item.product.isSale ? item.product.salePrice : item.product.price)! * item.quantity);

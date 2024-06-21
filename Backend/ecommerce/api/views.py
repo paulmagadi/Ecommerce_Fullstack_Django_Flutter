@@ -326,6 +326,7 @@ def create_order(request):
         user = CustomUser.objects.get(id=user_id)
         
         
+
         order = Order.objects.create(
             user=user,
             full_name=data.get('full_name', ''),

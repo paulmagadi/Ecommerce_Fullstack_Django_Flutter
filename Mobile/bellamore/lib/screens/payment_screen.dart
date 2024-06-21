@@ -19,6 +19,7 @@ class PaymentScreen extends StatelessWidget {
 
   Future<void> createOrder(
       BuildContext context, Map<String, dynamic> paymentDetails) async {
+        
     final url = Uri.parse('${Config.baseUrl}/api/create-order/');
 
     final formattedShippingAddress = '${shippingAddress['phone']}\n'
@@ -71,7 +72,6 @@ class PaymentScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     final formattedShippingAddress =
         '${shippingAddress['phone']}, ${shippingAddress['address1']}, '
         '${shippingAddress['address2']}, ${shippingAddress['city']}, '
