@@ -258,8 +258,59 @@ class ShippingAddressViewSet(viewsets.GenericViewSet, mixins.UpdateModelMixin):
 #             return JsonResponse({'status': 'error', 'message': str(e)}, status=500)
 
     
-import logging
+# import logging
 
+# logger = logging.getLogger(__name__)
+
+# @csrf_exempt
+# @api_view(['POST'])
+# def create_order(request):
+#     try:
+#         data = request.data
+#         user_id = data.get('user')
+
+#         if not user_id:
+#             raise ValueError("User ID is required")
+
+#         user = CustomUser.objects.get(id=user_id)
+
+#         order = Order.objects.create(
+#             user=user,
+#             full_name=data.get('full_name', ''),
+#             email=data.get('email', ''),
+#             amount_paid=data.get('amount_paid', 0),
+#             shipping_address=json.dumps(data.get('shipping_address', {}))
+#         )
+
+#         items = data.get('items', [])
+#         for item in items:
+#             product_id = item.get('product_id')
+#             if not product_id:
+#                 continue  # or handle the error appropriately
+
+#             product = Product.objects.get(id=product_id)
+#             OrderItem.objects.create(
+#                 order=order,
+#                 product=product,
+#                 user=user,
+#                 quantity=item.get('quantity', 1),
+#                 price=item.get('price', 0)
+#             )
+
+#         return Response({'message': 'Order created successfully'}, status=status.HTTP_201_CREATED)
+
+#     except CustomUser.DoesNotExist:
+#         return Response({'error': 'User not found'}, status=status.HTTP_404_NOT_FOUND)
+#     except Product.DoesNotExist:
+#         return Response({'error': 'Product not found'}, status=status.HTTP_404_NOT_FOUND)
+#     except ValueError as e:
+#         return Response({'error': str(e)}, status=status.HTTP_400_BAD_REQUEST)
+#     except Exception as e:
+#         logger.error(f"Error creating order: {e}")
+#         return Response({'error': 'An error occurred while creating the order'}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+import logging
 logger = logging.getLogger(__name__)
 
 @csrf_exempt
@@ -273,13 +324,14 @@ def create_order(request):
             raise ValueError("User ID is required")
 
         user = CustomUser.objects.get(id=user_id)
-
+        
+        
         order = Order.objects.create(
             user=user,
             full_name=data.get('full_name', ''),
             email=data.get('email', ''),
             amount_paid=data.get('amount_paid', 0),
-            shipping_address=json.dumps(data.get('shipping_address', {}))
+            shipping_address=data.get('shipping_address', {})
         )
 
         items = data.get('items', [])
