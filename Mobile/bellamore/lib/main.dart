@@ -31,6 +31,7 @@ void main() async {
         ChangeNotifierProvider(create: (_) => ProductProvider()),
         ChangeNotifierProvider(create: (_) => CartProvider()),
         ChangeNotifierProvider(create: (_) => CategoryProvider()),
+        
       ],
       child: MyApp(),
     ),
@@ -41,6 +42,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Bellamore',
       theme: ThemeData(
         primarySwatch: Colors.blue,

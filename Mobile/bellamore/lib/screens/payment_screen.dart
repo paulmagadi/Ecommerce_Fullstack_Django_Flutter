@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'package:flutter_paypal/flutter_paypal.dart';
 import 'dart:convert';
 import '../config.dart';
+import 'order_sucess_screen.dart';
 
 class PaymentScreen extends StatelessWidget {
   final double totalAmount;
@@ -178,6 +179,13 @@ class PaymentScreen extends StatelessWidget {
                           Map<String, dynamic> stringParams =
                               params.cast<String, dynamic>();
                           createOrder(context, stringParams);
+
+                          // Navigate to the Order Success Screen
+                          // Navigator.of(context).pop(
+                          //   MaterialPageRoute(
+                          //     builder: (context) => OrderSuccessScreen(),
+                          //   ),
+                          // );
                         },
                         onError: (error) {
                           ScaffoldMessenger.of(context).showSnackBar(
