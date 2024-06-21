@@ -21,7 +21,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future<void> _loadShippingAddress() async {
-    final shippingProvider = Provider.of<ShippingAddressProvider>(context, listen: false);
+    final shippingProvider =
+        Provider.of<ShippingAddressProvider>(context, listen: false);
     await shippingProvider.fetchShippingAddress();
   }
 
@@ -29,7 +30,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   Widget build(BuildContext context) {
     final cartProvider = Provider.of<CartProvider>(context);
     final shippingProvider = Provider.of<ShippingAddressProvider>(context);
-    final authProvider = Provider.of<AuthProvider>(context); 
+    final authProvider = Provider.of<AuthProvider>(context);
     final cartItems = cartProvider.cartItems.values.toList();
     final shippingAddress = shippingProvider.shippingAddress;
 
@@ -162,7 +163,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           totalAmount: totalAmount,
                           cartItems: convertedCartItems,
                           // shippingAddress: shippingProvider.shippingAddress!.toMap(),
-                          // shippingAddress: shippingAddress?.toMap() ?? {}, 
+                          shippingAddress: shippingAddress?.toMap() ?? {},
                           userId: userId!, // Ensure userId is not null
                         ),
                       ),
