@@ -25,7 +25,7 @@ class DealsView extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: SizedBox(
-              height: 200, // Specify a fixed height for the horizontal list
+              height: 260, // Specify a fixed height for the horizontal list
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: dealsProducts.length,
