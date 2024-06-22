@@ -45,12 +45,12 @@ class _ProductItemState extends State<ProductItem> {
                       const BorderRadius.vertical(top: Radius.circular(5)),
                   child: Image.network(
                     widget.product.profileImage,
-                    height: 150,
+                    height: 120,
                     width: double.infinity,
                     fit: BoxFit.cover,
                     errorBuilder: (context, error, stackTrace) {
                       return Container(
-                        height: 150,
+                        height: 120,
                         color: Colors.grey[200],
                         alignment: Alignment.center,
                         child: const Icon(
