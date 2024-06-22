@@ -22,7 +22,7 @@ class ProductsView extends StatelessWidget {
                   const NeverScrollableScrollPhysics(), // Disable GridView scrolling
               shrinkWrap: true, // Ensure GridView takes only required space
               gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
-                maxCrossAxisExtent: 200,
+                maxCrossAxisExtent: 190,
                 childAspectRatio: 2.3 / 3,
                 crossAxisSpacing: 5,
                 mainAxisSpacing: 5,

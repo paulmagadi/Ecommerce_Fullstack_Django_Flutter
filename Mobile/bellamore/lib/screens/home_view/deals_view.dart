@@ -25,14 +25,14 @@ class DealsView extends StatelessWidget {
           return Padding(
             padding: const EdgeInsets.all(4.0),
             child: SizedBox(
-              height: 260, // Specify a fixed height for the horizontal list
+              height: 240, // Specify a fixed height for the horizontal list
               child: ListView.builder(
                 scrollDirection: Axis.horizontal,
                 itemCount: dealsProducts.length,
                 itemBuilder: (ctx, index) {
                   final product = dealsProducts[index];
                   return Container(
-                    width: 190, // Set a fixed width for each item
+                    width: 170, // Set a fixed width for each item
                     padding: const EdgeInsets.all(4.0),
                     child: ProductItem(product: product),
                   );

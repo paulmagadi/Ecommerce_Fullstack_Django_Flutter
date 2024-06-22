@@ -36,12 +36,13 @@ class HomeScreen extends StatelessWidget {
                   const BannerCarousel(),
                   const SizedBox(height: 5),
                   const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
                         'Deals',
-                        style: TextStyle(fontSize: 34),
+                        style: TextStyle(fontSize: 22),
                       ),
+                      Text('See More'),
                     ],
                   ),
                   const DealsView(),
