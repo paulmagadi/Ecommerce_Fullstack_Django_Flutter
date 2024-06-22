@@ -36,33 +36,41 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 5),
                   const BannerCarousel(),
                   const SizedBox(height: 5),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text(
-                        'Deals',
-                        style: TextStyle(fontSize: 22),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: TextButton(
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DealsScreen(),
-                              ),
-                            );
-                          },
-                          child: const Text('See More'),
+                  Container(
+                    decoration: BoxDecoration(color: Colors.orange),
+                    padding: EdgeInsets.only(left: 10, right: 10),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Deals',
+                          style: TextStyle(fontSize: 18),
                         ),
-                      ),
-                      const Icon(
-                        Icons.keyboard_double_arrow_right,
-                        size: 16.0,
-                        color: Colors.grey,
-                      ),
-                    ],
+                        Row(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => DealsScreen(),
+                                  ),
+                                );
+                              },
+                              child: const Text(
+                                'See More',
+                                style: TextStyle(fontSize: 18),
+                              ),
+                            ),
+                            const Icon(
+                              Icons.keyboard_double_arrow_right,
+                              size: 16.0,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   const DealsView(),
                   const Row(
