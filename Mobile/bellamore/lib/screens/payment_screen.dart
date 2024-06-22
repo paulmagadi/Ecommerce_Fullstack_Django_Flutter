@@ -149,8 +149,7 @@ class PaymentScreen extends StatelessWidget {
                             "AaxWzEr1TgVI5DKpnRE_AC_TlNS5phi-2eBMpTE4paGto3_iSxFjTymtidazv1HhoTkQUOAZK9Bh5m3p",
                         secretKey:
                             "EIztDWw-t_luY_QoSNLLCfPUgGWjHWq9K8lw4LSzhj71Z31wlUF0K_gulzU-2r0nacLPvaao5-n0fx44",
-                        // returnURL: "https://samplesite.com/return",
-                        returnURL: "com.example.bellamore://paypalpay",
+                        returnURL: "https://samplesite.com/return",
                         cancelURL: "https://samplesite.com/cancel",
                         transactions: [
                           {

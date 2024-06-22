@@ -18,7 +18,8 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
   }
 
   Future<void> _fetchCategories() async {
-    await Provider.of<CategoryProvider>(context, listen: false).fetchCategories();
+    await Provider.of<CategoryProvider>(context, listen: false)
+        .fetchCategories();
   }
 
   @override
@@ -33,16 +34,16 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
         future: _categoriesFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
-            return Center(child: Text('Error fetching categories.'));
+            return const Center(child: Text('Error fetching categories.'));
           } else {
             return Padding(
               padding: const EdgeInsets.all(4.0),
               child: GridView.builder(
-                gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
+                gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
                   maxCrossAxisExtent: 200,
-                  childAspectRatio: 2.3 / 3,
+                  childAspectRatio: 3 / 2,
                   crossAxisSpacing: 5,
                   mainAxisSpacing: 5,
                 ),
@@ -59,9 +60,3 @@ class _CategoriesScreenState extends State<CategoriesScreen> {
     );
   }
 }
-
-
-
-
-
-

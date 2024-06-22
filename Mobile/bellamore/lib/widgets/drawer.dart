@@ -23,7 +23,7 @@ Drawer appDrawer(BuildContext context) {
             builder: (context, profileProvider, child) {
               return UserAccountsDrawerHeader(
                 decoration: const BoxDecoration(
-                  color: Colors.blue,
+                  color: Colors.orange,
                 ),
                 accountName: Text(authProvider.userName ?? 'User Name'),
                 accountEmail:
@@ -40,7 +40,7 @@ Drawer appDrawer(BuildContext context) {
         else
           const DrawerHeader(
             decoration: BoxDecoration(
-              color: Colors.blue,
+              color: Colors.orange,
             ),
             child: Text(
               'Welcome Guest',
@@ -49,6 +49,7 @@ Drawer appDrawer(BuildContext context) {
           ),
         _createDrawerItem(
           icon: Icons.home,
+          
           text: 'Home',
           onTap: () => Navigator.pushReplacementNamed(context, '/'),
         ),
@@ -76,6 +77,7 @@ Drawer appDrawer(BuildContext context) {
         if (authProvider.isAuthenticated)
           _createDrawerItem(
             icon: Icons.logout,
+            
             text: 'Logout',
             onTap: () {
               authProvider.logout();

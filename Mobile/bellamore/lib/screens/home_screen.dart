@@ -31,14 +31,13 @@ class HomeScreen extends StatelessWidget {
                   CategoryView(
                     categories:
                         Provider.of<CategoryProvider>(context).categories,
-                  ), 
-
-                  const SizedBox(height: 10),
+                  ),
+                  const SizedBox(height: 5),
                   const BannerCarousel(),
-
+                  const SizedBox(height: 5),
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [
+                    children: [
                       Text(
                         'Deals',
                         style: TextStyle(fontSize: 34),
@@ -46,10 +45,9 @@ class HomeScreen extends StatelessWidget {
                     ],
                   ),
                   const DealsView(),
-
                   const Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children:  [
+                    children: [
                       Text(
                         'Products',
                         style: TextStyle(fontSize: 34),

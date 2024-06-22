@@ -54,7 +54,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
               borderRadius: BorderRadius.circular(8.0),
               child: Image.network(
                 banner.image,
-                fit: BoxFit.contain,
+                fit: BoxFit.cover,
                 width: double.infinity,
               ),
             );
@@ -65,7 +65,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
             autoPlay: true,
             autoPlayInterval: const Duration(seconds: 5),
             aspectRatio: 16 / 9,
-            enlargeCenterPage: true,
+            // enlargeCenterPage: true,
             onPageChanged: (index, reason) {
               setState(() {
                 _current = index;
@@ -87,7 +87,7 @@ class _BannerCarouselState extends State<BannerCarousel> {
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
                   color: _current == entry.key
-                      ? Colors.blue // Active dot color
+                      ? Colors.orange // Active dot color
                       : Colors.grey, // Inactive dot color
                 ),
               ),
