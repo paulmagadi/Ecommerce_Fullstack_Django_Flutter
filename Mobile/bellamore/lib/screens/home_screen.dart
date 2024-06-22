@@ -38,13 +38,13 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 5),
                   Container(
                     decoration: BoxDecoration(color: Colors.orange),
-                    padding: EdgeInsets.only(left: 10, right: 10),
+                    padding: EdgeInsets.only(left: 8, right: 8),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         const Text(
                           'Deals',
-                          style: TextStyle(fontSize: 18),
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                         ),
                         Row(
                           children: [
@@ -59,7 +59,7 @@ class HomeScreen extends StatelessWidget {
                               },
                               child: const Text(
                                 'See More',
-                                style: TextStyle(fontSize: 18),
+                                // style: TextStyle(fontSize: 18),
                               ),
                             ),
                             const Icon(
@@ -73,14 +73,41 @@ class HomeScreen extends StatelessWidget {
                     ),
                   ),
                   const DealsView(),
-                  const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        'Products',
-                        style: TextStyle(fontSize: 34),
-                      ),
-                    ],
+                  Container(
+                    decoration: BoxDecoration(color: Colors.orange),
+                    padding: EdgeInsets.only(left: 8, right: 8),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        const Text(
+                          'Products',
+                          style: TextStyle(fontSize: 18, color: Colors.white),
+                        ),
+                        Row(
+                          children: [
+                            TextButton(
+                              onPressed: () {
+                                // Navigator.push(
+                                //   context,
+                                //   MaterialPageRoute(
+                                //     builder: (context) => ProductsScreen(),
+                                //   ),
+                                // );
+                              },
+                              child: const Text(
+                                'See More',
+                                // style: TextStyle(fontSize: 18),
+                              ),
+                            ),
+                            const Icon(
+                              Icons.keyboard_double_arrow_right,
+                              size: 16.0,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        )
+                      ],
+                    ),
                   ),
                   const ProductsView(),
                 ],

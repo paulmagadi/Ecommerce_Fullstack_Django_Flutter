@@ -21,30 +21,37 @@ class CartScreen extends StatelessWidget {
         title: const Text('Cart Summary'),
       ),
       body: cartItems.isEmpty
-          ? const SingleChildScrollView(
-              child: Column(
-                children: [
-                  Center(
-                    child: Text(
-                      'Your cart is empty',
-                      style: TextStyle(fontSize: 30),
-                    ),
-                  ),
-                  SizedBox(height: 50),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Center(
-                        child: Text(
-                          'You may also like',
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
+          ? SingleChildScrollView(
+              child: Padding(
+                padding: EdgeInsets.all(8.0),
+                child: Column(
+                  children: [
+                    Center(
+                      child: Text(
+                        'Your cart is empty',
+                        style: TextStyle(fontSize: 30),
                       ),
-                    ],
-                  ),
-                  ProductsView(), // list the products
-                ],
+                    ),
+                    SizedBox(height: 70),
+                    Container(
+                      decoration: BoxDecoration(color: Colors.orange),
+                      padding: EdgeInsets.only(top: 8, bottom: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Center(
+                            child: Text(
+                              'You may also like',
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 20),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                    ProductsView(), // list the products
+                  ],
+                ),
               ),
             )
           : Column(
@@ -93,7 +100,8 @@ class CartScreen extends StatelessWidget {
         child: cartItems.isEmpty
             ? ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black, backgroundColor: Colors.orange, // Text color
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.orange, // Text color
                 ),
                 onPressed: () {
                   Navigator.pushReplacement(
@@ -105,7 +113,8 @@ class CartScreen extends StatelessWidget {
               )
             : ElevatedButton(
                 style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.black, backgroundColor: Colors.orange, // Text color
+                  foregroundColor: Colors.black,
+                  backgroundColor: Colors.orange, // Text color
                 ),
                 onPressed: () {
                   // Check if user is authenticated via AuthProvider
