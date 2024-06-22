@@ -12,7 +12,7 @@ class DealsScreen extends StatelessWidget {
         title: Text('Deals'),
       ),
       body: SingleChildScrollView(
-        child: ProductsView(),
+        child: DealsProductsView(),
       ),
     );
   }
@@ -21,8 +21,8 @@ class DealsScreen extends StatelessWidget {
 
 
 
-class ProductsView extends StatelessWidget {
-  const ProductsView({Key? key}) : super(key: key);
+class DealsProductsView extends StatelessWidget {
+  const DealsProductsView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

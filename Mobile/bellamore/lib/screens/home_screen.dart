@@ -1,3 +1,4 @@
+import 'package:bellamore/screens/deals_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../../providers/product_provider.dart';
@@ -35,14 +36,32 @@ class HomeScreen extends StatelessWidget {
                   const SizedBox(height: 5),
                   const BannerCarousel(),
                   const SizedBox(height: 5),
-                  const Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(
+                      const Text(
                         'Deals',
                         style: TextStyle(fontSize: 22),
                       ),
-                      Text('See More'),
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: TextButton(
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => DealsScreen(),
+                              ),
+                            );
+                          },
+                          child: const Text('See More'),
+                        ),
+                      ),
+                      const Icon(
+                        Icons.keyboard_double_arrow_right,
+                        size: 16.0,
+                        color: Colors.grey,
+                      ),
                     ],
                   ),
                   const DealsView(),
