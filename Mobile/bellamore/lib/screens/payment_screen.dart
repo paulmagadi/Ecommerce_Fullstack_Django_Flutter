@@ -179,7 +179,6 @@ class PaymentScreen extends StatelessWidget {
                           Map<String, dynamic> stringParams =
                               params.cast<String, dynamic>();
                           createOrder(context, stringParams);
-
                         },
                         onError: (error) {
                           ScaffoldMessenger.of(context).showSnackBar(
@@ -190,6 +189,7 @@ class PaymentScreen extends StatelessWidget {
                           ScaffoldMessenger.of(context).showSnackBar(
                             SnackBar(content: Text('Payment cancelled')),
                           );
+                          // Navigator.pushNamed(context, '/order_sucess');
                         },
                       ),
                     ),

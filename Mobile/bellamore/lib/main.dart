@@ -10,6 +10,7 @@ import 'providers/shipping_address_provider.dart';
 import 'screens/home_page.dart';
 import 'screens/login_screen.dart';
 // import 'screens/product_list_screen.dart';
+import 'screens/order_sucess_screen.dart';
 import 'screens/profile_info_form.dart';
 import 'screens/profile_screen.dart';
 import 'screens/register_screen.dart';
