@@ -58,6 +58,7 @@ class MyApp extends StatelessWidget {
         '/about': (context) => AboutPage(),
         '/help': (context) => HelpPage(),
         '/contact': (context) => ContactUsPage(),
+        '/order_sucess': (context) => OrderSuccessScreen(),
         // '/product_list': (context) => ProductListScreen(),
       },
     );
