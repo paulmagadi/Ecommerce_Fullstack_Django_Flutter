@@ -21,13 +21,12 @@ class CategoryItem extends StatelessWidget {
       child: Container(
         width: 150, // Fixed width
         height: 100, // Fixed height
-        margin: const EdgeInsets.symmetric(
-            horizontal: 5, vertical: 5), // Adjust margin as needed
+        margin: const EdgeInsets.symmetric(horizontal: 5, vertical: 5),
         decoration: BoxDecoration(
           gradient: LinearGradient(
             colors: [
-              Colors.purple.withOpacity(0.6),
-              Colors.purple,
+              Colors.orange.withOpacity(0.1),
+              Colors.orange,
             ],
             begin: Alignment.topLeft,
             end: Alignment.bottomRight,
