@@ -59,13 +59,14 @@ class HomeScreen extends StatelessWidget {
                               },
                               child: const Text(
                                 'See More',
-                                // style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.white),
                               ),
                             ),
                             const Icon(
                               Icons.keyboard_double_arrow_right,
                               size: 16.0,
-                              color: Colors.grey,
+                              color: Colors.white,
                             ),
                           ],
                         )
@@ -96,13 +97,9 @@ class HomeScreen extends StatelessWidget {
                               },
                               child: const Text(
                                 'See More',
-                                // style: TextStyle(fontSize: 18),
+                                style: TextStyle(
+                                    fontSize: 18, color: Colors.white),
                               ),
-                            ),
-                            const Icon(
-                              Icons.keyboard_double_arrow_right,
-                              size: 16.0,
-                              color: Colors.grey,
                             ),
                           ],
                         )
