@@ -22,3 +22,6 @@ Look for `config.dart` in the `lib` directory and ensure you cofigure the **Base
 `http//127.0.0.1:800/` for Web browser
 
 `http//10.0.2.2:800` for android emulator
+
+
+**Note:** The payment gateway (paypal) will only work on an android or IOS device. Test in an emulator (will not work on a web browser or on an operating system[windows or linux]).
