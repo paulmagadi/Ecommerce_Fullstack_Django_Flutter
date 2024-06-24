@@ -38,7 +38,15 @@
         {% else %}
         <h4>Price: ${{ product.price }}</h4>
         {% endif %}
+
         <p>{{ product.description }}</p>
+        
+        {% if product.color %}
+        <p>Color: <span style="color: blue;">{{ product.color }}</span></p>
+        {% endif %}
+            
+        
+
 
         
         <div class="info">
