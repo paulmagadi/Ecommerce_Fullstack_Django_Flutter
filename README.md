@@ -9,7 +9,7 @@ Ensure the backend is running before compilling the flutter app
 
 # Backend
 
-`py manage.py runserver` on the same directory as **manage.py**file
+`py manage.py runserver` on the same directory as **manage.py** file
 
 # Frontend
 
