@@ -17,7 +17,7 @@ Run the app on a browser on `127.0.0.1:8000`
 
 `flutter run` on the **main.dart** file
 
-Look for `config.dart` in the `lib` directory and ensure you cofigure the **BaseUrl** depending on the environment you are running the app
+**Note:** Look for `config.dart` in the `lib` directory and ensure you cofigure the **BaseUrl** depending on the environment you are running the app so that the app can query or connect to the backend. If this is not done correctly, no connection will be created and therefore no data will be rendered on the app.
 
 `http//127.0.0.1:800/` for Web browser
 
