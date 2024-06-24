@@ -11,6 +11,8 @@ Ensure the backend is running before compilling the flutter app
 
 `py manage.py runserver` on the same directory as **manage.py** file
 
-# Frontend
+Run the app on a browser on `127.0.0.1:8000`
+
+# Frontend (Mobile)
 
 `flutter run` on the **main.dart** file
