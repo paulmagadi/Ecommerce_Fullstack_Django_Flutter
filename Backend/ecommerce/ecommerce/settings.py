@@ -126,6 +126,7 @@ DATABASES = {
 		'NAME': 'railway',
 		'USER': 'postgres',
 		'PASSWORD': os.environ.get('POSTGESQL_PASSWORD'),
+        # 'PASSWORD': os.environ['POSTGESQL_PASSWORD'],   //production
 		'HOST':'roundhouse.proxy.rlwy.net',
 		'PORT':'18007',
 	}
