@@ -103,14 +103,25 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # }
 
 
+# DATABASES = {
+# 	'default': {
+# 		'ENGINE': 'django.db.backends.mysql',
+# 		'NAME': 'bellamore',
+# 		'USER': 'root',
+# 		'PASSWORD': 'Ra4kell@2020',
+# 		'HOST':'localhost',
+# 		'PORT':'3306',
+# 	}
+# }
+
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.mysql',
-		'NAME': 'bellamore',
-		'USER': 'root',
-		'PASSWORD': 'Ra4kell@2020',
-		'HOST':'localhost',
-		'PORT':'3306',
+		'ENGINE': 'django.db.backends.postgres',
+		'NAME': 'railway',
+		'USER': 'postgres',
+		'PASSWORD': '',
+		'HOST':'roundhouse.proxy.rlwy.net',
+		'PORT':'18007',
 	}
 }
 
