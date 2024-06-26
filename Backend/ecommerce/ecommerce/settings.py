@@ -13,8 +13,11 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from datetime import timedelta
 from pathlib import Path
 import os
+from dotenv import load_dotenv
 
 from django.conf import settings
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -119,7 +122,7 @@ DATABASES = {
 		'ENGINE': 'django.db.backends.postgres',
 		'NAME': 'railway',
 		'USER': 'postgres',
-		'PASSWORD': '',
+		'PASSWORD': os.environ.get('POSTGESQL_PASSWORD'),
 		'HOST':'roundhouse.proxy.rlwy.net',
 		'PORT':'18007',
 	}
