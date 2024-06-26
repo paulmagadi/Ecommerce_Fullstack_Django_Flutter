@@ -117,9 +117,12 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # 	}
 # }
 
+
+# DEPLOYING TO RAILWAY
+
 DATABASES = {
 	'default': {
-		'ENGINE': 'django.db.backends.postgres',
+		'ENGINE': 'django.db.backends.postgresql',
 		'NAME': 'railway',
 		'USER': 'postgres',
 		'PASSWORD': os.environ.get('POSTGESQL_PASSWORD'),
