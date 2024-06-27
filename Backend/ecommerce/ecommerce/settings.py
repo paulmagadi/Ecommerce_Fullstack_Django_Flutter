@@ -12,9 +12,9 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 
 from datetime import timedelta
 from pathlib import Path
-import os
 from dotenv import load_dotenv
-
+from dotenv import load_dotenv
+import os
 from django.conf import settings
 
 load_dotenv()
@@ -25,6 +25,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
+
+
+
+# PAYPAL
+
+PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID"),
+PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_CLIENT_SECRET"),
+PAYPAL_MODE = 'sandbox' # or 'live' for production
 
 # SECURITY WARNING: keep the secret key used in production secret!
 # SECRET_KEY = os.environ.get('SECRET_KEY'),
@@ -258,17 +266,9 @@ CORS_ALLOW_HEADERS = [
     'x-requested-with',
 ]
 
-# PAYPAL
 
-# PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID"),
-# PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_CLIENT_SECRET"),
-PAYPAL_CLIENT_SECRET = os.environ.get('PAYPAL_CLIENT_SECRET'),
-PAYPAL_CLIENT_ID = 'AaxWzEr1TgVI5DKpnRE_AC_TlNS5phi-2eBMpTE4paGto3_iSxFjTymtidazv1HhoTkQUOAZK9Bh5m3p'
-# PAYPAL_CLIENT_SECRET = 'EIztDWw-t_luY_QoSNLLCfPUgGWjHWq9K8lw4LSzhj71Z31wlUF0K_gulzU-2r0nacLPvaao5-n0fx44'
-PAYPAL_MODE = 'sandbox' # or 'live' for production
 
 
 CART_SESSION_ID = 'cart'
-
 
 

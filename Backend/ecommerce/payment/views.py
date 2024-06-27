@@ -9,17 +9,15 @@ from cart.cart import Cart
 from cart.models import Order, OrderItem
 from store.models import Product
 from users.models import ShippingAddress, Profile
-from . import paypal
-import json
 from django.views.decorators.csrf import csrf_exempt
 
-from pathlib import Path
-import os
-from dotenv import load_dotenv
-
+import paypalrestsdk
 from django.conf import settings
+import logging
 
-load_dotenv()
+logger = logging.getLogger(__name__)
+
+
 
 paypalrestsdk.configure({
     "mode": settings.PAYPAL_MODE,
