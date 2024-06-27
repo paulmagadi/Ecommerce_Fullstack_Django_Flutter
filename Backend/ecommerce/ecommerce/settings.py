@@ -27,7 +27,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-oaaxa4o$wav6vxqlp*($&v5u^+7vc)*35(x42=1(5d&him4qm6'
+SECRET_KEY = os.environ.get('SECRET_KEY'),
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -98,13 +98,14 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+    }
+}
 
+#MYSQL
 
 # DATABASES = {
 # 	'default': {
@@ -118,19 +119,19 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # }
 
 
-# DEPLOYING TO RAILWAY
+# DEPLOYING TO RAILWAY  -  POSTGRESQL
 
-DATABASES = {
-	'default': {
-		'ENGINE': 'django.db.backends.postgresql',
-		'NAME': 'railway',
-		'USER': 'postgres',
-		'PASSWORD': os.environ.get('POSTGESQL_PASSWORD'),
-        # 'PASSWORD': os.environ['POSTGESQL_PASSWORD'],   //production
-		'HOST':'roundhouse.proxy.rlwy.net',
-		'PORT':'18007',
-	}
-}
+# DATABASES = {
+# 	'default': {
+# 		'ENGINE': 'django.db.backends.postgresql',
+# 		'NAME': 'railway',
+# 		'USER': 'postgres',
+# 		'PASSWORD': os.environ.get('POSTGESQL_PASSWORD'),
+#         # 'PASSWORD': os.environ['POSTGESQL_PASSWORD'],   //production
+# 		'HOST':'roundhouse.proxy.rlwy.net',
+# 		'PORT':'18007',
+# 	}
+# }
 
 
 
@@ -257,9 +258,9 @@ CORS_ALLOW_HEADERS = [
 
 # PAYPAL
 
-PAYPAL_CLIENT_ID = 'AaxWzEr1TgVI5DKpnRE_AC_TlNS5phi-2eBMpTE4paGto3_iSxFjTymtidazv1HhoTkQUOAZK9Bh5m3p'
-PAYPAL_CLIENT_SECRET = 'EIztDWw-t_luY_QoSNLLCfPUgGWjHWq9K8lw4LSzhj71Z31wlUF0K_gulzU-2r0nacLPvaao5-n0fx44'
-PAYPAL_MODE = 'sandbox'  # or 'live' for production
+PAYPAL_CLIENT_ID = os.environ.get('PAYPAL_CLIENT_ID'),
+PAYPAL_CLIENT_SECRET = os.environ.get('PAYPAL_CLIENT_SECRET'),
+PAYPAL_MODE = os.environ.get('PAYPAL_MODE'),
 
 
 CART_SESSION_ID = 'cart'
