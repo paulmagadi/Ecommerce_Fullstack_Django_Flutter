@@ -13,6 +13,14 @@ from . import paypal
 import json
 from django.views.decorators.csrf import csrf_exempt
 
+from pathlib import Path
+import os
+from dotenv import load_dotenv
+
+from django.conf import settings
+
+load_dotenv()
+
 paypalrestsdk.configure({
     "mode": settings.PAYPAL_MODE,
     "client_id": settings.PAYPAL_CLIENT_ID,
