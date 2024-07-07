@@ -7,8 +7,6 @@ This is a Full-Stack Ecommerce application built in Django and Flutter. The Appl
 [VIEW WEB VERSION:](https://bellamoreapparels.up.railway.app/)  https://bellamoreapparels.up.railway.app/
 
 
-Run the app on a browser on `127.0.0.1:8000`
-
 # Frontend (Mobile - Flutter)
 
 
