@@ -9,6 +9,10 @@ Ensure the backend is running before compilling the flutter app
 
 # Backend
 
+VIEW WEB VERSION:  https://bellamoreapparels.up.railway.app/
+
+[VIEW WEB VERSION:](https://bellamoreapparels.up.railway.app/)
+
 `py manage.py runserver` on the same directory as **manage.py** file
 
 Run the app on a browser on `127.0.0.1:8000`
