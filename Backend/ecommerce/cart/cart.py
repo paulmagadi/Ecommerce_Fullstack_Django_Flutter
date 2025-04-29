@@ -1,6 +1,6 @@
 from django.conf import settings
 from store.models import Product
-from users.models import Profile
+from cart.models import cart
 from django.contrib import messages
 
 class Cart():
