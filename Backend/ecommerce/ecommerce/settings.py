@@ -32,9 +32,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # PAYPAL_CLIENT_ID = os.getenv("PAYPAL_CLIENT_ID"),
 # PAYPAL_CLIENT_SECRET = os.getenv("PAYPAL_CLIENT_SECRET"),
-PAYPAL_CLIENT_ID = 'AaxWzEr1TgVI5DKpnRE_AC_TlNS5phi-2eBMpTE4paGto3_iSxFjTymtidazv1HhoTkQUOAZK9Bh5m3p'
+PAYPAL_CLIENT_ID = 'AaxWzEr1TgVI5DKpnrRE_AC_TlNdhS5phi-2eBMpTE4paGtos3_ihhSxFjTymtidazv1jshoTkQUOAZK9Bh5m3p'
 
-PAYPAL_CLIENT_SECRET = 'EIztDWw-t_luY_QoSNLLCfPUgGWjHWq9K8lw4LSzhj71Z31wlUF0K_gulzU-2r0nacLPvaao5-n0fx44'
+PAYPAL_CLIENT_SECRET = 'EIztDWw-t_luY_QoSNLLCfPUgGWgjHWq9K8lw4LSzhj71Z31wlUF0K_gulzU-2rgh0nacLhPva7ao5-n0fx44'
 PAYPAL_MODE = 'sandbox' # or 'live' for production
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -123,9 +123,9 @@ DATABASES = {
 # DATABASES = {
 # 	'default': {
 # 		'ENGINE': 'django.db.backends.mysql',
-# 		'NAME': 'bellamore',
+# 		'NAME': 'root',
 # 		'USER': 'root',
-# 		'PASSWORD': 'Ra4kell@2020',
+# 		'PASSWORD': 'Pink1234',
 # 		'HOST':'localhost',
 # 		'PORT':'3306',
 # 	}
